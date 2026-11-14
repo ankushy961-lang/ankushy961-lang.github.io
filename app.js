@@ -49,10 +49,10 @@ if (window.top !== window.self) { try { window.top.location = window.location; }
     document.addEventListener('click', (e) => { if (!workMenu.hidden && !e.target.closest('.dock-work')) setWork(false); });
   }
 
-  /* ---------- theme: one dark theme by design ---------- */
-  root.setAttribute('data-theme', 'dark');
+  /* ---------- theme: one cream theme by design ---------- */
+  root.setAttribute('data-theme', 'light');
   try { localStorage.removeItem('ay-theme'); } catch (e) {}
-  const currentTheme = () => 'dark';
+  const currentTheme = () => 'light';
 
   /* ---------- boot ---------- */
   const boot = $('#boot');
@@ -357,9 +357,14 @@ if (window.top !== window.self) { try { window.top.location = window.location; }
 
     /* holographic shards */
     const shardMat = (c) => new THREE.ShaderMaterial({
-      uniforms: { uColor: { value: c }, uAlpha: { value: 1 } }, transparent: true, depthWrite: false, side: THREE.DoubleSide, blending: THREE.AdditiveBlending,
+      uniforms: { uColor: { value: c }, uAlpha: { value: 1 }, uLight: { value: currentTheme() === 'light' ? 1 : 0 } }, transparent: true, depthWrite: false, side: THREE.DoubleSide,
+      // additive glows on a dark ground; on cream additive light vanishes, so the glass is drawn with normal blending
+      blending: currentTheme() === 'light' ? THREE.NormalBlending : THREE.AdditiveBlending,
       vertexShader: `varying vec3 vN; varying vec3 vV; void main(){ vN = normalize(normalMatrix*normal); vec4 mv = modelViewMatrix*vec4(position,1.0); vV = normalize(-mv.xyz); gl_Position = projectionMatrix*mv; }`,
-      fragmentShader: `precision mediump float; uniform vec3 uColor; uniform float uAlpha; varying vec3 vN; varying vec3 vV; void main(){ float f = pow(1.0 - abs(dot(normalize(vN), normalize(vV))), 2.2); gl_FragColor = vec4(uColor * (0.25 + f), (0.05 + f*0.5) * uAlpha); }`
+      fragmentShader: `precision mediump float; uniform vec3 uColor; uniform float uAlpha; uniform float uLight; varying vec3 vN; varying vec3 vV; void main(){ float f = pow(1.0 - abs(dot(normalize(vN), normalize(vV))), 2.2);
+        vec3 dark = uColor * (0.25 + f); float ad = (0.05 + f*0.5);
+        vec3 glass = mix(vec3(1.0), uColor, 0.28 + f*0.72); float ag = 0.16 + f*0.72;
+        gl_FragColor = vec4(mix(dark, glass, uLight), mix(ad, ag, uLight) * uAlpha); }`
     });
     const shards = [];
     const cols = palette();
@@ -374,7 +379,7 @@ if (window.top !== window.self) { try { window.top.location = window.location; }
       uni.uA.value.copy(c[0]); uni.uB.value.copy(c[1]); uni.uC.value.copy(c[2]); uni.uAlpha.value = a;
       synUni.uColor.value.copy(c[1]); synUni.uColor2.value.copy(c[0]); synUni.uAlpha.value = dark ? 1 : .8;
       nodeUni.uColor.value.copy(c[0]); nodeUni.uAlpha.value = a;
-      shards.forEach((s, i) => { s.material.uniforms.uColor.value.copy(c[i % 3]); s.material.uniforms.uAlpha.value = dark ? 1 : .5; });
+      shards.forEach((s, i) => { s.material.uniforms.uColor.value.copy(c[i % 3]); s.material.uniforms.uAlpha.value = dark ? 1 : .95; });
       if (tintWant) tintWant = dark ? .45 : .3;
     }
     retheme();
@@ -392,6 +397,7 @@ if (window.top !== window.self) { try { window.top.location = window.location; }
     function stepDown() {
       if (quality >= DPR_STEPS.length - 1) return;
       quality++;
+      root.classList.add('lite'); // frames are dropping: pause the decorative core motion too
       renderer.setPixelRatio(DPR_STEPS[quality]); uni.uPx.value = DPR_STEPS[quality]; nodeUni.uPx.value = DPR_STEPS[quality]; resize();
       if (quality >= 2) { geo.setDrawRange(0, Math.floor(N * .55)); shards.forEach((s, i) => { s.visible = i < 3; }); }
       if (quality >= 3) { geo.setDrawRange(0, Math.floor(N * .35)); }
