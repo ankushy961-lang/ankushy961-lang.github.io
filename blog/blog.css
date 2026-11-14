@@ -5,15 +5,15 @@
 .post { position: relative; z-index: 1; max-width: 72ch; margin: 0 auto; padding: clamp(120px, 16vh, 160px) 16px 80px; }
 .post-head { margin-bottom: 32px; }
 .post-head .kicker { margin-bottom: 18px; }
-.post h1 { font-family: var(--font-d); font-weight: 600; font-variation-settings: "opsz" 144; font-size: clamp(36px, 6vw, 64px); line-height: 1; letter-spacing: -.025em; margin: 0 0 18px; color: var(--fg); text-wrap: balance; }
+.post h1 { font-family: var(--font-d); font-weight: 900; font-stretch: 62%; text-transform: uppercase; font-size: clamp(48px, 8vw, 92px); line-height: .88; letter-spacing: -.005em; margin: 0 0 18px; color: var(--fg); text-wrap: balance; }
 .post .dateline { font-size: 11px; line-height: 1.5; letter-spacing: .14em; text-transform: uppercase; color: var(--fg-3); margin: 0; max-width: none; }
 .post .dateline time { color: inherit; }
 
 /* ---------- answer first ---------- */
-.post .answer { font-family: var(--font-b); font-weight: 500; font-size: clamp(18px, 2vw, 22px); line-height: 1.45; color: var(--fg); border-left: 2px solid var(--accent); padding-left: 18px; margin: 0 0 36px; max-width: 60ch; text-wrap: pretty; }
+.post .answer { font-family: var(--font-b); font-weight: 500; border-left-width: 3px; font-size: clamp(18px, 2vw, 22px); line-height: 1.45; color: var(--fg); border-left: 3px solid var(--brand); padding-left: 18px; margin: 0 0 36px; max-width: 60ch; text-wrap: pretty; }
 
 /* ---------- body text ---------- */
-.post h2 { font-family: var(--font-d); font-weight: 600; font-variation-settings: "opsz" 96; font-size: clamp(24px, 3vw, 32px); line-height: 1.1; letter-spacing: -.02em; margin: 44px 0 12px; color: var(--fg); text-wrap: balance; }
+.post h2 { font-family: var(--font-d); font-weight: 800; font-size: clamp(24px, 3vw, 32px); line-height: 1.1; letter-spacing: -.015em; margin: 44px 0 12px; color: var(--fg); text-wrap: balance; }
 .post p, .post li { font-size: 16px; line-height: 1.6; color: var(--fg-2); max-width: 60ch; }
 .post p { margin: 0 0 16px; }
 .post ul { margin: 0 0 16px; padding-left: 20px; }
@@ -39,7 +39,7 @@
 .blog-index .card { display: grid; gap: 8px; padding: 22px 24px; color: inherit; transition: border-color .25s var(--ease), transform .25s var(--ease), box-shadow .25s var(--ease); will-change: transform; }
 .blog-index .card:hover { border-color: var(--line-2); transform: translateY(-2px); }
 .blog-index .card:active { transform: translateY(0); }
-.blog-index .card h2 { font-family: var(--font-d); font-weight: 600; font-variation-settings: "opsz" 72; font-size: 22px; line-height: 1.15; letter-spacing: -.02em; margin: 0; color: var(--fg); }
+.blog-index .card h2 { font-family: var(--font-d); font-weight: 900; font-stretch: 62%; text-transform: uppercase; font-size: 34px; line-height: .92; margin: 0; color: var(--fg); }
 .blog-index .card p { font-size: 15px; line-height: 1.55; color: var(--fg-2); margin: 0; }
 .blog-index .card .dateline { margin-top: 2px; }
 

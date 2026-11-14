@@ -40,7 +40,7 @@ if (window.top !== window.self) { try { window.top.location = window.location; }
     try { seen = sessionStorage.getItem('ay-booted') === '1'; } catch (e) {}
     if (reduced || seen) { boot.classList.add('off'); return; }
     const t = $('#bootText');
-    const lines = ['INITIALISING', 'SYNAPSES', 'FIVE APPS', 'READY'];
+    const lines = ['EPISODE 01', 'ANKUSH YADAV', 'FROM ZERO', 'START'];
     for (let i = 0; i < lines.length; i++) { t.textContent = lines[i]; await wait(i === lines.length - 1 ? 160 : 220); }
     boot.classList.add('off');
     try { sessionStorage.setItem('ay-booted', '1'); } catch (e) {}
@@ -207,11 +207,11 @@ if (window.top !== window.self) { try { window.top.location = window.location; }
     const camera = new THREE.PerspectiveCamera(55, 1, .1, 100); camera.position.z = 9;
     const pointer = new THREE.Vector2(0, 0), target = new THREE.Vector2(0, 0);
     const palette = () => currentTheme() === 'dark'
-      ? [new THREE.Color('#7ff5d2'), new THREE.Color('#7fb0ff'), new THREE.Color('#e08cff')]
-      : [new THREE.Color('#0d8c72'), new THREE.Color('#2b63d9'), new THREE.Color('#8a3ddb')];
+      ? [new THREE.Color('#B9A2FF'), new THREE.Color('#E8DCC4'), new THREE.Color('#5FCB8A')]
+      : [new THREE.Color('#6D3FE0'), new THREE.Color('#1F3D2B'), new THREE.Color('#2E7D4F')];
 
     /* room tint: the whole field leans toward the colour of the exhibit in view */
-    const tintCol = new THREE.Color('#8fe3ff'), tintTarget = new THREE.Color('#8fe3ff');
+    const tintCol = new THREE.Color('#8B5CF6'), tintTarget = new THREE.Color('#8B5CF6');
     let tintAmt = 0, tintWant = 0;
     const uTint = { value: tintCol }, uTintAmt = { value: 0 };
 
@@ -419,7 +419,7 @@ if (window.top !== window.self) { try { window.top.location = window.location; }
   /* ===== Mikazuki ===== */
   demos.mz = (function () {
     const run = Runner($('#steps-mz')), phone = $('#mz-phone'), screen = $('.mz'), cap = $('#mz-cap'), stream = $('#mz-stream'), crewName = $('#mz-crewname');
-    const CREWS = [['ZORO', '#39FF14', 'King of Hell'], ['LUFFY', '#FF2D2D', 'Gear World'], ['CHOPPER', '#4ADE80', 'Life Pulse'], ['ROBIN', '#7A5CFF', 'Void Library'], ['NAMI', '#00C2FF', 'Storm Matrix'], ['SANJI', '#FFB347', 'Velvet Flame'], ['USOPP', '#FF00FF', 'Dream Forge'], ['FRANKY', '#00D9FF', 'SUPER Reactor'], ['JINBE', '#5DADE2', 'Ocean Core'], ['LOKI', '#7C3AED', 'Ascension Void']];
+    const CREWS = [['RONIN', '#39FF14', 'Blade Dojo'], ['TAIYO', '#FF2D2D', 'Sun Engine'], ['KUSA', '#4ADE80', 'Life Pulse'], ['SHIORI', '#7A5CFF', 'Void Library'], ['ARASHI', '#00C2FF', 'Storm Matrix'], ['HONOO', '#FFB347', 'Velvet Flame'], ['YUME', '#FF00FF', 'Dream Forge'], ['KIKAI', '#00D9FF', 'Steel Reactor'], ['UMI', '#5DADE2', 'Ocean Core'], ['YAMI', '#7C3AED', 'Ascension Void']];
     const orbit = $('#mz-orbit'), crews = $('#mz-crews');
     CREWS.forEach((c, k) => {
       const i = document.createElement('i'); i.style.setProperty('--k', k); i.style.setProperty('--c', c[1]); orbit.appendChild(i);
@@ -427,7 +427,7 @@ if (window.top !== window.self) { try { window.top.location = window.location; }
       if (k === 0) b.classList.add('on'); b.addEventListener('click', () => pick(k)); crews.appendChild(b);
     });
     function pick(k) { phone.style.setProperty('--world', CREWS[k][1]); crewName.textContent = CREWS[k][0]; $$('button', crews).forEach((b, i) => b.classList.toggle('on', i === k)); cap.textContent = `${CREWS[k][2]} loaded.`; }
-    const LINES = [['intent → reminder.create', 0], ['brain: WADO · 412 ms', 0], ['memory.recall("mandi") → 3 facts', 1], ['plan: set alarm 18:00', 1], ['enma.execute → AlarmClock ✓', 2], ['memory.remember(routine)', 2], ['tts → 24 kHz · 1.8 s', 3]];
+    const LINES = [['intent → reminder.create', 0], ['brain: KAZE · 412 ms', 0], ['memory.recall("mandi") → 3 facts', 1], ['plan: set alarm 18:00', 1], ['enma.execute → AlarmClock ✓', 2], ['memory.remember(routine)', 2], ['tts → 24 kHz · 1.8 s', 3]];
     function push(text, ok) { const li = document.createElement('li'); li.textContent = text; if (ok) li.classList.add('ok'); stream.appendChild(li); while (stream.children.length > 5) stream.removeChild(stream.firstChild); }
     let busy = false;
     async function go() {
@@ -501,8 +501,8 @@ if (window.top !== window.self) { try { window.top.location = window.location; }
   })();
 
   /* ===== Toolkit ===== */
-  demos.vr = (function () {
-    const run = Runner($('#steps-vr')), term = $('#vr-term'), gate = $$('#vr-gate li');
+  demos.tk = (function () {
+    const run = Runner($('#steps-tk')), term = $('#tk-term'), gate = $$('#tk-gate li');
     const LINES = [['tracking files 9/9', 'ok', 2], ['claims: 2 checkers each · 0 refuted', 'ok', 1], ['skills 14/14 valid', 'ok', 2], ['tests 14/14 passing', 'ok', 2], ['budget ₹0 · no paid services', 'ok', 2], ['report: CHECKPOINT-1.pdf · 12 pages', 'dim', 3], ['CHECKPOINT 1 · awaiting owner · 9 decisions', 'warn', 4]];
     async function go() {
       const t = run.start(); term.textContent = '$ npm run validate'; run.step(0); await wait(500); if (!run.alive(t)) return;
@@ -512,6 +512,17 @@ if (window.top !== window.self) { try { window.top.location = window.location; }
     }
     return go;
   })();
+
+  /* ---------- x-ray: show the build (layers outlined, components tagged) ---------- */
+  $$('[data-xray]').forEach((b) => {
+    const sec = b.closest('.exhibit, .board');
+    b.addEventListener('click', () => {
+      const on = !sec.classList.contains('xray');
+      sec.classList.toggle('xray', on);
+      b.setAttribute('aria-pressed', String(on));
+      setLabel(b, on ? 'Hide the build' : 'Show the build');
+    });
+  });
 
   /* ---------- wire run buttons with visible states + autoplay on first view ---------- */
   const running = new Set();
