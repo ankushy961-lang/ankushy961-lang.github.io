@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>A voice OS for one person, on the phone · Ankush Yadav</title>
+<meta name="description" content="Ankush Yadav on Mikazuki, an Android voice OS for one person: a wake word, three brains, vector memory and on-device execution through accessibility.">
+<meta name="author" content="Ankush Yadav">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#05060b" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#eef0f6" media="(prefers-color-scheme: light)">
+<link rel="canonical" href="https://ankushy961-lang.github.io/blog/voice-os-for-one-person-android.html">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Ankush Yadav">
+<meta property="og:title" content="A voice OS for one person, running on the phone itself">
+<meta property="og:description" content="Ankush Yadav on Mikazuki, an Android voice OS for one person: a wake word, three brains, vector memory and on-device execution through accessibility.">
+<meta property="og:url" content="https://ankushy961-lang.github.io/blog/voice-os-for-one-person-android.html">
+<meta property="og:image" content="https://ankushy961-lang.github.io/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_IN">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="A voice OS for one person, running on the phone itself">
+<meta name="twitter:description" content="Ankush Yadav on Mikazuki, an Android voice OS for one person: a wake word, three brains, vector memory and on-device execution through accessibility.">
+<meta name="twitter:image" content="https://ankushy961-lang.github.io/og.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=Cormorant+Garamond:ital,wght@1,600&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="blog.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[
+ {"@type":"BlogPosting","@id":"https://ankushy961-lang.github.io/blog/voice-os-for-one-person-android.html#post","headline":"A voice OS for one person, running on the phone itself","description":"Ankush Yadav on Mikazuki, an Android voice OS for one person: a wake word, three brains, vector memory and on-device execution through accessibility.","datePublished":"2026-11-06","dateModified":"2026-11-06","author":{"@id":"https://ankushy961-lang.github.io/#person"},"publisher":{"@id":"https://ankushy961-lang.github.io/#person"},"mainEntityOfPage":"https://ankushy961-lang.github.io/blog/voice-os-for-one-person-android.html","image":"https://ankushy961-lang.github.io/og.png","inLanguage":"en"},
+ {"@type":"BreadcrumbList","itemListElement":[
+  {"@type":"ListItem","position":1,"name":"Home","item":"https://ankushy961-lang.github.io/"},
+  {"@type":"ListItem","position":2,"name":"Blog","item":"https://ankushy961-lang.github.io/blog/"},
+  {"@type":"ListItem","position":3,"name":"A voice OS for one person, running on the phone itself","item":"https://ankushy961-lang.github.io/blog/voice-os-for-one-person-android.html"}
+ ]}
+]}
+</script>
+</head>
+<body>
+<div class="atmos" aria-hidden="true"><i class="orb o1"></i><i class="orb o2"></i></div>
+<nav class="dock glass" aria-label="Site"><a class="dock-brand name" href="../">Ankush Yadav</a><div class="dock-links"><a href="./">Blog</a><a href="../#strikedeck">Apps</a></div><a class="dock-mail" href="../#contact">Hire me</a></nav>
+<main class="post">
+<header class="post-head">
+<p class="kicker">Mikazuki · voice OS</p>
+<h1>A voice OS for one person, running on the phone itself</h1>
+<p class="dateline mono"><time datetime="2026-11-06">6 November 2026</time> · 4 min read</p>
+</header>
+
+<p class="answer">Mikazuki is an Android voice operating system built for one user, not a crowd. It hears a wake word on the device, plans with one of three brains, recalls from a vector memory, and carries out the action on the phone itself through the accessibility service.</p>
+
+<h2>Why build a voice OS for one person?</h2>
+<p>Most assistants are built for millions of accounts at once. They answer the average question well and your particular question poorly. They cannot know your habits, because knowing them at that scale is a privacy problem and a storage problem.</p>
+<p>Mikazuki turns that around. There is one user, one phone and one memory. Every design choice follows from that: the memory can be personal, the brain can be local, and the assistant can be trusted to touch the phone's own settings.</p>
+<p>The name is the kanji for the three-day moon, a thin crescent. The crescent is also the button you tap to talk. Version 1.0.0 has shipped.</p>
+
+<h2>What changes when an assistant remembers?</h2>
+<p>A stateless assistant starts every conversation from zero. You repeat your context each time, and it repeats its questions. The work of remembering stays with you.</p>
+<p>Mikazuki keeps long-term memory in a SQLite database on the phone, with the sqlite-vec extension for vector search. When you say something worth keeping, it is stored as text plus a numeric fingerprint of its meaning. The memory file lives on the device, not on a server.</p>
+<p>The effect is small on the first day and large after a month. You stop explaining who people are, which alarm you mean, or what you decided last week. The assistant holds the thread.</p>
+
+<h2>How does memory recall work in plain terms?</h2>
+<p>Each memory is turned into a list of numbers that describes its meaning. Two memories about the same subject end up with similar lists, even when they use different words. That is what a vector is here: a position, not a keyword.</p>
+<p>When you speak, your request gets the same treatment. Mikazuki asks sqlite-vec for the stored memories whose positions sit closest to the request. The nearest few are handed to the planner as context before it decides what to do.</p>
+<ul>
+<li>Say "set the usual alarm" and recall finds the memory where you said which time is usual.</li>
+<li>Ask "what did I say about the trip" and recall finds that note, even if you never used the word trip when you saved it.</li>
+<li>Nothing is matched by exact text, so a different phrasing still works.</li>
+</ul>
+<p>The planner never sees the whole memory. It sees the few entries that matter for this request, which keeps the prompt short and the answer on topic.</p>
+
+<h2>Why does on-device execution matter?</h2>
+<p>Many assistants can talk about an action but cannot perform it. They open a web page, or they hand you a button to press. The last step still belongs to you.</p>
+<p>Mikazuki runs an Android accessibility service. That service can read the screen and perform the taps and inputs a person would, inside the apps already on the phone. When the planner decides to set an alarm, the service sets it, on the device you are holding.</p>
+<p>This has three consequences. The action can complete without a network when the on-device brain is used, and it needs no separate integration with each app. The result is visible on screen, so you can check what was done.</p>
+
+<h2>What are the three brains, and what are the crew worlds?</h2>
+<p>The planner can use a cloud brain or an on-device brain, three brains in total. A cloud brain needs a connection; the on-device brain does not. The planner picks, so a simple request does not have to leave the phone.</p>
+<p>Speech output runs at 24 kHz. The server side is a Bun + Hono service, kept small because most of the work happens on the device.</p>
+<p>The look is set by ten themed crew worlds, inspired by a manga crew. Each world changes the colours and the motion around the crescent; the effects are AGSL shaders. It is a small thing that makes a tool for one person feel like it belongs to that person.</p>
+
+<aside class="callout glass">
+<p><b>Stack and numbers.</b> Kotlin, Jetpack Compose and AGSL shaders on Android; a Bun + Hono server; SQLite with sqlite-vec for memory. Version 1.0.0 shipped, 3 brains, 10 crew worlds, 24 kHz speech output.</p>
+</aside>
+
+<p class="see"><a class="btn primary" href="../#mikazuki">See it running</a> <a class="btn" href="./">All posts</a></p>
+</main>
+<footer class="foot"><span>© 2026 <span class="name">Ankush Yadav</span>. All rights reserved.</span><nav class="foot-links" aria-label="Footer"><a href="../">Home</a><a href="./">Blog</a><a href="../#contact">Contact</a></nav></footer>
+</body>
+</html>

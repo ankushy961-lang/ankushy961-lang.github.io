@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>Making a 3D glass portfolio fast · Ankush Yadav</title>
+<meta name="description" content="Ankush Yadav lists the five changes that took a WebGL glass portfolio from 46 fps to a steady frame rate: no backdrop blur, no blend modes, adaptive quality.">
+<meta name="author" content="Ankush Yadav">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#05060b" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#eef0f6" media="(prefers-color-scheme: light)">
+<link rel="canonical" href="https://ankushy961-lang.github.io/blog/fast-3d-glass-portfolio.html">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Ankush Yadav">
+<meta property="og:title" content="Making a 3D glass portfolio fast">
+<meta property="og:description" content="Ankush Yadav lists the five changes that took a WebGL glass portfolio from 46 fps to a steady frame rate: no backdrop blur, no blend modes, adaptive quality.">
+<meta property="og:url" content="https://ankushy961-lang.github.io/blog/fast-3d-glass-portfolio.html">
+<meta property="og:image" content="https://ankushy961-lang.github.io/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_IN">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Making a 3D glass portfolio fast">
+<meta name="twitter:description" content="Ankush Yadav lists the five changes that took a WebGL glass portfolio from 46 fps to a steady frame rate: no backdrop blur, no blend modes, adaptive quality.">
+<meta name="twitter:image" content="https://ankushy961-lang.github.io/og.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=Cormorant+Garamond:ital,wght@1,600&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="blog.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[
+ {"@type":"BlogPosting","@id":"https://ankushy961-lang.github.io/blog/fast-3d-glass-portfolio.html#post","headline":"Making a 3D glass portfolio fast","description":"Ankush Yadav lists the five changes that took a WebGL glass portfolio from 46 fps to a steady frame rate: no backdrop blur, no blend modes, adaptive quality.","datePublished":"2026-11-06","dateModified":"2026-11-06","author":{"@id":"https://ankushy961-lang.github.io/#person"},"publisher":{"@id":"https://ankushy961-lang.github.io/#person"},"mainEntityOfPage":"https://ankushy961-lang.github.io/blog/fast-3d-glass-portfolio.html","image":"https://ankushy961-lang.github.io/og.png","inLanguage":"en"},
+ {"@type":"BreadcrumbList","itemListElement":[
+  {"@type":"ListItem","position":1,"name":"Home","item":"https://ankushy961-lang.github.io/"},
+  {"@type":"ListItem","position":2,"name":"Blog","item":"https://ankushy961-lang.github.io/blog/"},
+  {"@type":"ListItem","position":3,"name":"Making a 3D glass portfolio fast","item":"https://ankushy961-lang.github.io/blog/fast-3d-glass-portfolio.html"}
+ ]}
+]}
+</script>
+</head>
+<body>
+<div class="atmos" aria-hidden="true"><i class="orb o1"></i><i class="orb o2"></i></div>
+<nav class="dock glass" aria-label="Site"><a class="dock-brand name" href="../">Ankush Yadav</a><div class="dock-links"><a href="./">Blog</a><a href="../#strikedeck">Apps</a></div><a class="dock-mail" href="../#contact">Hire me</a></nav>
+<main class="post">
+<header class="post-head">
+<p class="kicker">This site · performance</p>
+<h1>Making a 3D glass portfolio fast</h1>
+<p class="dateline mono"><time datetime="2026-11-06">6 November 2026</time> · 4 min read</p>
+</header>
+
+<p class="answer">Five changes took this portfolio from about 46 fps mid-page to 60 fps in the hero and the mid fifties lower down. It removed backdrop blur over the canvas, dropped blend modes, froze the orbs, gave the WebGL field adaptive quality, and deferred its scripts.</p>
+
+<h2>Why was the first version slow?</h2>
+<p>The site runs five apps as live demos inside phone and laptop frames. Behind them a Three.js field draws 2,600 dust particles, a 150-node synaptic lattice with travelling pulses, and holographic shards. The canvas changes on every frame.</p>
+<p>The first version held up in the hero and then dropped to about 46 fps mid-page on a mid laptop. The WebGL code was not the main cost. The damage came from the CSS layered on top of the canvas.</p>
+<p>Profiling put the causes in this order:</p>
+<ul>
+<li>backdrop-filter on every glass panel over a canvas that changes every frame</li>
+<li>mix-blend-mode on the custom cursor and the grain layer</li>
+<li>three large blurred orbs re-transformed on every scroll event</li>
+<li>a fixed WebGL load with no fallback for weaker machines</li>
+<li>a 600 KB render-blocking script</li>
+</ul>
+
+<h2>What did blur, blend modes and moving orbs cost?</h2>
+<p>A backdrop-filter reads the pixels behind an element and blurs them. Over a static page the browser can keep that result. Over a canvas that redraws every frame, the blur has to be recomputed every frame, once per panel.</p>
+<p>Every exhibit panel sat over the field, so the browser blurred large regions of a moving image several times per frame. The fix was to stop asking for it. Panels became translucent surfaces: the second background colour at 72 to 86 percent opacity, a 1px border and an inset top highlight.</p>
+<p>The small fixed dock keeps a real blur. It is one element, it is small, and it is what makes the site read as glass at a glance. Everywhere else, translucency does the job at no per-frame cost.</p>
+<p>mix-blend-mode makes the browser composite an element against everything beneath it with a non-default formula. The cursor used it to invert over content, and the grain layer used it to sit over the field. Both were on screen at all times, so both paid that cost on every frame.</p>
+<p>Both went. The cursor is now a plain ring with its own colour, and the grain is a plain tiled layer at low opacity. The three orbs, which used to shift a little on every scroll event and force their blur to be redrawn each time, are now static, and the scroll listener that moved them is gone.</p>
+
+<h2>How does adaptive quality work?</h2>
+<p>The field used to run at one fixed quality for every machine. A phone or an older laptop got the same 2,600 particles and the same pixel ratio as a desktop GPU, and dropped frames to cope.</p>
+<p>Now the render loop watches its own frame rate. If fps stays under 45 for two seconds, the field steps down: first the pixel ratio, then the particle count through a smaller draw range. A weak machine settles at a quality it can hold instead of stuttering at one it cannot.</p>
+<p>The steps only go down. The particle count and the pixel ratio cap never rise above their starting values, so a fast machine never gets a heavier scene than the one that was tested.</p>
+
+<aside class="callout glass">
+<p><b>Stack and result.</b> Three.js r128 on one canvas, plain CSS with no backdrop-filter outside the dock, two deferred scripts. Field: 2,600 particles and 150 nodes. Result on a mid laptop: 60 fps in the hero, mid fifties mid-page, up from 46.</p>
+</aside>
+
+<h2>What changed about loading?</h2>
+<p>Three.js is a 600 KB file. The first version loaded it as a normal script in the head, so the browser stopped parsing HTML until the download finished and the file ran. The page stayed blank for that whole time.</p>
+<p>Both scripts now carry defer. The HTML parses to the end, the stylesheet applies, and the scripts run in order once the document is ready. The CDN script also carries a subresource integrity hash and crossorigin set to anonymous, so a changed file fails to run instead of running.</p>
+<p>The Content Security Policy sits in a meta tag because GitHub Pages cannot set response headers. It allows scripts only from the site itself and the one CDN, and it blocks inline scripts. The JSON-LD block on each page is data, not code, so it is not affected.</p>
+
+<h2>Why did the buttons stop taking clicks?</h2>
+<p>One bug had nothing to do with frame rate. Each glass panel has a decorative ::after pseudo-element that draws the prism edge along its border. It is positioned absolutely and covers the whole panel.</p>
+<p>Without pointer-events set to none, that layer sat above the buttons and swallowed every click on them. The demo buttons looked fine and did nothing. One line fixed it.</p>
+<p>The rule is now part of the quality floor for this site. No interactive element is ever covered by a pseudo-element or a decorative layer, and every button is checked by clicking it, not by looking at it.</p>
+
+<p class="see"><a class="btn primary" href="../#top">See it running</a> <a class="btn" href="./">All posts</a></p>
+</main>
+<footer class="foot"><span>© 2026 <span class="name">Ankush Yadav</span>. All rights reserved.</span><nav class="foot-links" aria-label="Footer"><a href="../">Home</a><a href="./">Blog</a><a href="../#contact">Contact</a></nav></footer>
+</body>
+</html>

@@ -1,0 +1,19 @@
+# OS junk
+Thumbs.db
+.DS_Store
+desktop.ini
+
+# Local logs, scratch and audit output (never published)
+*.log
+audit*/
+scratch*/
+__pycache__/
+
+# Secrets
+.env
+.env.*
+
+# Editor and agent tooling
+.vscode/
+.idea/
+.claude/

@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>Truck paperwork that files itself · Ankush Yadav</title>
+<meta name="description" content="Ankush Yadav describes Sri Hari Docs, an Android and PWA app that photographs truck papers, extracts the fields and matches each to the right truck.">
+<meta name="author" content="Ankush Yadav">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#05060b" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#eef0f6" media="(prefers-color-scheme: light)">
+<link rel="canonical" href="https://ankushy961-lang.github.io/blog/truck-paperwork-that-files-itself.html">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Ankush Yadav">
+<meta property="og:title" content="Truck paperwork that files itself">
+<meta property="og:description" content="Ankush Yadav describes Sri Hari Docs, an Android and PWA app that photographs truck papers, extracts the fields and matches each to the right truck.">
+<meta property="og:url" content="https://ankushy961-lang.github.io/blog/truck-paperwork-that-files-itself.html">
+<meta property="og:image" content="https://ankushy961-lang.github.io/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_IN">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Truck paperwork that files itself">
+<meta name="twitter:description" content="Ankush Yadav describes Sri Hari Docs, an Android and PWA app that photographs truck papers, extracts the fields and matches each to the right truck.">
+<meta name="twitter:image" content="https://ankushy961-lang.github.io/og.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=Cormorant+Garamond:ital,wght@1,600&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="blog.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[
+ {"@type":"BlogPosting","@id":"https://ankushy961-lang.github.io/blog/truck-paperwork-that-files-itself.html#post","headline":"Truck paperwork that files itself","description":"Ankush Yadav describes Sri Hari Docs, an Android and PWA app that photographs truck papers, extracts the fields and matches each to the right truck.","datePublished":"2026-11-06","dateModified":"2026-11-06","author":{"@id":"https://ankushy961-lang.github.io/#person"},"publisher":{"@id":"https://ankushy961-lang.github.io/#person"},"mainEntityOfPage":"https://ankushy961-lang.github.io/blog/truck-paperwork-that-files-itself.html","image":"https://ankushy961-lang.github.io/og.png","inLanguage":"en"},
+ {"@type":"BreadcrumbList","itemListElement":[
+  {"@type":"ListItem","position":1,"name":"Home","item":"https://ankushy961-lang.github.io/"},
+  {"@type":"ListItem","position":2,"name":"Blog","item":"https://ankushy961-lang.github.io/blog/"},
+  {"@type":"ListItem","position":3,"name":"Truck paperwork that files itself","item":"https://ankushy961-lang.github.io/blog/truck-paperwork-that-files-itself.html"}
+ ]}
+]}
+</script>
+</head>
+<body>
+<div class="atmos" aria-hidden="true"><i class="orb o1"></i><i class="orb o2"></i></div>
+
+<nav class="dock glass" aria-label="Site">
+  <a class="dock-brand name" href="../">Ankush Yadav</a>
+  <div class="dock-links"><a href="./">Blog</a><a href="../#strikedeck">Apps</a></div>
+  <a class="dock-mail" href="../#contact">Hire me</a>
+</nav>
+
+<main class="post">
+<header class="post-head">
+  <p class="kicker">Sri Hari Docs · small-business software</p>
+  <h1>Truck paperwork that files itself</h1>
+  <p class="dateline mono"><time datetime="2026-11-06">6 November 2026</time> · 5 min read</p>
+</header>
+
+<p class="answer">Sri Hari Docs is an Android and PWA app that photographs a truck's documents, reads the fields off each photo and attaches the document to the right vehicle by score. Ankush Yadav built it for an agri-trading company that moves steam rice by truck, and it shipped in May 2026.</p>
+
+<h2>Who uses it, and where are they standing?</h2>
+<p>The user is a person in a yard with a phone. A truck has arrived with steam rice, the driver is holding a bundle of slips, and the loading does not wait. Nobody in that moment wants a form with twelve fields.</p>
+<p>Before the app, those slips travelled on paper. A weighbridge slip went to one desk and a gate pass to another. Finding every paper for one truck meant several people and a lot of asking around.</p>
+<p>So the app has one main action. Point the camera at the paper and press once. Everything after that is the app's job, not the user's.</p>
+
+<h2>How does the app read a weighbridge slip?</h2>
+<p>Each photo goes through extraction. The app decides the document type first, one of seven the company uses, such as a weighbridge slip, a gate pass or a bilty. Then it pulls the fields that type carries.</p>
+<p>For a weighbridge slip that means the date, the gross, tare and net weights, the driver and the transporter. Every field comes back with a confidence level. A clear printed weight reads high, and a handwritten name in fading ink reads low.</p>
+<p>Confidence is there for honesty. The app never pretends to know a value it only half read. The person in the yard sees exactly which fields deserve a second look, and nothing more.</p>
+
+<h2>Why match a document to a truck by score instead of asking?</h2>
+<p>The obvious design is a dropdown: pick the truck this slip belongs to. It fails in the yard. The list is long, the plate on the slip is often smudged, and the person has rice to load.</p>
+<p>Instead the app scores every open vehicle against the extracted fields. Each agreement adds points, and the highest total wins.</p>
+<ul>
+  <li>Same driver: +3</li>
+  <li>Same transporter: +2</li>
+  <li>Same date: +3</li>
+</ul>
+<p>The match is shown with its reasons, for example UP 53 AB 1234 with driver +3 · transporter +2 · date +3. Showing the reasons matters as much as the result. A clerk can see why that truck was chosen and tap a different one if the app is wrong.</p>
+<p>Asking first costs a decision on every photo. Scoring first costs a decision only when the app is unsure. Over a day of trucks, that difference is most of the work.</p>
+
+<h2>What happens when the same paper is photographed twice?</h2>
+<p>Paper gets photographed twice all the time. A driver hands over the same gate pass at the gate and again at the office, or a slip is reshot because the first photo was blurry. If both copies were filed, the truck would look more complete than it is.</p>
+<p>So a document that matches one already on the same vehicle does not file itself. It goes to a review queue instead. The Review tab shows a count, and someone decides whether to keep, replace or discard it.</p>
+<p>The queue is the only place the app asks a question. Everything routine files itself. Everything odd waits for a person.</p>
+
+<h2>What does a complete paper trail mean on the ground?</h2>
+<p>Every vehicle needs seven documents before its record is whole. The Trucks screen lists each plate with a count, 4 / 7 or 7 / 7, and a bar that fills as papers arrive. A truck at 7 / 7 is marked complete.</p>
+<p>Operationally that changes one thing. Nobody has to remember which paper is missing for which truck. The gaps are visible from the yard, on a phone, on the day the truck is there and the driver can still be asked.</p>
+<p>The app runs in Hindi and English, because the people who photograph slips and the people who read the records do not always share a language. Document types are labelled in both, such as Weighbridge slip · तौल पर्ची.</p>
+
+<aside class="callout glass">
+  <p><b>Stack and scale.</b> React, Capacitor and Firebase, shipped as a PWA and as an Android app. 7 document types, 2 languages, shipped May 2026 for one agri-trading company.</p>
+</aside>
+
+<p class="see"><a class="btn primary" href="../#srihari">See it running</a> <a class="btn" href="./">All posts</a></p>
+</main>
+
+<footer class="foot"><span>© 2026 <span class="name">Ankush Yadav</span>. All rights reserved.</span><nav class="foot-links" aria-label="Footer"><a href="../">Home</a><a href="./">Blog</a><a href="../#contact">Contact</a></nav></footer>
+</body>
+</html>

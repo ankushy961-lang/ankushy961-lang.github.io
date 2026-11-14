@@ -1,0 +1,27 @@
+# Ankush Yadav
+
+> Product builder in India. Designs, builds and ships Android, web and AI applications end to end. Five shipped apps, all running live on this site.
+
+## What he builds
+- Android apps: Kotlin, Jetpack Compose, AGSL shaders, accessibility and foreground services, Capacitor, React Native / Expo.
+- Web and servers: React, TypeScript, Node.js, Bun, Hono, Express, Socket.IO, PostgreSQL, SQLite with vector search, Firebase.
+- AI products: voice assistants, LLM orchestration with Claude and Gemini, on-device models, long-term memory.
+
+## Shipped work (this site)
+- Strikedeck: real-time options trading desk for Indian markets. Live broker ticks, engine consensus, safety gate, paper-to-live promotion. React, Express 5, Socket.IO, PostgreSQL, Flutter clients. 1,871 source files, 763 test files.
+- Mikazuki: a voice operating system for one person on Android. Wake word, cloud and on-device brains, vector memory, on-phone execution. Kotlin, Compose, Bun, Hono, sqlite-vec.
+- Sri Hari Docs: truck paperwork for an agri-trading company. Photograph, extract, match the right truck, complete paper trail. React, Capacitor, Firebase. Hindi and English.
+- ShopConnect: offline Android retail demo with four roles and one simulated order. Expo 58, React Native, TypeScript.
+- Business toolkit (name withheld until launch): zero-budget programme with research, two-checker fact-checking, a repository validator with 14 tests, and an owner approval gate before any build phase.
+
+## Contact
+- Email: ankushy961@gmail.com
+- GitHub: https://github.com/ankushy961-lang
+- Site: https://ankushy961-lang.github.io/
+- Blog: https://ankushy961-lang.github.io/blog/
+
+## Writing
+- How an options desk earns the right to trade real money: https://ankushy961-lang.github.io/blog/options-desk-paper-to-live-safety-gate.html
+- A voice OS for one person, running on the phone itself: https://ankushy961-lang.github.io/blog/voice-os-for-one-person-android.html
+- Truck paperwork that files itself: https://ankushy961-lang.github.io/blog/truck-paperwork-that-files-itself.html
+- Making a 3D glass portfolio fast: https://ankushy961-lang.github.io/blog/fast-3d-glass-portfolio.html

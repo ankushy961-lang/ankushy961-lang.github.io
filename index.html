@@ -1,0 +1,424 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>Ankush Yadav</title>
+<meta name="description" content="Ankush Yadav builds Android, web and AI products end to end. Five shipped apps, running live: an options trading desk, a voice OS, a document app, a retail demo and a business toolkit.">
+<meta name="author" content="Ankush Yadav">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#05060b" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#eef0f6" media="(prefers-color-scheme: light)">
+<link rel="canonical" href="https://ankushy961-lang.github.io/">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="sitemap" type="application/xml" href="sitemap.xml">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Ankush Yadav">
+<meta property="og:title" content="Ankush Yadav · Android, web and AI builder">
+<meta property="og:description" content="Five apps, all running. Designed, built and shipped by one person.">
+<meta property="og:url" content="https://ankushy961-lang.github.io/">
+<meta property="og:image" content="https://ankushy961-lang.github.io/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_IN">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Ankush Yadav · Android, web and AI builder">
+<meta name="twitter:description" content="Five apps, all running. Designed, built and shipped by one person.">
+<meta name="twitter:image" content="https://ankushy961-lang.github.io/og.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Cormorant+Garamond:ital,wght@0,600;1,500;1,600&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[
+ {"@type":"Person","@id":"https://ankushy961-lang.github.io/#person","name":"Ankush Yadav","url":"https://ankushy961-lang.github.io/","email":"mailto:ankushy961@gmail.com","jobTitle":"Android, web and AI product builder","nationality":"IN","sameAs":["https://github.com/ankushy961-lang"],"knowsAbout":["Android","Kotlin","Jetpack Compose","React","TypeScript","Node.js","Bun","Flutter","React Native","Firebase","PostgreSQL","WebGL","LLM applications","Voice assistants","Options trading analytics"]},
+ {"@type":"WebSite","@id":"https://ankushy961-lang.github.io/#website","url":"https://ankushy961-lang.github.io/","name":"Ankush Yadav","description":"Five apps, all running. Designed, built and shipped by one person.","author":{"@id":"https://ankushy961-lang.github.io/#person"},"inLanguage":"en"},
+ {"@type":"FAQPage","@id":"https://ankushy961-lang.github.io/#faq","mainEntity":[
+  {"@type":"Question","name":"Who is Ankush Yadav?","acceptedAnswer":{"@type":"Answer","text":"Ankush Yadav is a product builder based in India who designs, builds and ships Android, web and AI applications end to end, from research and brand to server, client and release."}},
+  {"@type":"Question","name":"What has Ankush Yadav built?","acceptedAnswer":{"@type":"Answer","text":"Five shipped apps: Strikedeck, a real-time options trading desk for Indian markets with a paper-to-live safety gate; Mikazuki, a voice operating system for Android with on-device and cloud brains; Sri Hari Docs, a document app for an agri-trading company; ShopConnect, an offline retail demo with four roles; and a zero-budget business toolkit programme with a phase-gated process."}},
+  {"@type":"Question","name":"What technologies does Ankush Yadav use?","acceptedAnswer":{"@type":"Answer","text":"Kotlin and Jetpack Compose, React and TypeScript, Node.js and Bun, Flutter and React Native, PostgreSQL, SQLite with vector search, Firebase, Socket.IO, WebGL, and LLM APIs from Anthropic and Google."}},
+  {"@type":"Question","name":"How can I hire Ankush Yadav?","acceptedAnswer":{"@type":"Answer","text":"Email ankushy961@gmail.com with what you want built. He works remotely with clients anywhere and ships a running build, not slides."}}
+ ]}
+]}
+</script>
+<link rel="stylesheet" href="styles.css">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" integrity="sha384-CI3ELBVUz9XQO+97x6nwMDPosPR5XvsxW2ua7N1Xeygeh1IxtgqtCkGfQY9WWdHu" crossorigin="anonymous"></script>
+<script defer src="app.js"></script>
+</head>
+<body>
+<svg class="symbols" width="0" height="0" aria-hidden="true">
+  <symbol id="i-signal" viewBox="0 0 20 12"><rect x="0" y="8" width="3" height="4" rx=".6"/><rect x="5" y="5.5" width="3" height="6.5" rx=".6"/><rect x="10" y="3" width="3" height="9" rx=".6"/><rect x="15" y="0" width="3" height="12" rx=".6"/></symbol>
+  <symbol id="i-wifi" viewBox="0 0 16 12"><path d="M8 11.2a1.3 1.3 0 1 0 0-2.6 1.3 1.3 0 0 0 0 2.6Zm-3.4-3.6a4.8 4.8 0 0 1 6.8 0l-1.2 1.2a3.1 3.1 0 0 0-4.4 0ZM2.2 5.2a8.2 8.2 0 0 1 11.6 0l-1.2 1.2a6.5 6.5 0 0 0-9.2 0ZM0 2.8a11.3 11.3 0 0 1 16 0l-1.2 1.2a9.6 9.6 0 0 0-13.6 0Z"/></symbol>
+  <symbol id="i-batt" viewBox="0 0 27 12"><rect x=".5" y=".5" width="23" height="11" rx="3" fill="none" stroke="currentColor" opacity=".45"/><rect x="2" y="2" width="19" height="8" rx="1.8"/><path d="M25.2 4v4a2 2 0 0 0 0-4Z" opacity=".45"/></symbol>
+</svg>
+
+<div class="boot" id="boot" aria-hidden="true"><div class="boot-core"><i></i><i></i><i></i></div><p class="mono" id="bootText">INITIALISING</p></div>
+<canvas id="field" class="field" aria-hidden="true"></canvas>
+<div class="atmos" aria-hidden="true"><i class="orb o1"></i><i class="orb o2"></i><i class="orb o3"></i><i class="grain"></i></div>
+<div class="cursor" id="cursor" aria-hidden="true"><i></i></div>
+<div class="progress" id="progress" aria-hidden="true"></div>
+
+<nav class="dock glass" aria-label="Site">
+  <a class="dock-brand name" href="#top">Ankush Yadav</a>
+  <div class="dock-links">
+    <a href="#strikedeck" style="--app:#00F5D4">Strikedeck</a>
+    <a href="#mikazuki" style="--app:#39FF14">Mikazuki</a>
+    <a href="#srihari" style="--app:#2563eb">Sri Hari</a>
+    <a href="#shopconnect" style="--app:#0F766E">ShopConnect</a>
+    <a href="#toolkit" style="--app:#D2BA86">Toolkit</a>
+    <a href="blog/">Blog</a>
+  </div>
+  <a class="dock-mail" href="#contact">Hire me</a>
+  <button class="dock-theme" id="themeBtn" type="button" aria-label="Switch colour theme"><span class="sun"></span></button>
+</nav>
+
+<header class="hero" id="top">
+  <div class="hero-copy">
+    <p class="eyebrow"><span class="pulse"></span><span class="name">Ankush Yadav</span><span class="mono">ANDROID · WEB · AI</span></p>
+    <h1><span class="line"><span>Five apps.</span></span><span class="line"><em>All running.</em></span></h1>
+    <p class="lede">Designed, built and shipped by one person.</p>
+    <p class="telemetry mono" id="telemetry" aria-hidden="true">FIELD ONLINE</p>
+    <div class="cta">
+      <a class="btn primary" href="#strikedeck">Tour</a>
+      <a class="btn" href="#contact">Hire me</a>
+    </div>
+    <p class="hint mono hero-hint"><span class="key k-drag">drag</span><span class="key k-swipe">swipe</span> the ring · <span class="key">tap</span> any screen</p>
+  </div>
+
+  <div class="vitrine" id="vitrine">
+    <div class="ring" id="ring">
+      <a class="ring-card glass" href="#strikedeck" style="--i:0;--app:#00F5D4"><span class="mini mini-sd"><i></i><i></i><i></i><i></i></span><span class="ring-name">Strikedeck</span><span class="ring-sub">Options desk</span></a>
+      <a class="ring-card glass" href="#mikazuki" style="--i:1;--app:#39FF14"><span class="mini mini-mz"><i class="moon"></i></span><span class="ring-name">Mikazuki</span><span class="ring-sub">Voice OS</span></a>
+      <a class="ring-card glass" href="#srihari" style="--i:2;--app:#2563eb"><span class="mini mini-sh"><i></i><i></i><i></i></span><span class="ring-name">Sri Hari Docs</span><span class="ring-sub">Paperwork</span></a>
+      <a class="ring-card glass" href="#shopconnect" style="--i:3;--app:#0F766E"><span class="mini mini-sc"><i></i><i></i><i></i><i></i></span><span class="ring-name">ShopConnect</span><span class="ring-sub">Retail</span></a>
+      <a class="ring-card glass" href="#toolkit" style="--i:4;--app:#D2BA86"><span class="mini mini-vr"><i></i><i></i><i></i></span><span class="ring-name">Toolkit</span><span class="ring-sub">Business OS</span></a>
+    </div>
+    <div class="floor" aria-hidden="true"></div>
+  </div>
+
+  <ul class="strip glass">
+    <li><b>5</b><span>apps shipped</span></li>
+    <li><b>4</b><span>platforms</span></li>
+    <li><b>8</b><span>languages</span></li>
+    <li><b>1</b><span>builder</span></li>
+  </ul>
+</header>
+
+<main>
+
+<!-- ============ STRIKEDECK ============ -->
+<section class="exhibit" id="strikedeck" style="--app:#00F5D4;--app2:#EC4899" data-demo="sd">
+  <div class="stage">
+    <div class="laptop tilt">
+      <div class="lid">
+        <i class="cam"></i>
+        <div class="screen sd">
+          <div class="sd-top">
+            <b class="sd-logo">SD</b>
+            <span class="sd-tabs"><i class="on">NIFTY</i><i>BANKNIFTY</i><i>FINNIFTY</i><i>SENSEX</i><i>CRUDEOIL</i></span>
+            <span class="sd-live"><u id="sd-dot"></u><span id="sd-feed">KITE · CONNECTING</span></span>
+          </div>
+          <div class="sd-tiles">
+            <div><small>Spot</small><b id="sd-spot">24,154.4</b></div>
+            <div><small>CE OI</small><b id="sd-ce">1748.7L</b></div>
+            <div><small>PE OI</small><b id="sd-pe">1475.4L</b></div>
+            <div><small>Max pain</small><b>24,200</b></div>
+          </div>
+          <div class="sd-body">
+            <table class="sd-chain" aria-label="Option chain">
+              <thead><tr><th>CE OI</th><th>CE</th><th>Strike</th><th>PE</th><th>PE OI</th></tr></thead>
+              <tbody id="sd-rows">
+                <tr><td><i style="--w:38%"></i></td><td>412.0</td><td>23,900</td><td>31.4</td><td><i style="--w:72%"></i></td></tr>
+                <tr><td><i style="--w:55%"></i></td><td>268.5</td><td>24,000</td><td>58.2</td><td><i style="--w:88%"></i></td></tr>
+                <tr class="atm"><td><i style="--w:78%"></i></td><td>142.5</td><td>24,150</td><td>96.8</td><td><i style="--w:64%"></i></td></tr>
+                <tr><td><i style="--w:92%"></i></td><td>71.2</td><td>24,300</td><td>176.0</td><td><i style="--w:41%"></i></td></tr>
+                <tr><td><i style="--w:66%"></i></td><td>29.9</td><td>24,400</td><td>290.3</td><td><i style="--w:27%"></i></td></tr>
+              </tbody>
+            </table>
+            <aside class="sd-side">
+              <div class="sd-pcr"><small>PCR</small><div class="gauge"><i id="sd-gauge" style="--p:46%"></i></div><b id="sd-pcrv" class="mono">0.84</b></div>
+              <div class="sd-votes"><small>Consensus</small>
+                <ul id="sd-votes"><li>Voter</li><li>Trap filter</li><li>Regime</li></ul>
+                <b id="sd-signal" class="mono">WAITING</b>
+              </div>
+              <div class="sd-mode"><small>Safety</small>
+                <span class="modes" id="sd-modes"><i class="on">PAPER</i><i>LIMITED</i><i>LIVE</i></span>
+                <div class="gate mono"><span id="sd-trades">Trades 0 / 50</span><span id="sd-win">Win 0% / 45%</span></div>
+                <button class="kill" type="button" id="sd-kill">Kill switch</button>
+              </div>
+            </aside>
+          </div>
+          <div class="sd-toast" id="sd-toast" hidden></div>
+        </div>
+      </div>
+      <div class="base"><i class="hinge"></i><i class="notch"></i></div>
+      <div class="reflect" aria-hidden="true"></div>
+    </div>
+  </div>
+
+  <div class="panel glass">
+    <span class="kicker">Options desk · web + Android</span>
+    <h2>Strikedeck</h2>
+    <p class="lede">Live chains. Engines vote. Safety gate before money.</p>
+    <ol class="steps" id="steps-sd">
+      <li><b>Connect</b><span>Zerodha Kite</span></li>
+      <li><b>Stream</b><span>ticks, OI, Greeks</span></li>
+      <li><b>Vote</b><span>3 engines</span></li>
+      <li><b>Gate</b><span>caps, kill switch</span></li>
+      <li><b>Paper → live</b><span>50 trades first</span></li>
+    </ol>
+    <div class="actions"><button class="btn primary" type="button" data-run="sd"><span class="lbl">Run a tick</span></button></div>
+    <ul class="chips"><li>React</li><li>Express 5</li><li>Socket.IO</li><li>PostgreSQL</li><li>Flutter</li></ul>
+    <dl class="facts"><div><dd>1,871</dd><dt>source files</dt></div><div><dd>763</dd><dt>test files</dt></div><div><dd>24</dd><dt>symbols</dt></div></dl>
+  </div>
+</section>
+
+<!-- ============ MIKAZUKI ============ -->
+<section class="exhibit" id="mikazuki" style="--app:#39FF14;--app2:#7FFF00" data-demo="mz">
+  <div class="stage">
+    <div class="phone tilt" id="mz-phone" style="--world:#39FF14">
+      <i class="side mute"></i><i class="side vol1"></i><i class="side vol2"></i><i class="side pow"></i>
+      <div class="screen mz">
+        <div class="sbar"><span class="t mono">9:41</span><span class="island"></span><span class="ic"><svg width="16" height="10"><use href="#i-signal"/></svg><svg width="14" height="10"><use href="#i-wifi"/></svg><svg width="24" height="11"><use href="#i-batt"/></svg></span></div>
+        <div class="mz-kanji"><b>三日月</b><small>MIKAZUKI</small></div>
+        <div class="mz-core">
+          <div class="orbit" id="mz-orbit" aria-hidden="true"></div>
+          <div class="rings" id="mz-rings"><i></i><i></i><i></i></div>
+          <button class="crescent" id="mz-core" type="button" aria-label="Talk to Mikazuki"></button>
+        </div>
+        <div class="mz-status mono"><span><u></u>WADO</span><span>MEM 128</span><span id="mz-crewname">ZORO</span></div>
+        <p class="mz-cap" id="mz-cap">Tap the crescent</p>
+        <ol class="mz-stream mono" id="mz-stream" aria-live="polite"></ol>
+        <div class="mz-crews" id="mz-crews" role="group" aria-label="Crew world"></div>
+        <i class="homebar"></i>
+      </div>
+      <i class="glare"></i>
+    </div>
+  </div>
+
+  <div class="panel glass">
+    <span class="kicker">Voice OS · Android + server</span>
+    <h2>Mikazuki</h2>
+    <p class="lede">Listens. Remembers. Acts on the phone itself.</p>
+    <ol class="steps" id="steps-mz">
+      <li><b>Wake</b><span>on-device wake word</span></li>
+      <li><b>Plan</b><span>cloud or on-device brain</span></li>
+      <li><b>Recall</b><span>vector memory</span></li>
+      <li><b>Execute</b><span>accessibility service</span></li>
+      <li><b>Speak</b><span>24 kHz voice</span></li>
+    </ol>
+    <div class="actions"><button class="btn primary" type="button" data-run="mz"><span class="lbl">Say something</span></button></div>
+    <ul class="chips"><li>Kotlin</li><li>Compose</li><li>AGSL</li><li>Bun + Hono</li><li>sqlite-vec</li></ul>
+    <dl class="facts"><div><dd>1.0.0</dd><dt>shipped</dt></div><div><dd>10</dd><dt>crew worlds</dt></div><div><dd>3</dd><dt>brains</dt></div></dl>
+  </div>
+</section>
+
+<!-- ============ SRI HARI DOCS ============ -->
+<section class="exhibit" id="srihari" style="--app:#2563eb;--app2:#7c3aed" data-demo="sh">
+  <div class="stage">
+    <div class="phone tilt light">
+      <i class="side mute"></i><i class="side vol1"></i><i class="side vol2"></i><i class="side pow"></i>
+      <div class="screen sh">
+        <div class="sbar"><span class="t mono">9:41</span><span class="island"></span><span class="ic"><svg width="16" height="10"><use href="#i-signal"/></svg><svg width="14" height="10"><use href="#i-wifi"/></svg><svg width="24" height="11"><use href="#i-batt"/></svg></span></div>
+        <div class="sh-bar"><b>Sri Hari Docs</b><span>Ramesh K.</span></div>
+        <div class="sh-tabs" id="sh-tabs"><button type="button" class="on" data-v="dash">Trucks</button><button type="button" data-v="upload">Upload</button><button type="button" data-v="review">Review <u id="sh-rc" hidden>1</u></button></div>
+
+        <div class="sh-view on" data-view="dash">
+          <div class="sh-stats"><div><b>3</b><small>Trucks</small></div><div><b id="sh-docs">13</b><small>Docs</small></div><div><b id="sh-complete">1</b><small>Complete</small></div></div>
+          <div class="sh-card" id="sh-v1"><div class="sh-vh"><b class="mono">UP 53 AB 1234</b><span id="sh-v1n">4 / 7</span></div><div class="bar"><i id="sh-v1bar" style="--w:57%"></i></div><small>Steam rice · Nautanwa → factory</small></div>
+          <div class="sh-card done"><div class="sh-vh"><b class="mono">UP 56 CD 5678</b><span>7 / 7 ✓</span></div><div class="bar"><i style="--w:100%"></i></div><small>Verified</small></div>
+          <div class="sh-card"><div class="sh-vh"><b class="mono">UP 32 EF 9012</b><span>2 / 7</span></div><div class="bar"><i style="--w:29%"></i></div><small>Gate pass, bilty</small></div>
+        </div>
+
+        <div class="sh-view" data-view="upload">
+          <div class="sh-doc" id="sh-doc"><div class="sh-scan"></div><span class="sh-doctype" id="sh-doctype">Weighbridge slip · तौल पर्ची</span></div>
+          <ul class="sh-fields mono" id="sh-fields"></ul>
+          <div class="sh-match" id="sh-match" hidden><small>Matched</small><b class="mono">UP 53 AB 1234</b><span id="sh-score">driver +3 · transporter +2 · date +3</span></div>
+          <button class="sh-btn" id="sh-save" type="button" hidden>Save</button>
+        </div>
+
+        <div class="sh-view" data-view="review">
+          <p class="sh-empty">Nothing to review.</p>
+        </div>
+        <i class="homebar dark"></i>
+      </div>
+      <i class="glare"></i>
+    </div>
+  </div>
+
+  <div class="panel glass">
+    <span class="kicker">Client app · Android + PWA</span>
+    <h2>Sri Hari Docs</h2>
+    <p class="lede">Truck paperwork that files itself.</p>
+    <ol class="steps" id="steps-sh">
+      <li><b>Photograph</b><span>7 document types</span></li>
+      <li><b>Extract</b><span>fields + confidence</span></li>
+      <li><b>Match</b><span>scores the right truck</span></li>
+      <li><b>Review</b><span>duplicates caught</span></li>
+      <li><b>Done</b><span>complete paper trail</span></li>
+    </ol>
+    <div class="actions"><button class="btn primary" type="button" data-run="sh"><span class="lbl">Upload a slip</span></button></div>
+    <ul class="chips"><li>React</li><li>Capacitor</li><li>Firebase</li><li>Hindi + English</li></ul>
+    <dl class="facts"><div><dd>7</dd><dt>doc types</dt></div><div><dd>2</dd><dt>languages</dt></div><div><dd>May</dd><dt>2026, shipped</dt></div></dl>
+  </div>
+</section>
+
+<!-- ============ SHOPCONNECT ============ -->
+<section class="exhibit" id="shopconnect" style="--app:#0F766E;--app2:#14B8A6" data-demo="sc">
+  <div class="stage">
+    <div class="phone tilt light">
+      <i class="side mute"></i><i class="side vol1"></i><i class="side vol2"></i><i class="side pow"></i>
+      <div class="screen sc">
+        <div class="sbar dark"><span class="t mono">9:41</span><span class="island"></span><span class="ic"><svg width="16" height="10"><use href="#i-signal"/></svg><svg width="14" height="10"><use href="#i-wifi"/></svg><svg width="24" height="11"><use href="#i-batt"/></svg></span></div>
+        <div class="sc-sim">Simulation · fictional data</div>
+
+        <div class="sc-view on" data-view="roles">
+          <b class="sc-brand">ShopConnect</b><small class="sc-sub">Pick a role</small>
+          <div class="sc-roles" id="sc-roles">
+            <button type="button" data-role="customer"><b>Customer</b><span>browse, order</span></button>
+            <button type="button" data-role="shop"><b>Shop owner</b><span>stock, orders</span></button>
+            <button type="button" data-role="delivery"><b>Rider</b><span>deliveries</span></button>
+            <button type="button" data-role="admin"><b>Admin</b><span>compliance</span></button>
+          </div>
+        </div>
+
+        <div class="sc-view" data-view="customer">
+          <div class="sc-head"><b>Nearby</b><span>Aarav</span></div>
+          <div class="sc-shop"><b>Karol Bagh Mart</b><small>Central Delhi · 12 items</small><button type="button" id="sc-order">Order 2 items · ₹294</button></div>
+          <div class="sc-shop"><b>Lajpat Daily</b><small>South Delhi · 9 items</small></div>
+          <div class="sc-shop"><b>Dwarka Corner</b><small>West Delhi · 7 items</small></div>
+        </div>
+
+        <div class="sc-view" data-view="shop">
+          <div class="sc-head"><b>Karol Bagh Mart</b><span>Meera</span></div>
+          <div class="sc-inv"><span>Atta 5 kg</span><b>₹240 · 18</b></div>
+          <div class="sc-inv"><span>Toned milk 1 L</span><b>₹54 · 32</b></div>
+          <div class="sc-inv restricted"><span>Cigarettes</span><b>locked</b></div>
+          <div class="sc-order" id="sc-incoming" hidden><b>Order #1042</b><span>2 items · ₹294</span><button type="button" id="sc-accept">Accept</button></div>
+        </div>
+
+        <div class="sc-view" data-view="delivery">
+          <div class="sc-head"><b>Tasks</b><span>Vikram</span></div>
+          <div class="sc-order" id="sc-task"><b>Order #1042</b><span>Karol Bagh Mart → Aarav</span><button type="button" id="sc-deliver">Delivered (sim)</button></div>
+        </div>
+
+        <div class="sc-view" data-view="admin">
+          <div class="sc-head"><b>Compliance</b><span>Admin</span></div>
+          <div class="sc-gate mono"><span>mode</span><b>SIMULATION_ONLY</b></div>
+          <div class="sc-gate mono"><span>realCheckout</span><b>false 🔒</b></div>
+          <div class="sc-gate mono"><span>realPayment</span><b>false 🔒</b></div>
+          <div class="sc-gate mono"><span>legalReview</span><b>NOT_STARTED</b></div>
+        </div>
+
+        <ol class="sc-timeline" id="sc-timeline"><li>Placed</li><li>Accepted</li><li>Packed</li><li>Out</li><li>Delivered</li></ol>
+        <div class="sc-tabs" id="sc-tabs"><button type="button" data-role="customer">Customer</button><button type="button" data-role="shop">Shop</button><button type="button" data-role="delivery">Rider</button><button type="button" data-role="admin">Admin</button></div>
+        <i class="homebar dark"></i>
+      </div>
+      <i class="glare"></i>
+    </div>
+  </div>
+
+  <div class="panel glass">
+    <span class="kicker">Retail demo · Android, offline</span>
+    <h2>ShopConnect</h2>
+    <p class="lede">Four roles. One order. No backend.</p>
+    <ol class="steps" id="steps-sc">
+      <li><b>Role</b><span>customer, shop, rider, admin</span></li>
+      <li><b>Order</b><span>simulated</span></li>
+      <li><b>Accept</b><span>tested rules</span></li>
+      <li><b>Deliver</b><span>in simulation</span></li>
+      <li><b>Audit</b><span>compliance gate</span></li>
+    </ol>
+    <div class="actions"><button class="btn primary" type="button" data-run="sc"><span class="lbl">Run an order</span></button></div>
+    <ul class="chips"><li>Expo 58</li><li>React Native</li><li>TypeScript</li><li>node:test</li></ul>
+    <dl class="facts"><div><dd>4</dd><dt>roles</dt></div><div><dd>0</dd><dt>network calls</dt></div><div><dd>1</dd><dt>day to APK</dt></div></dl>
+  </div>
+</section>
+
+<!-- ============ TOOLKIT ============ -->
+<section class="exhibit" id="toolkit" style="--app:#D2BA86;--app2:#3F7353" data-demo="vr">
+  <div class="stage">
+    <div class="laptop tilt">
+      <div class="lid">
+        <i class="cam"></i>
+        <div class="screen vr">
+          <div class="vr-top">
+            <svg viewBox="0 0 128 128" width="22" height="22" aria-hidden="true"><rect width="128" height="128" rx="28" fill="#22452F"/><path d="M64 100 Q27.2 74.6 30 30 Q66.8 55.4 64 100 Z" fill="#FCFAF5"/><path d="M64 100 Q100.8 74.6 98 30 Q61.2 55.4 64 100 Z" fill="#D2BA86"/><rect x="46" y="106" width="36" height="4" rx="2" fill="#D2BA86"/></svg>
+            <b>TOOLKIT</b><small>name withheld</small><span>Command center</span>
+          </div>
+          <div class="vr-body">
+            <ol class="vr-gate" id="vr-gate">
+              <li class="done"><b>Phase 0</b><span>Research</span></li>
+              <li class="now"><b>Checkpoint 1</b><span>Approval</span></li>
+              <li class="lock"><b>Phase 1</b><span>Extensions</span></li>
+              <li class="lock"><b>Phase 2</b><span>Business OS</span></li>
+            </ol>
+            <pre class="vr-term mono" id="vr-term">$ npm run validate</pre>
+            <div class="vr-brand">
+              <div class="vr-logos">
+                <svg viewBox="0 0 128 128" aria-label="Logo concept A"><rect width="128" height="128" rx="28" fill="#22452F"/><path d="M64 100 Q27.2 74.6 30 30 Q66.8 55.4 64 100 Z" fill="#FCFAF5"/><path d="M64 100 Q100.8 74.6 98 30 Q61.2 55.4 64 100 Z" fill="#D2BA86"/><rect x="46" y="106" width="36" height="4" rx="2" fill="#D2BA86"/></svg>
+                <svg viewBox="0 0 128 128" aria-label="Logo concept B"><rect width="128" height="128" rx="28" fill="#F7F2E7"/><path d="M30 108 V62 A34 34 0 0 1 98 62 V108" fill="none" stroke="#22452F" stroke-width="9" stroke-linecap="round"/><path d="M64 108 V74" stroke="#22452F" stroke-width="5" stroke-linecap="round"/><path d="M64 82 Q48 82 44 64 Q60 64 64 82 Z" fill="#9C8048"/><path d="M64 76 Q82 76 86 56 Q68 56 64 76 Z" fill="#22452F"/><path d="M20 110 H108" stroke="#1E2120" stroke-width="4" stroke-linecap="round"/></svg>
+                <svg viewBox="0 0 560 170" class="wide" aria-label="Brand band"><rect width="560" height="170" fill="#14291E"/><path d="M270 60 Q272 34 300 28 Q296 56 270 60 Z" fill="#D2BA86"/><path d="M120 112 H440" stroke="#D2BA86" stroke-width="1.5"/><text x="280" y="140" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="13" letter-spacing="3" fill="#E3D3AE">BUILD · GROW · SPEND WISELY</text></svg>
+              </div>
+              <div class="vr-swatches"><i style="background:#22452F"></i><i style="background:#14291E"></i><i style="background:#F7F2E7"></i><i style="background:#D2BA86"></i><i style="background:#1E2120"></i></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="base"><i class="hinge"></i><i class="notch"></i></div>
+      <div class="reflect" aria-hidden="true"></div>
+    </div>
+  </div>
+
+  <div class="panel glass">
+    <span class="kicker">Business toolkit · Chrome + web · name withheld until launch</span>
+    <h2>Toolkit</h2>
+    <p class="lede">Zero budget. Nothing ships unapproved.</p>
+    <ol class="steps" id="steps-vr">
+      <li><b>Research</b><span>audience, costs, name</span></li>
+      <li><b>Fact-check</b><span>2 checkers per claim</span></li>
+      <li><b>Validate</b><span>14 tests, 14 skills</span></li>
+      <li><b>Report</b><span>PDF checkpoint</span></li>
+      <li><b>Approve</b><span>owner gate</span></li>
+    </ol>
+    <div class="actions"><button class="btn primary" type="button" data-run="vr"><span class="lbl">Run validator</span></button></div>
+    <ul class="chips"><li>Node 22</li><li>Python</li><li>Chrome ext.</li><li>Brand system</li></ul>
+    <dl class="facts"><div><dd>14/14</dd><dt>tests</dt></div><div><dd>₹0</dd><dt>budget</dt></div><div><dd>3</dd><dt>logo concepts</dt></div></dl>
+  </div>
+</section>
+
+<!-- ============ FAQ (answer engines) ============ -->
+<section class="faq" id="faq" aria-labelledby="faq-h">
+  <h2 id="faq-h" class="faq-h">Quick answers</h2>
+  <div class="faq-grid">
+    <details class="glass" open><summary>Who is Ankush Yadav?</summary><p>A product builder in India. Research, brand, server, client, release: one person, end to end.</p></details>
+    <details class="glass"><summary>What does he build?</summary><p>Android apps in Kotlin and Compose, web apps in React and TypeScript, servers in Node and Bun, and AI assistants on Claude and Gemini.</p></details>
+    <details class="glass"><summary>Can he work remotely?</summary><p>Yes. Clients anywhere, async by default, a running build at every checkpoint.</p></details>
+    <details class="glass"><summary>How do I hire him?</summary><p>Email <a href="#contact" data-u="ankushy961" data-d="gmail.com" data-show>the address below</a> with what you want built. Reply within a day.</p></details>
+  </div>
+</section>
+
+<!-- ============ CONTACT ============ -->
+<section class="contact" id="contact">
+  <div class="contact-card glass tilt">
+    <span class="kicker">Next</span>
+    <h2>Let's build yours.</h2>
+    <div class="mail">
+      <code class="mono" id="mailText" data-u="ankushy961" data-d="gmail.com" data-show>ankushy961 [at] gmail [dot] com</code>
+      <button class="btn primary" type="button" id="copyMail"><span class="lbl">Copy</span></button>
+      <a class="btn" href="#contact" data-u="ankushy961" data-d="gmail.com">Email</a>
+      <a class="btn" href="https://github.com/ankushy961-lang" target="_blank" rel="noopener noreferrer">GitHub</a>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="foot">
+  <span>© 2026 <span class="name">Ankush Yadav</span>. All rights reserved.</span>
+  <nav class="foot-links" aria-label="Footer"><a href="blog/">Blog</a><a href="https://github.com/ankushy961-lang" target="_blank" rel="noopener noreferrer">GitHub</a><a href="#contact" data-u="ankushy961" data-d="gmail.com">Email</a></nav>
+</footer>
+
+</body>
+</html>

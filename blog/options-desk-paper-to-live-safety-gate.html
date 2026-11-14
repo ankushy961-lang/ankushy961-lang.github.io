@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>How an options desk earns live trading · Ankush Yadav</title>
+<meta name="description" content="Ankush Yadav explains the safety gate in Strikedeck: 50 paper trades at a 45 percent win rate, loss caps and a kill switch before any live order.">
+<meta name="author" content="Ankush Yadav">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#05060b" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#eef0f6" media="(prefers-color-scheme: light)">
+<link rel="canonical" href="https://ankushy961-lang.github.io/blog/options-desk-paper-to-live-safety-gate.html">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Ankush Yadav">
+<meta property="og:title" content="How an options desk earns the right to trade real money">
+<meta property="og:description" content="Ankush Yadav explains the safety gate in Strikedeck: 50 paper trades at a 45 percent win rate, loss caps and a kill switch before any live order.">
+<meta property="og:url" content="https://ankushy961-lang.github.io/blog/options-desk-paper-to-live-safety-gate.html">
+<meta property="og:image" content="https://ankushy961-lang.github.io/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_IN">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="How an options desk earns the right to trade real money">
+<meta name="twitter:description" content="Ankush Yadav explains the safety gate in Strikedeck: 50 paper trades at a 45 percent win rate, loss caps and a kill switch before any live order.">
+<meta name="twitter:image" content="https://ankushy961-lang.github.io/og.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=Cormorant+Garamond:ital,wght@1,600&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="blog.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[
+ {"@type":"BlogPosting","@id":"https://ankushy961-lang.github.io/blog/options-desk-paper-to-live-safety-gate.html#post","headline":"How an options desk earns the right to trade real money","description":"Ankush Yadav explains the safety gate in Strikedeck: 50 paper trades at a 45 percent win rate, loss caps and a kill switch before any live order.","datePublished":"2026-11-06","dateModified":"2026-11-06","author":{"@id":"https://ankushy961-lang.github.io/#person"},"publisher":{"@id":"https://ankushy961-lang.github.io/#person"},"mainEntityOfPage":"https://ankushy961-lang.github.io/blog/options-desk-paper-to-live-safety-gate.html","image":"https://ankushy961-lang.github.io/og.png","inLanguage":"en"},
+ {"@type":"BreadcrumbList","itemListElement":[
+  {"@type":"ListItem","position":1,"name":"Home","item":"https://ankushy961-lang.github.io/"},
+  {"@type":"ListItem","position":2,"name":"Blog","item":"https://ankushy961-lang.github.io/blog/"},
+  {"@type":"ListItem","position":3,"name":"How an options desk earns the right to trade real money","item":"https://ankushy961-lang.github.io/blog/options-desk-paper-to-live-safety-gate.html"}
+ ]}
+]}
+</script>
+</head>
+<body>
+<div class="atmos" aria-hidden="true"><i class="orb o1"></i><i class="orb o2"></i></div>
+
+<nav class="dock glass" aria-label="Site"><a class="dock-brand name" href="../">Ankush Yadav</a><div class="dock-links"><a href="./">Blog</a><a href="../#strikedeck">Apps</a></div><a class="dock-mail" href="../#contact">Hire me</a></nav>
+
+<main class="post">
+<header class="post-head">
+<p class="kicker">Strikedeck · safety gate</p>
+<h1>How an options desk earns the right to trade real money</h1>
+<p class="dateline mono"><time datetime="2026-11-06">6 November 2026</time> · 4 min read</p>
+</header>
+
+<p class="answer">Strikedeck does not let a strategy touch real money until it has completed 50 paper trades at a 45 percent win rate or better, with daily loss caps and a kill switch in front of every order. Only then is the desk promoted from PAPER to LIMITED LIVE, and full LIVE still needs an operator token.</p>
+
+<h2>Why is gating money behind evidence a product decision?</h2>
+<p>Most trading tools treat risk controls as a settings page. The user ticks a box, and the box can be unticked at the worst possible moment. Strikedeck treats the gate as part of the product, not as an option.</p>
+<p>The desk starts in PAPER. Every signal is logged and filled against live prices, but no order leaves the machine. The desk has to prove itself on the same data it would later trade on.</p>
+<p>That design says something to the person using it. The software is not asking for trust up front. It asks for 50 trades of evidence first, and it shows the count on screen the whole time.</p>
+
+<h2>What happens before a signal reaches the gate?</h2>
+<p>The desk connects to Zerodha Kite and streams ticks, open interest and Greeks over Socket.IO for 24 symbols, NIFTY and BANKNIFTY among them. The option chain, the put-call ratio and max pain update as the market moves. Nothing in that stream places an order on its own.</p>
+<p>Three engines look at the same market state and vote. The voter weighs the setup. The trap filter looks for setups that are likely to reverse, and the regime engine judges what kind of market the day is.</p>
+<p>A signal exists only when the engines agree. Disagreement is a result, not an error, and the desk shows WAITING until a consensus forms. Only a consensus signal moves on to the safety gate.</p>
+
+<h2>How is the safety gate built?</h2>
+<p>The gate is a single checkpoint that every order passes through, in paper and in live. It has three parts: a daily loss cap, a promotion ladder and a kill switch.</p>
+<p>The daily loss cap is checked before each order. When the cap is reached, the desk stops taking new positions for the rest of the session. The cap applies in every mode, so a paper session is run under the same rule as a live one.</p>
+<p>The promotion ladder has three modes, and each one has to be earned.</p>
+<ul>
+<li><b>PAPER</b>: signals are sized and filled against live prices, but no order is sent to the broker.</li>
+<li><b>LIMITED LIVE</b>: unlocked after 50 completed paper trades with a win rate of at least 45 percent. The first mode in which real orders leave the desk.</li>
+<li><b>LIVE</b>: needs an operator token on top of the trade record. The software can earn the right to trade; a person still has to turn the key.</li>
+</ul>
+<p>The trade counter and the win rate sit on screen next to the mode indicator. The operator always knows how far the desk is from the next step, and the desk cannot promote itself early.</p>
+
+<aside class="callout glass">
+<p><b>Stack and scale.</b> React, Express 5, Socket.IO and PostgreSQL on the server and web side, with Flutter clients. 1,871 source files and 763 test files, covering 24 symbols.</p>
+</aside>
+
+<h2>What does the kill switch do?</h2>
+<p>The kill switch puts the desk into SAFE_MODE. Any pending signals are cancelled, so a consensus that formed a second before the switch does not become an order a second after. No new orders are accepted while SAFE_MODE is on.</p>
+<p>Leaving SAFE_MODE is harder than entering it. The exit needs an operator token. One tap stops the desk; a credential is needed to start it again.</p>
+<p>This asymmetry is deliberate. The moment the switch is most needed is the moment a person is least calm, so the safe action has to be the easy one.</p>
+
+<h2>What does the gate cost, and what does it buy?</h2>
+<p>The gate costs time. A strategy that looks promising after a handful of trades still has to wait for the fiftieth, and the 45 percent threshold rules out ideas that only work on their best days.</p>
+<p>What it buys is a trade record before capital, and a desk that cannot be rushed. Every promotion is backed by numbers the operator can see, and every live order has already passed the same gate the paper orders did.</p>
+<p>That is the whole argument. A desk should earn the right to trade real money the same way a person would: by showing its results first.</p>
+
+<p class="see"><a class="btn primary" href="../#strikedeck">See it running</a> <a class="btn" href="./">All posts</a></p>
+</main>
+
+<footer class="foot"><span>© 2026 <span class="name">Ankush Yadav</span>. All rights reserved.</span><nav class="foot-links" aria-label="Footer"><a href="../">Home</a><a href="./">Blog</a><a href="../#contact">Contact</a></nav></footer>
+</body>
+</html>
