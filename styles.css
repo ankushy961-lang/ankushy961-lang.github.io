@@ -162,7 +162,7 @@ body.has-cursor .cursor { opacity: 1; }
 .eyebrow .mono { font-size: 11px; letter-spacing: .22em; padding-left: 12px; border-left: 1px solid var(--line-2); }
 .pulse { width: 8px; height: 8px; border-radius: 50%; background: var(--p1); animation: pulse 2.2s infinite; }
 @keyframes pulse { 0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--p1) 60%, transparent); } 100% { box-shadow: 0 0 0 14px transparent; } }
-h1 { font-family: var(--font-d); font-weight: 900; font-stretch: 62%; text-transform: uppercase; font-size: clamp(58px, 8vw, 120px); line-height: .86; letter-spacing: -.01em; margin: 0 0 22px; }
+h1 { font-family: var(--font-d); font-weight: 900; font-stretch: 62%; text-transform: uppercase; font-size: clamp(34px, calc((100vw - 32px) / 4.3), 120px); line-height: .86; letter-spacing: -.01em; margin: 0 0 22px; }
 h1 .line { display: block; overflow: hidden; }
 h1 .line > * { display: inline-block; padding-right: .08em; }
 h1 em { font-style: italic; font-weight: 900; background: linear-gradient(100deg, var(--brand) 0%, var(--p4) 55%, var(--brand) 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
@@ -651,6 +651,8 @@ main { max-width: 1180px; margin: 0 auto; padding: 0 max(16px, env(safe-area-ins
 }
 
 /* ---------- responsive ---------- */
+@media (min-width: 1001px) { h1 { font-size: clamp(58px, calc((min(100vw, 1180px) - 80px) / 8.6), 120px); } }
+@media (max-width: 420px) { .marks { display: none; } .eyebrow { flex-wrap: wrap; row-gap: 6px; } }
 @media (max-width: 1320px) { .v-jp { display: none; } }
 @media (max-width: 1000px) {
   .hero { grid-template-columns: 1fr; gap: 24px; padding-top: 110px; }
