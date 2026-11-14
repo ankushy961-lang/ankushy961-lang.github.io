@@ -14,9 +14,30 @@ if (window.top !== window.self) { try { window.top.location = window.location; }
   /* ---------- contact address, assembled at runtime so the source never carries it whole ---------- */
   $$('[data-u][data-d]').forEach((el) => {
     const addr = el.dataset.u + '@' + el.dataset.d;
-    if (el.tagName === 'A') el.setAttribute('href', 'mailto:' + addr);
+    if (el.tagName === 'A') {
+      const q = [];
+      if (el.dataset.subject) q.push('subject=' + encodeURIComponent(el.dataset.subject));
+      if (el.dataset.body) q.push('body=' + el.dataset.body.split('%0A').map(encodeURIComponent).join('%0A'));
+      el.setAttribute('href', 'mailto:' + addr + (q.length ? '?' + q.join('&') : ''));
+    }
     if (el.hasAttribute('data-show')) el.textContent = addr;
   });
+
+  const jpFont = $('#jpfont');
+  if (jpFont) { if (jpFont.sheet) jpFont.media = 'all'; else jpFont.addEventListener('load', () => { jpFont.media = 'all'; }); }
+
+  /* ---------- motion: a visible pause control for everything that moves on its own (WCAG 2.2.2) ---------- */
+  const motionBtn = $('#motionBtn');
+  let still = false;
+  try { still = localStorage.getItem('ay-still') === '1'; } catch (e) {}
+  const motionListeners = [];
+  function applyMotion() {
+    root.classList.toggle('still', still);
+    if (motionBtn) { motionBtn.setAttribute('aria-pressed', String(still)); motionBtn.setAttribute('aria-label', still ? 'Play motion' : 'Pause motion'); }
+    motionListeners.forEach((f) => f(still));
+  }
+  if (motionBtn) motionBtn.addEventListener('click', () => { still = !still; try { localStorage.setItem('ay-still', still ? '1' : '0'); } catch (e) {} applyMotion(); });
+  root.classList.toggle('still', still);
 
   /* ---------- theme ---------- */
   const themeBtn = $('#themeBtn');
@@ -54,7 +75,9 @@ if (window.top !== window.self) { try { window.top.location = window.location; }
     let cx = innerWidth / 2, cy = innerHeight / 2, tx = cx, ty = cy;
     addEventListener('pointermove', (e) => { tx = e.clientX; ty = e.clientY; }, { passive: true });
     addEventListener('pointerover', (e) => { cursor.classList.toggle('hot', !!(e.target.closest && e.target.closest('a,button,.vitrine,.phone,.laptop'))); });
-    (function loop() { cx = lerp(cx, tx, .22); cy = lerp(cy, ty, .22); cursor.style.transform = `translate(${cx}px,${cy}px)`; requestAnimationFrame(loop); })();
+    let cRaf = 0;
+    function loop() { cx = lerp(cx, tx, .22); cy = lerp(cy, ty, .22); cursor.style.transform = `translate(${cx}px,${cy}px)`; cRaf = (Math.abs(tx - cx) + Math.abs(ty - cy) > .3) ? requestAnimationFrame(loop) : 0; }
+    addEventListener('pointermove', () => { if (!cRaf) cRaf = requestAnimationFrame(loop); }, { passive: true });
   }
 
   /* ---------- scroll progress ---------- */
@@ -134,13 +157,20 @@ if (window.top !== window.self) { try { window.top.location = window.location; }
   (function ringLoop() {
     let ry = 0, vel = 0, dragging = false, moved = 0, lastX = 0, lastT = 0, front = -1;
     const cards = $$('.ring-card', ring), n = cards.length || 1;
-    const auto = reduced ? 0 : .08;
+    let auto = (reduced || still) ? 0 : .08, onscreen = true, focused = false, raf = 0;
+    motionListeners.push((s) => { auto = (reduced || s) ? 0 : .08; wake(); });
+    cards.forEach((c, i) => {
+      c.addEventListener('focus', () => { focused = true; vel = 0; const want = -i * (360 / n); ry = want + 360 * Math.round((ry - want) / 360); render(); });
+      c.addEventListener('blur', () => { focused = false; wake(); });
+    });
+    if ('IntersectionObserver' in window) new IntersectionObserver((es) => { onscreen = es[0].isIntersecting; wake(); }).observe(vitrine);
+    function wake() { if (!raf && !reduced) raf = requestAnimationFrame(tick); }
     function render() {
       ring.style.setProperty('--ry', ry.toFixed(2));
       const f = ((Math.round(-ry / (360 / n)) % n) + n) % n;
       if (f !== front) { front = f; cards.forEach((c, i) => c.classList.toggle('front', i === f)); }
     }
-    vitrine.addEventListener('pointerdown', (e) => { dragging = true; moved = 0; vitrine.classList.add('drag'); lastX = e.clientX; lastT = performance.now(); vel = 0; try { vitrine.setPointerCapture(e.pointerId); } catch (err) {} });
+    vitrine.addEventListener('pointerdown', (e) => { wake(); dragging = true; moved = 0; vitrine.classList.add('drag'); lastX = e.clientX; lastT = performance.now(); vel = 0; try { vitrine.setPointerCapture(e.pointerId); } catch (err) {} });
     vitrine.addEventListener('pointermove', (e) => {
       if (!dragging) return;
       const now = performance.now(), dx = e.clientX - lastX, dt = Math.max(1, now - lastT);
@@ -150,10 +180,14 @@ if (window.top !== window.self) { try { window.top.location = window.location; }
     vitrine.addEventListener('pointerup', up); vitrine.addEventListener('pointercancel', up);
     vitrine.addEventListener('click', (e) => { if (moved > 8) { e.preventDefault(); e.stopPropagation(); } }, true);
     if (reduced) { render(); return; }
-    (function tick() {
-      if (!dragging) { ry += vel + auto; vel *= .94; if (Math.abs(vel) < .01) vel = 0; render(); }
-      requestAnimationFrame(tick);
-    })();
+    function tick() {
+      raf = 0;
+      if (!onscreen) return;
+      const spin = focused ? 0 : auto;
+      if (!dragging) { ry += vel + spin; vel *= .94; if (Math.abs(vel) < .01) vel = 0; render(); }
+      if (dragging || vel || spin) raf = requestAnimationFrame(tick);
+    }
+    wake();
   })();
 
   /* ---------- reveals ---------- */
@@ -330,17 +364,20 @@ if (window.top !== window.self) { try { window.top.location = window.location; }
       if (quality >= 2) { geo.setDrawRange(0, Math.floor(N * .55)); shards.forEach((s, i) => { s.visible = i < 3; }); }
       if (quality >= 3) { geo.setDrawRange(0, Math.floor(N * .35)); }
     }
-    let visible = true, last = performance.now(), frames = 0, fpsT = last, fps = 60;
+    let visible = true, lost = false, paused = still, last = performance.now(), frames = 0, fpsT = last, fps = 60;
+    motionListeners.push((s) => { paused = s; last = performance.now(); });
+    canvas.addEventListener('webglcontextlost', (e) => { e.preventDefault(); lost = true; canvas.classList.remove('on'); if (telemetry) telemetry.textContent = 'STATIC MODE'; });
+    canvas.addEventListener('webglcontextrestored', () => { lost = false; canvas.classList.add('on'); });
     document.addEventListener('visibilitychange', () => { visible = !document.hidden; });
     function frame(now) {
       requestAnimationFrame(frame);
-      if (!visible) return;
+      if (!visible || lost || paused) { last = now; return; }
       const dt = Math.min(.05, (now - last) / 1000); last = now;
       frames++;
       if (now - fpsT > 1000) {
         fps = Math.round(frames * 1000 / (now - fpsT)); frames = 0; fpsT = now;
         if (fps < 45 && fps >= 8) { if (++slowSeconds >= 2) { slowSeconds = 0; stepDown(); } } else if (fps >= 45) slowSeconds = 0;
-        if (telemetry) telemetry.innerHTML = `NODES <b>${NN}</b> · SYNAPSES <b>${E}</b> · ${fps >= 30 ? '<b>' + fps + '</b> FPS' : 'LOW POWER'}${quality ? ' · Q' + (DPR_STEPS.length - quality) : ''}`;
+        if (telemetry) telemetry.textContent = `NODES ${NN} · SYNAPSES ${E} · ${fps >= 30 ? fps + ' FPS' : 'LOW POWER'}${quality ? ' · Q' + (DPR_STEPS.length - quality) : ''}`;
       }
       pointer.lerp(target, .06);
       const vis = camera.position.z * Math.tan(camera.fov * Math.PI / 360);
@@ -361,6 +398,7 @@ if (window.top !== window.self) { try { window.top.location = window.location; }
     return { retheme, room };
   })();
   watchRooms();
+  applyMotion();
 
   /* ---------- demo runner ---------- */
   function Runner(stepsEl) {

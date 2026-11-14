@@ -1,18 +1,18 @@
 # Ankush Yadav
 
-> Product builder in India. Designs, builds and ships Android, web and AI applications end to end. Five shipped apps, all running live on this site.
+> AI product builder in India. Takes products from idea to working software: Android, web, backend and AI. Five products, each with an interactive demo on this site (demos are simulations on sample data).
 
 ## What he builds
 - Android apps: Kotlin, Jetpack Compose, AGSL shaders, accessibility and foreground services, Capacitor, React Native / Expo.
 - Web and servers: React, TypeScript, Node.js, Bun, Hono, Express, Socket.IO, PostgreSQL, SQLite with vector search, Firebase.
 - AI products: voice assistants, LLM orchestration with Claude and Gemini, on-device models, long-term memory.
 
-## Shipped work (this site)
-- Strikedeck: real-time options trading desk for Indian markets. Live broker ticks, engine consensus, safety gate, paper-to-live promotion. React, Express 5, Socket.IO, PostgreSQL, Flutter clients. 1,871 source files, 763 test files.
-- Mikazuki: a voice operating system for one person on Android. Wake word, cloud and on-device brains, vector memory, on-phone execution. Kotlin, Compose, Bun, Hono, sqlite-vec.
-- Sri Hari Docs: truck paperwork for an agri-trading company. Photograph, extract, match the right truck, complete paper trail. React, Capacitor, Firebase. Hindi and English.
-- ShopConnect: offline Android retail demo with four roles and one simulated order. Expo 58, React Native, TypeScript.
-- Business toolkit (name withheld until launch): zero-budget programme with research, two-checker fact-checking, a repository validator with 14 tests, and an owner approval gate before any build phase.
+## Products (status as shown on the site)
+- Strikedeck (built, paper trading only; not investment advice): options research and paper-trading desk for Indian markets. Live broker ticks, engine consensus, safety gate, paper-to-live promotion. React, Express 5, Socket.IO, PostgreSQL, Flutter clients. 1,871 source files, 763 test files.
+- Mikazuki (built, v1.0, personal use): a voice operating system for one person on Android. Wake word, cloud and on-device brains, vector memory, on-phone execution. Kotlin, Compose, Bun, Hono, sqlite-vec.
+- Sri Hari Docs (built for a client): truck paperwork for an agri-trading company. Photograph, extract, match the right truck, complete paper trail. React, Capacitor, Firebase. Hindi and English.
+- ShopConnect (prototype, simulated): offline Android retail demo with four roles and one simulated order. Expo 58, React Native, TypeScript.
+- Business toolkit (in development, name withheld until launch): zero-budget programme with research, two-checker fact-checking, a repository validator with 14 tests, and an owner approval gate before any build phase.
 
 ## Contact
 - Email: ankushy961@gmail.com
