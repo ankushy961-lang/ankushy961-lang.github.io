@@ -49,20 +49,10 @@ if (window.top !== window.self) { try { window.top.location = window.location; }
     document.addEventListener('click', (e) => { if (!workMenu.hidden && !e.target.closest('.dock-work')) setWork(false); });
   }
 
-  /* ---------- theme ---------- */
-  const themeBtn = $('#themeBtn');
-  function currentTheme() {
-    const t = root.getAttribute('data-theme');
-    if (t) return t;
-    return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
-  }
-  try { const s = localStorage.getItem('ay-theme'); if (s) root.setAttribute('data-theme', s); } catch (e) {}
-  themeBtn.addEventListener('click', () => {
-    const next = currentTheme() === 'dark' ? 'light' : 'dark';
-    root.setAttribute('data-theme', next);
-    try { localStorage.setItem('ay-theme', next); } catch (e) {}
-    field.retheme();
-  });
+  /* ---------- theme: one dark theme by design ---------- */
+  root.setAttribute('data-theme', 'dark');
+  try { localStorage.removeItem('ay-theme'); } catch (e) {}
+  const currentTheme = () => 'dark';
 
   /* ---------- boot ---------- */
   const boot = $('#boot');
@@ -167,7 +157,21 @@ if (window.top !== window.self) { try { window.top.location = window.location; }
   (function ringLoop() {
     let ry = 0, vel = 0, dragging = false, moved = 0, lastX = 0, lastT = 0, front = -1;
     const cards = $$('.ring-card', ring), n = cards.length || 1;
-    let auto = (reduced || still) ? 0 : .08, onscreen = true, focused = false, raf = 0;
+    let auto = (reduced || still) ? 0 : .08, onscreen = true, focused = false, raf = 0, target = null, holdUntil = 0, skip = false;
+    const marks = $$('.dial-mark', ring);
+    const parts = cards.map((c) => ({ rp: $('.rp', c), glare: $('.rp-glare', c), shade: $('.rp-shade', c), face: -1, sx: 9 }));
+    /* glide to a product: eased, holds still for a moment so it can be read, then the idle spin resumes */
+    function goTo(k) {
+      const want = -(((k % n) + n) % n) * (360 / n);
+      target = want + 360 * Math.round((ry - want) / 360); vel = 0;
+      if (reduced) { ry = target; target = null; render(); return; }
+      holdUntil = performance.now() + 4500; setTimeout(wake, 4600); wake();
+    }
+    [['#ringPrev', -1], ['#ringNext', 1]].forEach(([sel, d]) => {
+      const b = $(sel); if (!b) return;
+      b.addEventListener('pointerdown', (e) => e.stopPropagation());
+      b.addEventListener('click', (e) => { e.stopPropagation(); goTo(front + d); });
+    });
     motionListeners.push((s) => { auto = (reduced || s) ? 0 : .08; wake(); });
     cards.forEach((c, i) => {
       c.addEventListener('focus', () => { focused = true; vel = 0; const want = -i * (360 / n); ry = want + 360 * Math.round((ry - want) / 360); render(); });
@@ -183,13 +187,16 @@ if (window.top !== window.self) { try { window.top.location = window.location; }
     function render() {
       ring.style.setProperty('--ry', ry.toFixed(2));
       cards.forEach((c, i) => {
-        const a = ((ry + i * (360 / n)) % 360 + 360) % 360, cos = Math.cos(a * Math.PI / 180);
-        const f = Math.max(0, cos); c.style.setProperty('--face', (f * f).toFixed(3));
+        const a = ((ry + i * (360 / n)) % 360 + 360) % 360, rad = a * Math.PI / 180;
+        const f = Math.max(0, Math.cos(rad)), face = f * f, sx = Math.sin(rad), m = parts[i];
+        // write only when the change is visible: fewer style recalcs and repaints per frame
+        if (Math.abs(face - m.face) > .01) { m.face = face; c.style.setProperty('--face', face.toFixed(3)); m.shade.style.opacity = ((1 - face) * .66).toFixed(3); }
+        if (Math.abs(sx - m.sx) > .035) { m.sx = sx; const v = sx.toFixed(3); m.rp.style.setProperty('--sx', v); m.glare.style.setProperty('--sx', v); }
       });
       const f = ((Math.round(-ry / (360 / n)) % n) + n) % n;
-      if (f !== front) { front = f; cards.forEach((c, i) => c.classList.toggle('front', i === f)); }
+      if (f !== front) { front = f; cards.forEach((c, i) => c.classList.toggle('front', i === f)); marks.forEach((m, i) => m.classList.toggle('on', i === f)); }
     }
-    vitrine.addEventListener('pointerdown', (e) => { wake(); dragging = true; moved = 0; vitrine.classList.add('drag'); lastX = e.clientX; lastT = performance.now(); vel = 0; try { vitrine.setPointerCapture(e.pointerId); } catch (err) {} });
+    vitrine.addEventListener('pointerdown', (e) => { wake(); target = null; holdUntil = 0; dragging = true; moved = 0; vitrine.classList.add('drag'); lastX = e.clientX; lastT = performance.now(); vel = 0; try { vitrine.setPointerCapture(e.pointerId); } catch (err) {} });
     vitrine.addEventListener('pointermove', (e) => {
       if (!dragging) return;
       const now = performance.now(), dx = e.clientX - lastX, dt = Math.max(1, now - lastT);
@@ -197,14 +204,20 @@ if (window.top !== window.self) { try { window.top.location = window.location; }
     });
     const up = () => { dragging = false; vitrine.classList.remove('drag'); };
     vitrine.addEventListener('pointerup', up); vitrine.addEventListener('pointercancel', up);
-    vitrine.addEventListener('click', (e) => { if (moved > 8) { e.preventDefault(); e.stopPropagation(); } }, true);
+    vitrine.addEventListener('click', (e) => { if (e.target.closest('.ring-btn')) return; if (moved > 8) { e.preventDefault(); e.stopPropagation(); } moved = 0; }, true);
     if (reduced) { render(); return; }
     function tick() {
       raf = 0;
       if (!onscreen) return;
-      const spin = focused ? 0 : auto;
-      if (!dragging) { ry += vel + spin; vel *= .94; if (Math.abs(vel) < .01) vel = 0; render(); }
-      if (dragging || vel || spin) raf = requestAnimationFrame(tick);
+      const spin = (focused || target !== null || performance.now() < holdUntil) ? 0 : auto;
+      const idle = !dragging && target === null && !vel;
+      if (idle && spin && (skip = !skip)) { raf = requestAnimationFrame(tick); return; }
+      if (!dragging) {
+        if (target !== null) { ry += (target - ry) * .14; if (Math.abs(target - ry) < .05) { ry = target; target = null; } }
+        else { ry += vel + (idle ? spin * 2 : spin); vel *= .94; if (Math.abs(vel) < .01) vel = 0; }
+        render();
+      }
+      if (dragging || vel || spin || target !== null) raf = requestAnimationFrame(tick);
     }
     wake();
   })();
@@ -584,6 +597,25 @@ if (window.top !== window.self) { try { window.top.location = window.location; }
       setLabel(b, on ? 'Hide the build' : 'Show the build');
     });
   });
+
+  /* ---------- product showcase: loaded on first use so the homepage stays light ---------- */
+  let sxLoading = null;
+  function loadShowcase() {
+    if (window.SX) return Promise.resolve();
+    if (sxLoading) return sxLoading;
+    const v = (($('script[src*="app.js"]') || {}).src || '').split('?')[1] || '';
+    sxLoading = new Promise((res, rej) => {
+      const css = document.createElement('link'); css.rel = 'stylesheet'; css.href = 'showcase.css' + (v ? '?' + v : ''); document.head.appendChild(css);
+      const s = document.createElement('script'); s.src = 'showcase.js' + (v ? '?' + v : ''); s.onload = () => res(); s.onerror = rej; document.head.appendChild(s);
+    });
+    return sxLoading;
+  }
+  $$('[data-explore]').forEach((b) => b.addEventListener('click', async () => {
+    const label = b.innerHTML; b.setAttribute('aria-busy', 'true'); b.textContent = 'Opening…';
+    try { await loadShowcase(); window.SX.open(b.dataset.explore); }
+    catch (e) { b.textContent = 'Could not open. Try again'; console.error(e); }
+    finally { b.removeAttribute('aria-busy'); setTimeout(() => { b.innerHTML = label; }, 300); }
+  }));
 
   /* ---------- wire run buttons with visible states + autoplay on first view ---------- */
   const running = new Set();

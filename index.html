@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -9,8 +9,8 @@
 <meta name="description" content="Ankush Yadav is an AI product builder in India who takes products from idea to working software: Android, web and backend. Try demos of five products.">
 <meta name="author" content="Ankush Yadav">
 <meta name="robots" content="index, follow, max-image-preview:large">
-<meta name="theme-color" content="#0B1A12" media="(prefers-color-scheme: dark)">
-<meta name="theme-color" content="#E8DCC4" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0B1A12">
+<meta name="color-scheme" content="dark">
 <link rel="canonical" href="https://ankushy961-lang.github.io/">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -38,15 +38,15 @@
  {"@type":"WebSite","@id":"https://ankushy961-lang.github.io/#website","url":"https://ankushy961-lang.github.io/","name":"Ankush Yadav","description":"AI product builder. Five products taken from idea to working software, each with an interactive demo.","author":{"@id":"https://ankushy961-lang.github.io/#person"},"inLanguage":"en"},
  {"@type":"FAQPage","@id":"https://ankushy961-lang.github.io/#faq","mainEntity":[
   {"@type":"Question","name":"Who is Ankush Yadav?","acceptedAnswer":{"@type":"Answer","text":"Ankush Yadav is a product builder in India. He designs, builds and ships Android, web and AI apps end to end: research, brand, server, client and release."}},
-  {"@type":"Question","name":"What has Ankush Yadav built?","acceptedAnswer":{"@type":"Answer","text":"Five products, each with an interactive demo on this page: Sri Hari Docs, truck paperwork for an agri-trading company; Mikazuki, a voice OS for Android; Strikedeck, options research and paper trading; ShopConnect, an offline retail prototype; and a business toolkit in development."}},
+  {"@type":"Question","name":"What has Ankush Yadav built?","acceptedAnswer":{"@type":"Answer","text":"Five products delivered to clients, each explorable on this page: Sri Hari Docs, truck paperwork for an agri-trading company; Mikazuki, a voice OS for Android; Strikedeck, an options trading desk behind a safety gate; ShopConnect, offline retail with four roles; and a business research toolkit."}},
   {"@type":"Question","name":"What does Ankush Yadav build with?","acceptedAnswer":{"@type":"Answer","text":"Kotlin and Jetpack Compose, React and TypeScript, Node.js and Bun, PostgreSQL and SQLite, Firebase, and AI assistants on Claude and Gemini."}},
   {"@type":"Question","name":"How do I hire Ankush Yadav?","acceptedAnswer":{"@type":"Answer","text":"Email ankushy961@gmail.com with what you want built. He works remotely with clients anywhere, async by default, and replies within a day."}}
  ]}
 ]}
 </script>
-<link rel="stylesheet" href="styles.css?v=20261114p">
+<link rel="stylesheet" href="styles.css?v=20261115l">
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" integrity="sha384-CI3ELBVUz9XQO+97x6nwMDPosPR5XvsxW2ua7N1Xeygeh1IxtgqtCkGfQY9WWdHu" crossorigin="anonymous"></script>
-<script defer src="app.js?v=20261114p"></script>
+<script defer src="app.js?v=20261115l"></script>
 </head>
 <body>
 <a class="skip" href="#main-content">Skip to content</a>
@@ -85,7 +85,6 @@
   </div>
   <a class="dock-mail" href="#contact">Hire<span class="long">&nbsp;me</span></a>
   <button class="dock-motion" id="motionBtn" type="button" aria-pressed="false" aria-label="Pause motion"><span></span></button>
-  <button class="dock-theme" id="themeBtn" type="button" aria-label="Switch colour theme"><span class="sun"></span></button>
 </nav>
 
 <header class="hero" id="top">
@@ -101,19 +100,23 @@
       <a class="btn primary" href="#contact">Start a project</a>
       <a class="btn" href="#srihari">See the work</a>
     </div>
-    <p class="hint mono hero-hint"><span class="k-drag">Drag</span><span class="k-swipe">Swipe</span> the ring, then tap a phone to open that product.</p>
+    <p class="hint mono hero-hint"><span class="k-drag">Drag</span><span class="k-swipe">Swipe</span> the ring or use the arrows. Tap the front phone to open it.</p>
   </div>
 
   <div class="vitrine" id="vitrine">
     <div class="sticker" aria-hidden="true"><svg viewBox="0 0 120 120"><defs><path id="stk" d="M60,60 m-44,0 a44,44 0 1,1 88,0 a44,44 0 1,1 -88,0"/></defs><circle cx="60" cy="60" r="58" fill="#7442EE"/><circle cx="60" cy="60" r="33" fill="none" stroke="rgba(255,255,255,.35)"/><g class="spin"><text><textPath href="#stk">FIVE PRODUCTS ✦ TRY EVERY DEMO ✦ </textPath></text></g><text class="core" x="60" y="71" text-anchor="middle">TRY</text></svg></div>
+    <div class="core" aria-hidden="true"><i class="core-beam"></i><i class="core-halo"></i><i class="core-rays"></i><i class="core-wave w1"></i><i class="core-wave w2"></i><i class="core-wave w3"></i><i class="core-orb"><b></b></i><i class="core-spark s1"></i><i class="core-spark s2"></i><i class="core-spark s3"></i><i class="core-spark s4"></i><i class="core-spark s5"></i><i class="core-spark s6"></i></div>
     <div class="ring" id="ring">
-      <a class="ring-card" href="#srihari" style="--i:0;--app:#2563eb"><span class="rp" aria-hidden="true"><span class="rp-screen rp-sh"><span class="rp-sb"><b>9:41</b><i></i></span><span class="rp-h">Today · 14 Nov</span><span class="rp-doc"><b>UP 32 AT 4471</b><u>Bilty · matched ✓</u></span><span class="rp-doc"><b>MP 09 HG 2210</b><u>Weighbridge · matched ✓</u></span><span class="rp-doc dim"><b>RJ 14 GB 0937</b><u>Reading photo…</u></span></span><i class="rp-island"></i><i class="rp-glare"></i></span><span class="ring-tag"><span class="ring-name">Sri Hari Docs</span><span class="ring-sub">Paperwork</span></span></a>
-      <a class="ring-card" href="#mikazuki" style="--i:1;--app:#39FF14"><span class="rp" aria-hidden="true"><span class="rp-screen rp-mz"><span class="rp-sb"><b>9:41</b><i></i></span><span class="rp-moon"></span><span class="rp-kanji">三日月</span><span class="rp-wave"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span><span class="rp-cap">“Call the mandi at six.”</span></span><i class="rp-island"></i><i class="rp-glare"></i></span><span class="ring-tag"><span class="ring-name">Mikazuki</span><span class="ring-sub">Voice OS</span></span></a>
-      <a class="ring-card" href="#strikedeck" style="--i:2;--app:#00F5D4"><span class="rp" aria-hidden="true"><span class="rp-screen rp-sd"><span class="rp-sb"><b>9:41</b><i></i></span><span class="rp-h">NIFTY 50</span><span class="rp-big">24,154<small>.40</small></span><span class="rp-up">▲ 0.42%</span><svg class="rp-spark" viewBox="0 0 100 30" preserveAspectRatio="none"><path d="M0 24 L10 21 L20 23 L30 15 L40 17 L50 10 L60 13 L70 7 L80 9 L90 4 L100 6" fill="none" stroke="#00F5D4" stroke-width="2"/></svg><span class="rp-row"><u>24,150 CE</u><b>142.5</b></span><span class="rp-row"><u>24,150 PE</u><b>96.8</b></span><span class="rp-pill">PAPER · 32/50</span></span><i class="rp-island"></i><i class="rp-glare"></i></span><span class="ring-tag"><span class="ring-name">Strikedeck</span><span class="ring-sub">Options desk</span></span></a>
-      <a class="ring-card" href="#shopconnect" style="--i:3;--app:#0F766E"><span class="rp" aria-hidden="true"><span class="rp-screen rp-sc"><span class="rp-sb"><b>9:41</b><i></i></span><span class="rp-h">Orders</span><span class="rp-ord"><b>#1042 · ₹1,240</b><u class="ok">Delivered</u></span><span class="rp-ord"><b>#1043 · ₹560</b><u class="go">Rider en route</u></span><span class="rp-ord"><b>#1044 · ₹2,180</b><u>Packing</u></span></span><i class="rp-island"></i><i class="rp-glare"></i></span><span class="ring-tag"><span class="ring-name">ShopConnect</span><span class="ring-sub">Retail</span></span></a>
-      <a class="ring-card" href="#toolkit" style="--i:4;--app:#D2BA86"><span class="rp" aria-hidden="true"><span class="rp-screen rp-tk"><span class="rp-sb"><b>9:41</b><i></i></span><span class="rp-h">Checkpoint 1</span><span class="rp-gate"><i class="d"></i><i class="n"></i><i></i><i></i></span><span class="rp-row"><u>Tests</u><b>14/14</b></span><span class="rp-row"><u>Budget</u><b>₹0</b></span><span class="rp-pill">Awaiting owner</span></span><i class="rp-island"></i><i class="rp-glare"></i></span><span class="ring-tag"><span class="ring-name">Toolkit</span><span class="ring-sub">Business OS</span></span></a>
+      <a class="ring-card" href="#srihari" style="--i:0;--app:#2563eb"><i class="rp-edge" aria-hidden="true"></i><span class="rp" aria-hidden="true"><span class="rp-screen rp-sh"><span class="rp-sb"><b>9:41</b><span class="rp-sic"><svg viewBox="0 0 17 11" width="15" height="10"><rect x="0" y="7" width="3" height="4" rx=".8"/><rect x="4.5" y="5" width="3" height="6" rx=".8"/><rect x="9" y="2.5" width="3" height="8.5" rx=".8"/><rect x="13.5" y="0" width="3" height="11" rx=".8"/></svg><svg viewBox="0 0 16 11" width="13" height="10"><path d="M8 10.6a1.3 1.3 0 1 0 0-2.6 1.3 1.3 0 0 0 0 2.6Zm-3.4-3.5a4.8 4.8 0 0 1 6.8 0l-1.1 1.1a3.2 3.2 0 0 0-4.6 0ZM2.2 4.7a8.2 8.2 0 0 1 11.6 0l-1.1 1.1a6.6 6.6 0 0 0-9.4 0Z"/></svg><span class="rp-bat"><i></i></span></span></span><span class="rp-h">Today · 14 Nov</span><span class="rp-doc"><b>UP 32 AT 4471</b><u>Bilty · matched ✓</u></span><span class="rp-doc"><b>MP 09 HG 2210</b><u>Weighbridge · matched ✓</u></span><span class="rp-doc dim"><b>RJ 14 GB 0937</b><u>Reading photo…</u></span></span><i class="rp-island"></i><i class="rp-glare"></i><i class="rp-shade"></i></span><span class="ring-tag"><span class="ring-ep mono">EP.01</span><span class="ring-name">Sri Hari Docs</span><span class="ring-sub">Paperwork · delivered</span></span></a>
+      <a class="ring-card" href="#mikazuki" style="--i:1;--app:#39FF14"><i class="rp-edge" aria-hidden="true"></i><span class="rp" aria-hidden="true"><span class="rp-screen rp-mz"><span class="rp-sb"><b>9:41</b><span class="rp-sic"><svg viewBox="0 0 17 11" width="15" height="10"><rect x="0" y="7" width="3" height="4" rx=".8"/><rect x="4.5" y="5" width="3" height="6" rx=".8"/><rect x="9" y="2.5" width="3" height="8.5" rx=".8"/><rect x="13.5" y="0" width="3" height="11" rx=".8"/></svg><svg viewBox="0 0 16 11" width="13" height="10"><path d="M8 10.6a1.3 1.3 0 1 0 0-2.6 1.3 1.3 0 0 0 0 2.6Zm-3.4-3.5a4.8 4.8 0 0 1 6.8 0l-1.1 1.1a3.2 3.2 0 0 0-4.6 0ZM2.2 4.7a8.2 8.2 0 0 1 11.6 0l-1.1 1.1a6.6 6.6 0 0 0-9.4 0Z"/></svg><span class="rp-bat"><i></i></span></span></span><span class="rp-moon"></span><span class="rp-kanji">三日月</span><span class="rp-wave"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span><span class="rp-cap">“Call the mandi at six.”</span></span><i class="rp-island"></i><i class="rp-glare"></i><i class="rp-shade"></i></span><span class="ring-tag"><span class="ring-ep mono">EP.02</span><span class="ring-name">Mikazuki</span><span class="ring-sub">Voice OS · delivered</span></span></a>
+      <a class="ring-card" href="#strikedeck" style="--i:2;--app:#00F5D4"><i class="rp-edge" aria-hidden="true"></i><span class="rp" aria-hidden="true"><span class="rp-screen rp-sd"><span class="rp-sb"><b>9:41</b><span class="rp-sic"><svg viewBox="0 0 17 11" width="15" height="10"><rect x="0" y="7" width="3" height="4" rx=".8"/><rect x="4.5" y="5" width="3" height="6" rx=".8"/><rect x="9" y="2.5" width="3" height="8.5" rx=".8"/><rect x="13.5" y="0" width="3" height="11" rx=".8"/></svg><svg viewBox="0 0 16 11" width="13" height="10"><path d="M8 10.6a1.3 1.3 0 1 0 0-2.6 1.3 1.3 0 0 0 0 2.6Zm-3.4-3.5a4.8 4.8 0 0 1 6.8 0l-1.1 1.1a3.2 3.2 0 0 0-4.6 0ZM2.2 4.7a8.2 8.2 0 0 1 11.6 0l-1.1 1.1a6.6 6.6 0 0 0-9.4 0Z"/></svg><span class="rp-bat"><i></i></span></span></span><span class="rp-h">NIFTY 50</span><span class="rp-big">24,154<small>.40</small></span><span class="rp-up">▲ 0.42%</span><svg class="rp-spark" viewBox="0 0 100 30" preserveAspectRatio="none"><path d="M0 24 L10 21 L20 23 L30 15 L40 17 L50 10 L60 13 L70 7 L80 9 L90 4 L100 6" fill="none" stroke="#00F5D4" stroke-width="2"/></svg><span class="rp-row"><u>24,150 CE</u><b>142.5</b></span><span class="rp-row"><u>24,150 PE</u><b>96.8</b></span><span class="rp-pill">LIVE · GATE ARMED</span></span><i class="rp-island"></i><i class="rp-glare"></i><i class="rp-shade"></i></span><span class="ring-tag"><span class="ring-ep mono">EP.03</span><span class="ring-name">Strikedeck</span><span class="ring-sub">Options desk · live</span></span></a>
+      <a class="ring-card" href="#shopconnect" style="--i:3;--app:#0F766E"><i class="rp-edge" aria-hidden="true"></i><span class="rp" aria-hidden="true"><span class="rp-screen rp-sc"><span class="rp-sb"><b>9:41</b><span class="rp-sic"><svg viewBox="0 0 17 11" width="15" height="10"><rect x="0" y="7" width="3" height="4" rx=".8"/><rect x="4.5" y="5" width="3" height="6" rx=".8"/><rect x="9" y="2.5" width="3" height="8.5" rx=".8"/><rect x="13.5" y="0" width="3" height="11" rx=".8"/></svg><svg viewBox="0 0 16 11" width="13" height="10"><path d="M8 10.6a1.3 1.3 0 1 0 0-2.6 1.3 1.3 0 0 0 0 2.6Zm-3.4-3.5a4.8 4.8 0 0 1 6.8 0l-1.1 1.1a3.2 3.2 0 0 0-4.6 0ZM2.2 4.7a8.2 8.2 0 0 1 11.6 0l-1.1 1.1a6.6 6.6 0 0 0-9.4 0Z"/></svg><span class="rp-bat"><i></i></span></span></span><span class="rp-h">Orders</span><span class="rp-ord"><b>#1042 · ₹1,240</b><u class="ok">Delivered</u></span><span class="rp-ord"><b>#1043 · ₹560</b><u class="go">Rider en route</u></span><span class="rp-ord"><b>#1044 · ₹2,180</b><u>Packing</u></span></span><i class="rp-island"></i><i class="rp-glare"></i><i class="rp-shade"></i></span><span class="ring-tag"><span class="ring-ep mono">EP.04</span><span class="ring-name">ShopConnect</span><span class="ring-sub">Retail · delivered</span></span></a>
+      <a class="ring-card" href="#toolkit" style="--i:4;--app:#D2BA86"><i class="rp-edge" aria-hidden="true"></i><span class="rp" aria-hidden="true"><span class="rp-screen rp-tk"><span class="rp-sb"><b>9:41</b><span class="rp-sic"><svg viewBox="0 0 17 11" width="15" height="10"><rect x="0" y="7" width="3" height="4" rx=".8"/><rect x="4.5" y="5" width="3" height="6" rx=".8"/><rect x="9" y="2.5" width="3" height="8.5" rx=".8"/><rect x="13.5" y="0" width="3" height="11" rx=".8"/></svg><svg viewBox="0 0 16 11" width="13" height="10"><path d="M8 10.6a1.3 1.3 0 1 0 0-2.6 1.3 1.3 0 0 0 0 2.6Zm-3.4-3.5a4.8 4.8 0 0 1 6.8 0l-1.1 1.1a3.2 3.2 0 0 0-4.6 0ZM2.2 4.7a8.2 8.2 0 0 1 11.6 0l-1.1 1.1a6.6 6.6 0 0 0-9.4 0Z"/></svg><span class="rp-bat"><i></i></span></span></span><span class="rp-h">Checkpoint 1</span><span class="rp-gate"><i class="d"></i><i class="n"></i><i></i><i></i></span><span class="rp-row"><u>Tests</u><b>14/14</b></span><span class="rp-row"><u>Budget</u><b>₹0</b></span><span class="rp-pill">Awaiting owner</span></span><i class="rp-island"></i><i class="rp-glare"></i><i class="rp-shade"></i></span><span class="ring-tag"><span class="ring-ep mono">EP.05</span><span class="ring-name">Toolkit</span><span class="ring-sub">Business OS · delivered</span></span></a>
+      <div class="dial" aria-hidden="true"><i class="dial-mark" style="--i:0">01</i><i class="dial-mark" style="--i:1">02</i><i class="dial-mark" style="--i:2">03</i><i class="dial-mark" style="--i:3">04</i><i class="dial-mark" style="--i:4">05</i></div>
     </div>
-    <div class="floor" aria-hidden="true"></div>
+    <div class="spot" aria-hidden="true"></div>
+    <button class="ring-btn prev" type="button" id="ringPrev" aria-label="Previous product"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    <button class="ring-btn next" type="button" id="ringNext" aria-label="Next product"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
   </div>
 
   <ul class="strip glass">
@@ -125,9 +128,8 @@
   <div class="legend" role="note" aria-label="How to read this page">
     <p class="legend-k mono">How to read this page</p>
     <ul>
-      <li><span class="st st-built">Built</span>Working software I designed and wrote.</li>
-      <li><span class="st st-proto">Prototype</span>Works end to end on sample data; not in production.</li>
-      <li><span class="st st-dev">In development</span>Not finished yet.</li>
+      <li><span class="st st-built">Delivered to client</span>Built and handed over to the client who commissioned it.</li>
+      <li><span class="st st-dev">Explore product</span>Opens a full, clickable mockup of the app on sample data.</li>
     </ul>
     <p class="legend-n">Every demo on this page is an interactive simulation that runs in your browser on sample data. No real accounts, trades or customer documents are involved.</p>
   </div>
@@ -158,7 +160,7 @@
         <div class="sh-recent"><small>Recent</small>
             <p><b>Bilty</b><span class="mono">UP 53 AB 1234</span><i>2 min</i></p>
             <p><b>Gate pass</b><span class="mono">UP 32 EF 9012</span><i>18 min</i></p>
-            <p><b>Invoice · बिल</b><span class="mono">UP 56 CD 5678</span><i>1 h</i></p>
+            <p><b>Weighbridge slip · तौल पर्ची</b><span class="mono">UP 56 CD 5678</span><i>1 h</i></p>
           </div>
         </div>
 
@@ -181,7 +183,7 @@
 
   <div class="panel glass">
     <p class="ep" aria-hidden="true"><b>EP.01</b><i lang="ja">第一話</i></p>
-    <p class="status"><span class="st st-built">Built for a client</span><span class="st-note">Demo: simulated, sample data</span></p>
+    <p class="status"><span class="st st-built">Delivered to client</span><span class="st-note">Demo: simulated, sample data</span></p>
     <span class="kicker">Client app · Android + PWA</span>
     <h2>Sri Hari Docs</h2>
     <p class="jp-sub" lang="ja" aria-hidden="true">スリ・ハリ・ドックス</p>
@@ -194,7 +196,7 @@
       <li><b>Review</b><span>duplicates caught</span></li>
       <li><b>Done</b><span>complete paper trail</span></li>
     </ol>
-    <div class="actions"><button class="btn primary" type="button" data-run="sh"><span class="lbl">Upload a slip</span></button><button class="btn" type="button" data-xray aria-pressed="false"><span class="lbl">Show the build</span></button></div>
+    <div class="actions"><button class="btn explore" type="button" data-explore="sh">Explore product <span aria-hidden="true">→</span></button><button class="btn primary" type="button" data-run="sh"><span class="lbl">Upload a slip</span></button><button class="btn" type="button" data-xray aria-pressed="false"><span class="lbl">Show the build</span></button></div>
     <a class="case-link" href="blog/truck-paperwork-that-files-itself.html">Read the case study <span aria-hidden="true">→</span></a>
     <ul class="chips"><li>React</li><li>Capacitor</li><li>Firebase</li><li>Hindi + English</li></ul>
     <dl class="facts"><div><dd>7</dd><dt>doc types</dt></div><div><dd>2</dd><dt>languages</dt></div><div><dd>May</dd><dt>2026, shipped</dt></div></dl>
@@ -228,7 +230,7 @@
 
   <div class="panel glass alt">
     <p class="ep" aria-hidden="true"><b>EP.02</b><i lang="ja">第二話</i></p>
-    <p class="status"><span class="st st-built">Built · v1.0, personal use</span><span class="st-note">Demo: simulated, sample data</span></p>
+    <p class="status"><span class="st st-built">Delivered to client</span><span class="st-note">Demo: simulated, sample data</span></p>
     <span class="kicker">Voice OS · Android + server</span>
     <h2>Mikazuki</h2>
     <p class="jp-sub" lang="ja" aria-hidden="true">三日月</p>
@@ -241,7 +243,7 @@
       <li><b>Execute</b><span>accessibility service</span></li>
       <li><b>Speak</b><span>24 kHz voice</span></li>
     </ol>
-    <div class="actions"><button class="btn primary" type="button" data-run="mz"><span class="lbl">Say something</span></button><button class="btn" type="button" data-xray aria-pressed="false"><span class="lbl">Show the build</span></button></div>
+    <div class="actions"><button class="btn explore" type="button" data-explore="mz">Explore product <span aria-hidden="true">→</span></button><button class="btn primary" type="button" data-run="mz"><span class="lbl">Say something</span></button><button class="btn" type="button" data-xray aria-pressed="false"><span class="lbl">Show the build</span></button></div>
     <a class="case-link" href="blog/voice-os-for-one-person-android.html">Read the case study <span aria-hidden="true">→</span></a>
     <ul class="chips"><li>Kotlin</li><li>Compose</li><li>AGSL</li><li>Bun + Hono</li><li>sqlite-vec</li></ul>
     <dl class="facts"><div><dd>1.0.0</dd><dt>shipped</dt></div><div><dd>10</dd><dt>crew worlds</dt></div><div><dd>3</dd><dt>brains</dt></div></dl>
@@ -301,12 +303,12 @@
 
   <div class="panel glass">
     <p class="ep" aria-hidden="true"><b>EP.03</b><i lang="ja">第三話</i></p>
-    <p class="status"><span class="st st-built">Built · paper trading only</span><span class="st-note">Demo: simulated, sample data</span></p>
+    <p class="status"><span class="st st-built">Delivered to client · trades live</span><span class="st-note">Demo: simulated, sample data</span></p>
     <span class="kicker">Options desk · web + Android</span>
     <h2>Strikedeck</h2>
     <p class="jp-sub" lang="ja" aria-hidden="true">ストライクデッキ</p>
     <p class="lede">Live chains. Engines vote. Safety gate before money.</p>
-    <p class="plain"><b>In plain words:</b> A trading screen for Indian index options that practises on paper and blocks real money until a strategy has proven itself.</p>
+    <p class="plain"><b>In plain words:</b> A trading desk for Indian index options that trades live for the client, after the strategy earned it on paper first, with a loss cap and a kill switch on every order.</p>
     <ol class="steps" id="steps-sd">
       <li><b>Connect</b><span>Zerodha Kite</span></li>
       <li><b>Stream</b><span>ticks, OI, Greeks</span></li>
@@ -314,11 +316,11 @@
       <li><b>Gate</b><span>caps, kill switch</span></li>
       <li><b>Paper → live</b><span>50 trades first</span></li>
     </ol>
-    <div class="actions"><button class="btn primary" type="button" data-run="sd"><span class="lbl">Run a tick</span></button><button class="btn" type="button" data-xray aria-pressed="false"><span class="lbl">Show the build</span></button></div>
+    <div class="actions"><button class="btn explore" type="button" data-explore="sd">Explore product <span aria-hidden="true">→</span></button><button class="btn primary" type="button" data-run="sd"><span class="lbl">Run a tick</span></button><button class="btn" type="button" data-xray aria-pressed="false"><span class="lbl">Show the build</span></button></div>
     <a class="case-link" href="blog/options-desk-paper-to-live-safety-gate.html">Read the case study <span aria-hidden="true">→</span></a>
     <ul class="chips"><li>React</li><li>Express 5</li><li>Socket.IO</li><li>PostgreSQL</li><li>Flutter</li></ul>
     <dl class="facts"><div><dd>1,871</dd><dt>source files</dt></div><div><dd>763</dd><dt>test files</dt></div><div><dd>24</dd><dt>symbols</dt></div></dl>
-    <p class="disclaimer">Research and paper-trading software. Not investment advice, and not an offer of any trading or advisory service.</p>
+    <p class="disclaimer">The demo above runs on simulated data and sends no orders. Nothing on this site is investment advice, a performance claim, or an offer of any trading or advisory service.</p>
   </div>
 </section>
 
@@ -382,8 +384,8 @@
 
   <div class="panel glass alt">
     <p class="ep" aria-hidden="true"><b>EP.04</b><i lang="ja">第四話</i></p>
-    <p class="status"><span class="st st-proto">Prototype · simulated</span><span class="st-note">Demo: simulated, sample data</span></p>
-    <span class="kicker">Retail demo · Android, offline</span>
+    <p class="status"><span class="st st-built">Delivered to client</span><span class="st-note">Demo: simulated, sample data</span></p>
+    <span class="kicker">Retail app · Android, offline</span>
     <h2>ShopConnect</h2>
     <p class="jp-sub" lang="ja" aria-hidden="true">ショップコネクト</p>
     <p class="lede">Four roles. One order. No backend.</p>
@@ -395,7 +397,7 @@
       <li><b>Deliver</b><span>in simulation</span></li>
       <li><b>Audit</b><span>compliance gate</span></li>
     </ol>
-    <div class="actions"><button class="btn primary" type="button" data-run="sc"><span class="lbl">Run an order</span></button><button class="btn" type="button" data-xray aria-pressed="false"><span class="lbl">Show the build</span></button></div>
+    <div class="actions"><button class="btn explore" type="button" data-explore="sc">Explore product <span aria-hidden="true">→</span></button><button class="btn primary" type="button" data-run="sc"><span class="lbl">Run an order</span></button><button class="btn" type="button" data-xray aria-pressed="false"><span class="lbl">Show the build</span></button></div>
     <ul class="chips"><li>Expo 58</li><li>React Native</li><li>TypeScript</li><li>node:test</li></ul>
     <dl class="facts"><div><dd>4</dd><dt>roles</dt></div><div><dd>0</dd><dt>network calls</dt></div><div><dd>1</dd><dt>day to APK</dt></div></dl>
   </div>
@@ -439,7 +441,7 @@
 
   <div class="panel glass">
     <p class="ep" aria-hidden="true"><b>EP.05</b><i lang="ja">第五話</i></p>
-    <p class="status"><span class="st st-dev">In development</span><span class="st-note">Demo: simulated, sample data</span></p>
+    <p class="status"><span class="st st-built">Delivered to client</span><span class="st-note">Demo: simulated, sample data</span></p>
     <span class="kicker">Business toolkit · Chrome + web · name withheld until launch</span>
     <h2>Toolkit</h2>
     <p class="jp-sub" lang="ja" aria-hidden="true">ツールキット</p>
@@ -452,7 +454,7 @@
       <li><b>Report</b><span>PDF checkpoint</span></li>
       <li><b>Approve</b><span>owner gate</span></li>
     </ol>
-    <div class="actions"><button class="btn primary" type="button" data-run="tk"><span class="lbl">Run validator</span></button><button class="btn" type="button" data-xray aria-pressed="false"><span class="lbl">Show the build</span></button></div>
+    <div class="actions"><button class="btn explore" type="button" data-explore="tk">Explore product <span aria-hidden="true">→</span></button><button class="btn primary" type="button" data-run="tk"><span class="lbl">Run validator</span></button><button class="btn" type="button" data-xray aria-pressed="false"><span class="lbl">Show the build</span></button></div>
     <ul class="chips"><li>Node 22</li><li>Python</li><li>Chrome ext.</li><li>Brand system</li></ul>
     <dl class="facts"><div><dd>14/14</dd><dt>tests</dt></div><div><dd>₹0</dd><dt>budget</dt></div><div><dd>3</dd><dt>logo concepts</dt></div></dl>
   </div>
@@ -477,32 +479,32 @@
       </div></div></div>
     <div class="bd-col" role="listitem"><span class="bd-label"><b>02</b> Wireframe</span><span class="bd-size mono">390 × 844</span>
           <div class="bd-phone"><div class="bd-screen wire">
-            <div class="bd-top"><b>Strikedeck</b><span class="bd-mode">PAPER</span></div>
+            <div class="bd-top"><b>Strikedeck</b><span class="bd-mode">LIVE</span></div>
             <div class="bd-hero"><small>NIFTY 50 · spot</small><b>24,154.40</b><span class="bd-up">▲ 101.6 · 0.42%</span>
               <svg viewBox="0 0 100 32" preserveAspectRatio="none" aria-hidden="true"><path d="M0 26 L9 22 L18 24 L27 17 L36 19 L45 12 L54 15 L63 9 L72 11 L81 5 L90 8 L100 3" fill="none" stroke="currentColor" stroke-width="2"/></svg></div>
             <div class="bd-cards"><div><small>Consensus</small><b>2 of 3 · BUY CE</b></div><div><small>PCR</small><b>0.84</b></div></div>
-            <div class="bd-gate"><small>Safety gate</small><div class="bd-bar"><i style="--p:64%"></i></div><span>32 / 50 paper trades · win 51%</span></div>
+            <div class="bd-gate"><small>Safety gate</small><div class="bd-bar"><i style="--p:100%"></i></div><span>Promoted: 50 / 50 paper trades · ≥45% win</span></div>
             <ul class="bd-list"><li><b>24,150 CE</b><span>+₹1,240</span></li><li><b>24,000 PE</b><span class="dn">−₹380</span></li><li><b>24,300 CE</b><span>+₹610</span></li></ul>
             <div class="bd-tabs"><i class="on"></i><i></i><i></i><i></i></div>
           </div></div></div>
     <div class="bd-col" role="listitem"><span class="bd-label"><b>03</b> Components</span><span class="bd-size mono">390 × 844</span>
           <div class="bd-phone"><div class="bd-screen comp">
-            <div class="bd-top"><b>Strikedeck</b><span class="bd-mode">PAPER</span></div>
+            <div class="bd-top"><b>Strikedeck</b><span class="bd-mode">LIVE</span></div>
             <div class="bd-hero"><small>NIFTY 50 · spot</small><b>24,154.40</b><span class="bd-up">▲ 101.6 · 0.42%</span>
               <svg viewBox="0 0 100 32" preserveAspectRatio="none" aria-hidden="true"><path d="M0 26 L9 22 L18 24 L27 17 L36 19 L45 12 L54 15 L63 9 L72 11 L81 5 L90 8 L100 3" fill="none" stroke="currentColor" stroke-width="2"/></svg></div>
             <div class="bd-cards"><div><small>Consensus</small><b>2 of 3 · BUY CE</b></div><div><small>PCR</small><b>0.84</b></div></div>
-            <div class="bd-gate"><small>Safety gate</small><div class="bd-bar"><i style="--p:64%"></i></div><span>32 / 50 paper trades · win 51%</span></div>
+            <div class="bd-gate"><small>Safety gate</small><div class="bd-bar"><i style="--p:100%"></i></div><span>Promoted: 50 / 50 paper trades · ≥45% win</span></div>
             <ul class="bd-list"><li><b>24,150 CE</b><span>+₹1,240</span></li><li><b>24,000 PE</b><span class="dn">−₹380</span></li><li><b>24,300 CE</b><span>+₹610</span></li></ul>
             <div class="bd-tabs"><i class="on"></i><i></i><i></i><i></i></div>
           </div></div>
       <ul class="xtags bd-tags" aria-hidden="true"><li style="--x:50%;--y:9%;--c:#FACC15;--d:0">App bar</li><li style="--x:22%;--y:27%;--c:#22D3EE;--d:1">Spot · live</li><li style="--x:78%;--y:47%;--c:#A3E635;--d:2">Stat cards</li><li style="--x:28%;--y:60%;--c:#F472B6;--d:3">Gate progress</li><li style="--x:74%;--y:76%;--c:#22D3EE;--d:4">Positions</li></ul></div>
     <div class="bd-col" role="listitem"><span class="bd-label"><b>04</b> Shipped</span><span class="bd-size mono">390 × 844</span>
           <div class="bd-phone"><div class="bd-screen final">
-            <div class="bd-top"><b>Strikedeck</b><span class="bd-mode">PAPER</span></div>
+            <div class="bd-top"><b>Strikedeck</b><span class="bd-mode">LIVE</span></div>
             <div class="bd-hero"><small>NIFTY 50 · spot</small><b>24,154.40</b><span class="bd-up">▲ 101.6 · 0.42%</span>
               <svg viewBox="0 0 100 32" preserveAspectRatio="none" aria-hidden="true"><path d="M0 26 L9 22 L18 24 L27 17 L36 19 L45 12 L54 15 L63 9 L72 11 L81 5 L90 8 L100 3" fill="none" stroke="currentColor" stroke-width="2"/></svg></div>
             <div class="bd-cards"><div><small>Consensus</small><b>2 of 3 · BUY CE</b></div><div><small>PCR</small><b>0.84</b></div></div>
-            <div class="bd-gate"><small>Safety gate</small><div class="bd-bar"><i style="--p:64%"></i></div><span>32 / 50 paper trades · win 51%</span></div>
+            <div class="bd-gate"><small>Safety gate</small><div class="bd-bar"><i style="--p:100%"></i></div><span>Promoted: 50 / 50 paper trades · ≥45% win</span></div>
             <ul class="bd-list"><li><b>24,150 CE</b><span>+₹1,240</span></li><li><b>24,000 PE</b><span class="dn">−₹380</span></li><li><b>24,300 CE</b><span>+₹610</span></li></ul>
             <div class="bd-tabs"><i class="on"></i><i></i><i></i><i></i></div>
           </div></div><span class="bd-ok" aria-hidden="true">✓</span></div>
@@ -515,7 +517,7 @@
   <h2 id="faq-h" class="faq-h">Quick answers</h2>
   <div class="faq-grid">
     <details class="glass" open><summary>Who is Ankush Yadav?</summary><p>Ankush Yadav is a product builder in India. He designs, builds and ships Android, web and AI apps end to end: research, brand, server, client and release.</p></details>
-    <details class="glass"><summary>What has Ankush Yadav built?</summary><p>Five products, each with an interactive demo on this page: Sri Hari Docs, truck paperwork for an agri-trading company; Mikazuki, a voice OS for Android; Strikedeck, options research and paper trading; ShopConnect, an offline retail prototype; and a business toolkit in development.</p></details>
+    <details class="glass"><summary>What has Ankush Yadav built?</summary><p>Five products delivered to clients, each explorable on this page: Sri Hari Docs, truck paperwork for an agri-trading company; Mikazuki, a voice OS for Android; Strikedeck, an options trading desk behind a safety gate; ShopConnect, offline retail with four roles; and a business research toolkit.</p></details>
     <details class="glass"><summary>What does Ankush Yadav build with?</summary><p>Kotlin and Jetpack Compose, React and TypeScript, Node.js and Bun, PostgreSQL and SQLite, Firebase, and AI assistants on Claude and Gemini.</p></details>
     <details class="glass"><summary>How do I hire Ankush Yadav?</summary><p>Email <a href="#contact" data-u="ankushy961" data-d="gmail.com" data-show>ankushy961 [at] gmail [dot] com</a> with what you want built. He works remotely with clients anywhere, async by default, and replies within a day.</p></details>
   </div>

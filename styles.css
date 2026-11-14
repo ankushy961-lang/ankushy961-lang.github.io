@@ -1,6 +1,9 @@
 /* Concept: a studio built after dark. Every app is an episode in the same series: poster-dense,
    forest green, sand and electric purple, with manga craft in the details. See the
    maximal-anime-direction skill. */
+@property --ry { syntax: '<number>'; inherits: false; initial-value: 0; }
+@property --face { syntax: '<number>'; inherits: false; initial-value: 1; }
+@property --sx { syntax: '<number>'; inherits: false; initial-value: 0; }
 :root {
   --bg: #0B1A12;
   --bg-2: #1F3D2B;
@@ -93,7 +96,7 @@ img, svg { max-width: 100%; }
 :root[data-theme="light"] .orb { opacity: .26; }
 @media (prefers-color-scheme: light) { :root:not([data-theme="dark"]) .orb { opacity: .26; } }
 .grain { position: absolute; inset: -50%; background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .5 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"); opacity: .03; }
-body > :not(.field):not(.atmos):not(.cursor):not(.boot):not(.progress):not(.dock):not(.skip) { position: relative; z-index: 1; }
+body > :not(.field):not(.atmos):not(.cursor):not(.boot):not(.progress):not(.dock):not(.skip):not(dialog) { position: relative; z-index: 1; }
 
 /* ---------- cursor + progress + boot ---------- */
 .cursor { position: fixed; left: 0; top: 0; z-index: 50; pointer-events: none; width: 28px; height: 28px; margin: -14px 0 0 -14px; border-radius: 50%; border: 1.5px solid var(--fg); box-shadow: 0 0 0 1px var(--bg); opacity: 0; will-change: transform; transition: width .25s var(--ease), height .25s var(--ease), margin .25s var(--ease), opacity .3s; }
@@ -185,7 +188,6 @@ h1 em { font-style: italic; font-weight: 900; background: linear-gradient(100deg
 .vitrine.drag { cursor: grabbing; }
 .ring { position: absolute; left: 50%; top: 50%; width: 0; height: 0; transform-style: preserve-3d; transform: rotateX(-10deg) rotateY(calc(var(--ry, 0) * 1deg)); will-change: transform; }
 /* ring phones: see "ring phones" in the maximal layer */
-.floor { position: absolute; left: 50%; top: 50%; width: 520px; height: 520px; margin: -40px 0 0 -260px; border-radius: 50%; background: radial-gradient(closest-side, color-mix(in srgb, var(--p2) 22%, transparent), transparent 70%); transform: rotateX(78deg); pointer-events: none; }
 
 .strip { grid-column: 1 / -1; list-style: none; margin: 10px 0 0; padding: 6px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; }
 .strip li { padding: 14px 18px; border-radius: 16px; display: flex; align-items: baseline; gap: 10px; min-width: 0; }
@@ -531,7 +533,7 @@ main { max-width: 1180px; margin: 0 auto; padding: 0 max(16px, env(safe-area-ins
 
 /* ring phones: each app as a real handset with its own live-looking screen */
 .ring-card { position: absolute; left: -78px; top: -176px; width: 156px; height: 352px; display: flex; flex-direction: column; align-items: center; gap: 12px; transform: rotateY(calc(var(--i) * 72deg)) translateZ(var(--rz, 290px)); backface-visibility: hidden; -webkit-backface-visibility: hidden; color: var(--fg); }
-.rp { position: relative; display: block; width: 156px; height: 302px; flex: none; border-radius: 30px; padding: 6px;
+.rp { position: relative; display: block; width: var(--rpw); height: var(--rph); flex: none; border-radius: 30px; padding: 6px;
   background: linear-gradient(145deg, #4a5160 0%, #171a22 34%, #2c313d 64%, #14171f 100%);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, .28), inset 0 -1px 0 rgba(0, 0, 0, .6), 0 0 0 1px rgba(0, 0, 0, .75), 0 26px 44px -18px rgba(0, 0, 0, .85); transition: box-shadow .4s, transform .4s var(--ease); }
 .rp::before { content: ""; position: absolute; right: -2px; top: 26%; width: 2px; height: 46px; border-radius: 2px; background: #2c313d; }
@@ -702,8 +704,6 @@ main:focus { outline: none; }
 
 /* ---------- UX pass: ring depth, hero hint, mobile work menu, case links, contact meta ---------- */
 .ring { transform: rotateX(-8deg) rotateY(calc(var(--ry, 0) * 1deg)) scale(var(--ring-scale)); }
-.ring-card { opacity: calc(.12 + var(--face, 1) * .88); transition: opacity var(--dur-2) linear; }
-.ring-card .rp { filter: brightness(calc(.55 + var(--face, 1) * .45)); }
 .ring-card:focus-visible { outline: none; }
 .ring-card:focus-visible .rp { box-shadow: 0 0 0 3px var(--bg), 0 0 0 5px var(--accent), 0 30px 50px -18px rgba(0, 0, 0, .85); }
 @media (min-width: 1100px) { :root { --ring-scale: 1.16; } .vitrine { height: clamp(460px, 40vw, 540px); } }
@@ -756,6 +756,114 @@ main:focus { outline: none; }
 .sc-route span { position: absolute; font-size: 9.5px; font-weight: 600; background: #fff; padding: 2px 6px; border-radius: 6px; box-shadow: 0 1px 3px rgba(0, 0, 0, .1); }
 .sc-route .p1 { left: 34px; top: 34px; } .sc-route .p2 { right: 10px; bottom: 8px; }
 
+
+/* ---------- turntable: phones with real bodies on a lit, turning dial ---------- */
+.ring { --rz: 290px; --floor-y: 136px; top: 44%; }
+.spot { top: 44%; }
+.ring-card { --rpw: 156px; --rph: 302px; transform-style: preserve-3d; opacity: clamp(0, calc(var(--face, 1) * 14), 1); }
+.rp { transform-style: preserve-3d; }
+.rp-edge { position: absolute; left: 50%; top: 0; width: var(--rpw); height: var(--rph); margin-left: calc(var(--rpw) / -2); border-radius: 30px; pointer-events: none;
+  background: linear-gradient(90deg, #15181e, #3b414e 18%, #23272f 50%, #3b414e 82%, #15181e); box-shadow: 0 0 0 1px rgba(0, 0, 0, .65); transform: translateZ(-9px); }
+.rp-shade { position: absolute; inset: 0; z-index: 5; border-radius: inherit; pointer-events: none; background: #04070a; opacity: 0; will-change: opacity; }
+.ring-card.front .rp { transform: none; }
+/* only the front phone carries a caption */
+.ring-tag { margin-top: 2px; padding: 4px 10px 5px; gap: 0; border-radius: 12px; background: color-mix(in srgb, var(--bg-2) 82%, transparent); border: 1px solid var(--line); opacity: 0; transform: translateY(6px); transition: opacity var(--dur-3) var(--ease-out), transform var(--dur-3) var(--ease-out); }
+.ring-card.front .ring-tag { opacity: 1; transform: none; border-color: color-mix(in srgb, var(--app) 45%, var(--line)); }
+.ring-ep { font-size: 10px; letter-spacing: .2em; color: var(--accent); }
+.ring-sub { white-space: nowrap; font-size: 10.5px; margin-top: 0; }
+.ring-tag .ring-name { font-family: var(--font-d); font-weight: 900; font-stretch: 62%; text-transform: uppercase; font-size: 22px; line-height: 1.05; letter-spacing: .01em; }
+/* the dial: lies in the floor plane inside the ring, so it turns with the phones */
+.dial { position: absolute; left: calc(var(--rz) * -1.3); top: calc(var(--rz) * -1.3); width: calc(var(--rz) * 2.6); height: calc(var(--rz) * 2.6); border-radius: 50%; pointer-events: none;
+  transform: translateY(var(--floor-y)) rotateX(90deg);
+  background:
+    radial-gradient(closest-side, color-mix(in srgb, var(--brand) 30%, transparent), transparent 55%),
+    repeating-radial-gradient(circle, transparent 0 34px, color-mix(in srgb, var(--fg) 9%, transparent) 34px 35px);
+  -webkit-mask: radial-gradient(closest-side, #000 72%, transparent 100%); mask: radial-gradient(closest-side, #000 72%, transparent 100%); }
+.dial::before { content: ""; position: absolute; inset: 7%; border-radius: 50%;
+  background: repeating-conic-gradient(from -1deg, color-mix(in srgb, var(--fg) 26%, transparent) 0 .5deg, transparent .5deg 4deg);
+  -webkit-mask: radial-gradient(closest-side, transparent 88%, #000 89%, #000 96%, transparent 97%); mask: radial-gradient(closest-side, transparent 88%, #000 89%, #000 96%, transparent 97%); }
+.dial::after { content: ""; position: absolute; inset: 14%; border-radius: 50%; border: 1.5px solid color-mix(in srgb, var(--brand) 70%, transparent); box-shadow: 0 0 16px color-mix(in srgb, var(--brand) 45%, transparent); }
+.dial-mark { position: absolute; left: 50%; top: 50%; width: 44px; height: 20px; margin: -10px 0 0 -22px; display: grid; place-items: center; border-radius: 6px; font-family: var(--font-m); font-style: normal; font-size: 11px; font-weight: 600; letter-spacing: .1em; color: var(--fg-2); border: 1px solid var(--line-2); background: color-mix(in srgb, var(--bg) 70%, transparent);
+  transform: rotate(calc(var(--i) * -72deg)) translateY(calc(var(--rz) * 1.12)); transition: background var(--dur-3), color var(--dur-3), box-shadow var(--dur-3); }
+.dial-mark.on { color: #fff; background: var(--act); border-color: transparent; box-shadow: 0 0 22px var(--brand); }
+/* contact shadow and rim light under whichever phone is at the front */
+.spot { position: absolute; left: 50%; top: 50%; width: 230px; height: 44px; margin: -22px 0 0 -115px; border-radius: 50%; pointer-events: none;
+  transform: translateY(calc(var(--floor-y, 136px) * 1.32 * var(--ring-scale)));
+  background: radial-gradient(closest-side, rgba(0, 0, 0, .62), rgba(0, 0, 0, .25) 55%, transparent), radial-gradient(closest-side, color-mix(in srgb, var(--brand) 45%, transparent), transparent 80%); }
+/* arrows: a visible, keyboard- and touch-friendly way to turn the ring */
+.ring-btn { position: absolute; top: 50%; z-index: 5; width: 44px; height: 44px; margin-top: -22px; display: grid; place-items: center; border-radius: 50%; border: 1px solid var(--line-2); color: var(--fg);
+  background: color-mix(in srgb, var(--bg-2) 82%, transparent); box-shadow: var(--shadow); cursor: pointer; transition: background var(--dur-2), color var(--dur-2), border-color var(--dur-2), transform var(--dur-1) var(--ease-out); }
+.ring-btn.prev { left: 0; } .ring-btn.next { right: 0; }
+.ring-btn:hover { background: var(--act); color: #fff; border-color: transparent; }
+.ring-btn:active { transform: scale(.92); }
+.ring-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+/* explore button (showcase.css loads only on first click) */
+.btn.explore { background: var(--fg); color: var(--bg); border-color: transparent; }
+.btn.explore:hover { box-shadow: 0 12px 30px -10px var(--brand); }
+.panel.alt .btn.explore { background: var(--fg); color: var(--bg-2); }
+
+
+/* ---------- energy core: the source behind the turntable (transform/opacity only) ---------- */
+.core { position: absolute; left: 50%; top: 44%; width: 0; height: 0; z-index: 0; pointer-events: none; }
+.ring { z-index: 1; } .spot, .ring-btn, .vitrine .sticker { z-index: 2; }
+.core i { position: absolute; left: 0; top: 0; display: block; border-radius: 50%; }
+.core-halo { width: 620px; height: 620px; margin: -310px 0 0 -310px;
+  background: radial-gradient(closest-side, rgba(255, 255, 255, .55), rgba(196, 181, 253, .45) 12%, rgba(139, 92, 246, .32) 30%, rgba(34, 211, 238, .12) 52%, transparent 72%); }
+.core-rays { width: 760px; height: 760px; margin: -380px 0 0 -380px; will-change: transform;
+  background: repeating-conic-gradient(from 0deg, rgba(196, 181, 253, .22) 0deg 1.2deg, transparent 1.2deg 9deg);
+  -webkit-mask: radial-gradient(closest-side, #000 8%, rgba(0, 0, 0, .55) 40%, transparent 72%); mask: radial-gradient(closest-side, #000 8%, rgba(0, 0, 0, .55) 40%, transparent 72%);
+  animation: coreSpin 40s linear infinite; }
+.core-orb { width: 190px; height: 190px; margin: -95px 0 0 -95px; will-change: transform;
+  background: radial-gradient(circle at 50% 50%, #fff 0 14%, #E9E3FF 24%, #A78BFA 46%, rgba(139, 92, 246, .55) 62%, transparent 72%);
+  box-shadow: 0 0 70px 26px rgba(139, 92, 246, .6), 0 0 160px 80px rgba(124, 58, 237, .3), 0 0 40px 10px rgba(103, 232, 249, .25); animation: coreBreathe 4.2s ease-in-out infinite; }
+.core-orb b { position: absolute; inset: 18%; border-radius: 50%; will-change: transform;
+  background: conic-gradient(from 0deg, transparent 0 16%, rgba(255, 255, 255, .55) 22%, rgba(255, 255, 255, .85) 25%, rgba(255, 255, 255, .5) 29%, transparent 36% 54%, rgba(103, 232, 249, .5) 60%, rgba(103, 232, 249, .8) 64%, rgba(103, 232, 249, .45) 68%, transparent 75%); -webkit-mask: radial-gradient(closest-side, #000 55%, transparent); mask: radial-gradient(closest-side, #000 55%, transparent); animation: coreSpin 3.2s linear infinite; }
+.core-wave { width: 300px; height: 300px; margin: -150px 0 0 -150px; border: 2px solid rgba(196, 181, 253, .7); box-shadow: 0 0 24px rgba(139, 92, 246, .6), inset 0 0 24px rgba(139, 92, 246, .4);
+  transform: translateY(calc(var(--floor-y, 136px) * .9)) scale(.2) scaleY(.26); opacity: 0; will-change: transform, opacity; animation: coreWave 4.5s cubic-bezier(.2, .8, .2, 1) infinite; }
+.core-wave.w2 { animation-delay: 1.5s; } .core-wave.w3 { animation-delay: 3s; }
+.core-beam { width: 120px; height: 980px; margin: -680px 0 0 -60px; border-radius: 60px;
+  background: linear-gradient(180deg, transparent, rgba(196, 181, 253, .18) 22%, rgba(233, 227, 255, .7) 63%, rgba(167, 139, 250, .35) 76%, transparent);
+  -webkit-mask: linear-gradient(90deg, transparent, #000 40%, #000 60%, transparent); mask: linear-gradient(90deg, transparent, #000 40%, #000 60%, transparent);
+  animation: coreBeam 3.6s ease-in-out infinite; }
+.core-spark { width: 5px; height: 5px; margin: -2.5px 0 0 -2.5px; background: #E9E3FF; box-shadow: 0 0 10px 3px rgba(167, 139, 250, .9); opacity: 0; will-change: transform, opacity; animation: coreSpark 3.4s ease-out infinite; }
+.core-spark.s1 { --x: -60px; animation-delay: 0s; } .core-spark.s2 { --x: 46px; animation-delay: .6s; } .core-spark.s3 { --x: -18px; animation-delay: 1.2s; }
+.core-spark.s4 { --x: 78px; animation-delay: 1.8s; } .core-spark.s5 { --x: -92px; animation-delay: 2.4s; } .core-spark.s6 { --x: 20px; animation-delay: 3s; }
+@keyframes coreSpin { to { transform: rotate(360deg); } }
+@keyframes coreBreathe { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.12); } }
+@keyframes coreWave { 0% { transform: translateY(calc(var(--floor-y, 136px) * .9)) scale(.2) scaleY(.26); opacity: .9; } 100% { transform: translateY(calc(var(--floor-y, 136px) * .9)) scale(2.3) scaleY(.26); opacity: 0; } }
+@keyframes coreBeam { 0%, 100% { opacity: .75; } 50% { opacity: 1; } }
+@keyframes coreSpark { 0% { transform: translate(var(--x), 60px) scale(.6); opacity: 0; } 15% { opacity: 1; } 100% { transform: translate(calc(var(--x) * 1.4), -260px) scale(1); opacity: 0; } }
+.still .core *, .still .core-orb b { animation-play-state: paused; }
+@media (max-width: 760px) { .core { transform: scale(.72); } .core-spark.s5, .core-spark.s6, .core-wave.w3 { display: none; } }
+
+/* ---------- real phones: titanium, bezel, lens, buttons, moving reflections ---------- */
+.rp { padding: 4px; border-radius: 30px;
+  background:
+    linear-gradient(calc(105deg + var(--sx, 0) * 50deg), rgba(255, 255, 255, .5) 0%, rgba(255, 255, 255, 0) 16%, rgba(255, 255, 255, 0) 58%, rgba(255, 255, 255, .22) 74%, rgba(255, 255, 255, 0) 88%),
+    linear-gradient(150deg, #7d838f 0%, #3a3f49 20%, #a9afb9 46%, #474c57 66%, #8c929d 86%, #5a606b 100%);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .38), inset 0 0 0 2.5px rgba(10, 12, 16, .7), 0 0 0 1px rgba(0, 0, 0, .75),
+    0 34px 44px -22px rgba(0, 0, 0, .95); }
+.ring-card.front .rp { box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .42), inset 0 0 0 2.5px rgba(10, 12, 16, .7), 0 0 0 1px rgba(0, 0, 0, .75),
+    0 36px 40px -22px rgba(0, 0, 0, .95), 0 0 46px -6px rgba(139, 92, 246, .7); }
+.rp-screen { inset: 4px; border: 3.5px solid #020304; border-radius: 26px; box-shadow: none; padding: 27px 9px 10px; }
+.rp-screen::after { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; box-shadow: inset 0 0 18px rgba(0, 0, 0, .35); }
+.rp::before { right: -2.5px; top: 30%; width: 3px; height: 50px; background: linear-gradient(90deg, #5a606b, #9aa0aa); }
+.rp::after { content: ""; position: absolute; left: -2.5px; top: 21%; width: 3px; height: 22px; border-radius: 2px; background: linear-gradient(270deg, #5a606b, #9aa0aa); box-shadow: 0 34px 0 0 #7d838f, 0 66px 0 0 #7d838f; }
+.rp-island { top: 11px; width: 50px; height: 15px; margin-left: -25px; border-radius: 9px; background: #000; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .06); }
+.rp-island::after { content: ""; position: absolute; right: 7px; top: 4px; width: 7px; height: 7px; border-radius: 50%; background: radial-gradient(circle at 35% 35%, #4b5c7a 0 20%, #11151d 55%, #000 70%); }
+.rp-glare { background:
+    linear-gradient(115deg, transparent 0%, transparent calc(28% + var(--sx, 0) * 30%), rgba(255, 255, 255, .16) calc(36% + var(--sx, 0) * 30%), transparent calc(46% + var(--sx, 0) * 30%), transparent 100%),
+    linear-gradient(180deg, rgba(255, 255, 255, .07), transparent 18%); }
+.rp-sb { top: 3px; padding: 6px 12px 0 15px; font-size: 8.5px; align-items: center; }
+.rp-sic { display: flex; align-items: center; gap: 3px; }
+.rp-sic svg { fill: currentColor; display: block; }
+.rp-bat { position: relative; width: 19px; height: 9px; border: 1px solid currentColor; border-radius: 2.5px; padding: 1px; opacity: .9; }
+.rp-bat::after { content: ""; position: absolute; right: -3px; top: 2.5px; width: 1.5px; height: 3px; border-radius: 0 1px 1px 0; background: currentColor; }
+.rp-bat i { display: block; width: 78%; height: 100%; border-radius: 1px; background: currentColor; }
+.rp-sb i { all: unset; }
+.rp-edge { background: linear-gradient(90deg, #2a2e36, #8c929d 18%, #3e434d 50%, #8c929d 82%, #2a2e36); }
+
 /* ---------- responsive ---------- */
 @media (max-height: 520px) and (orientation: landscape) { .marks { display: none; } .hero { padding-top: 84px; } .eyebrow { margin-bottom: 10px; } h1 { margin-bottom: 12px; } }
 @media (max-width: 980px) { .dock-links { display: none; } .dock-work { display: block; } }
@@ -765,7 +873,7 @@ main:focus { outline: none; }
 @media (max-width: 1320px) { .v-jp { display: none; } }
 @media (max-width: 1000px) {
   .hero { grid-template-columns: 1fr; gap: 24px; padding-top: 110px; }
-  .vitrine { height: clamp(330px, 70vw, 420px); }
+  .vitrine { height: clamp(470px, 62vw, 540px); }
   .exhibit { grid-template-columns: 1fr; gap: 28px; }
   .exhibit:nth-child(even) .stage { order: 0; }
 }
@@ -776,10 +884,14 @@ main:focus { outline: none; }
   .marks { right: 16px; }
   .o3 { display: none; }
   .orb { filter: blur(40px); }
-  .ring-card { --rz: 210px; left: -66px; top: -150px; width: 132px; height: 300px; }
-  .rp { width: 132px; height: 256px; border-radius: 26px; }
+  .ring { --rz: 210px; --floor-y: 112px; }
+  .vitrine { height: 430px; }
+  .ring-card { --rpw: 132px; --rph: 256px; left: -66px; top: -150px; width: 132px; height: 330px; }
+  .rp-edge { border-radius: 26px; }
+  .dial-mark { font-size: 10px; width: 38px; margin-left: -19px; }
+  .ring-btn { width: 40px; height: 40px; margin-top: -20px; }
+  .rp { border-radius: 26px; }
   .rp-screen { border-radius: 21px; }
-  .floor { width: 400px; margin-left: -200px; }
   .laptop { max-width: 100%; }
   .laptop .base { margin: 0 -2%; }
   .strip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
