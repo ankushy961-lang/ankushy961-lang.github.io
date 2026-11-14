@@ -21,6 +21,8 @@
 - Blog: https://ankushy961-lang.github.io/blog/
 
 ## Writing
+- An offline retail app with four roles in one Android build: https://ankushy961-lang.github.io/blog/offline-retail-app-four-roles-android.html
+- A ₹0 business research toolkit that fact-checks before it builds: https://ankushy961-lang.github.io/blog/business-research-toolkit-fact-check-owner-gate.html
 - How an options desk earns the right to trade real money: https://ankushy961-lang.github.io/blog/options-desk-paper-to-live-safety-gate.html
 - A voice OS for one person, running on the phone itself: https://ankushy961-lang.github.io/blog/voice-os-for-one-person-android.html
 - Truck paperwork that files itself: https://ankushy961-lang.github.io/blog/truck-paperwork-that-files-itself.html

@@ -713,7 +713,7 @@
       else if (v === 'pp' || v === 'np') { const k = ORDER[(ORDER.indexOf(P.key) + (v === 'np' ? 1 : ORDER.length - 1)) % ORDER.length]; load(k); }
     });
     $('.sx-list', dlg).addEventListener('click', (e) => { const b = e.target.closest('[data-i]'); if (b) go(+b.dataset.i); });
-    dlg.addEventListener('close', () => { document.documentElement.style.overflow = ''; });
+    dlg.addEventListener('close', () => { const r = document.documentElement; r.style.overflow = ''; document.dispatchEvent(new CustomEvent('sx:toggle', { detail: false })); });
     addEventListener('resize', fit);
   }
   const api = {
@@ -764,7 +764,7 @@
   }
   function open(key) {
     if (!dlg) shell();
-    load(key); document.documentElement.style.overflow = 'hidden';
+    load(key); const r = document.documentElement; r.style.overflow = 'hidden'; document.dispatchEvent(new CustomEvent('sx:toggle', { detail: true }));
     dlg.showModal(); fit(); requestAnimationFrame(fit);
     const first = $('.sx-list button', dlg); if (first) first.focus({ preventScroll: true });
   }

@@ -6,10 +6,18 @@ if (window.top !== window.self) { try { window.top.location = window.location; }
   const $$ = (s, r) => Array.from((r || document).querySelectorAll(s));
   const root = document.documentElement;
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  /* low-end devices start light: Data Saver, little memory or few cores begin at a lower field quality (adaptive quality still steps further if frames drop) */
+  const nav = navigator, mem = nav.deviceMemory || 8, cores = nav.hardwareConcurrency || 8;
+  const saveData = !!(nav.connection && nav.connection.saveData);
+  const lowEnd = saveData || mem <= 2 || cores <= 2 ? 2 : (mem <= 4 || cores <= 4 ? 1 : 0);
+  if (lowEnd) root.classList.add('lite');
   const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
   const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
   const lerp = (a, b, t) => a + (b - a) * t;
   const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+  /* while the product showcase covers the page, the page's own animation loops sleep */
+  let sxOpen = false; document.addEventListener('sx:toggle', (e) => { sxOpen = !!e.detail; });
+  const modalOpen = () => sxOpen;
 
   /* ---------- contact address, assembled at runtime so the source never carries it whole ---------- */
   $$('[data-u][data-d]').forEach((el) => {
@@ -23,8 +31,9 @@ if (window.top !== window.self) { try { window.top.location = window.location; }
     if (el.hasAttribute('data-show')) el.textContent = addr;
   });
 
-  const jpFont = $('#jpfont');
-  if (jpFont) { if (jpFont.sheet) jpFont.media = 'all'; else jpFont.addEventListener('load', () => { jpFont.media = 'all'; }); }
+  /* decorative Japanese shows once its subset font is ready (never a system CJK fallback) */
+  const jpOk = () => root.classList.add('jp-ok');
+  if (document.fonts && document.fonts.load) { Promise.all(['700', '900'].map((w) => document.fonts.load(`${w} 16px "Noto Sans JP"`, 'ゼ'))).then(jpOk, jpOk); setTimeout(jpOk, 3000); } else jpOk();
 
   /* ---------- motion: a visible pause control for everything that moves on its own (WCAG 2.2.2) ---------- */
   const motionBtn = $('#motionBtn');
@@ -54,19 +63,6 @@ if (window.top !== window.self) { try { window.top.location = window.location; }
   try { localStorage.removeItem('ay-theme'); } catch (e) {}
   const currentTheme = () => 'light';
 
-  /* ---------- boot ---------- */
-  const boot = $('#boot');
-  (async function runBoot() {
-    let seen = false;
-    try { seen = sessionStorage.getItem('ay-booted') === '1'; } catch (e) {}
-    if (reduced || seen) { boot.classList.add('off'); return; }
-    const t = $('#bootText');
-    const lines = ['EPISODE 01', 'ANKUSH YADAV', 'FROM ZERO', 'START'];
-    for (let i = 0; i < lines.length; i++) { t.textContent = lines[i]; await wait(i === lines.length - 1 ? 160 : 220); }
-    boot.classList.add('off');
-    try { sessionStorage.setItem('ay-booted', '1'); } catch (e) {}
-  })();
-  setTimeout(() => boot.classList.add('off'), 4000); // never trap the user
 
   /* ---------- cursor ---------- */
   const cursor = $('#cursor');
@@ -184,6 +180,7 @@ if (window.top !== window.self) { try { window.top.location = window.location; }
     });
     if ('IntersectionObserver' in window) new IntersectionObserver((es) => { onscreen = es[0].isIntersecting; wake(); }).observe(vitrine);
     function wake() { if (!raf && !reduced) raf = requestAnimationFrame(tick); }
+    document.addEventListener('sx:toggle', wake);
     function render() {
       ring.style.setProperty('--ry', ry.toFixed(2));
       cards.forEach((c, i) => {
@@ -208,7 +205,7 @@ if (window.top !== window.self) { try { window.top.location = window.location; }
     if (reduced) { render(); return; }
     function tick() {
       raf = 0;
-      if (!onscreen) return;
+      if (!onscreen || modalOpen()) return;
       const spin = (focused || target !== null || performance.now() < holdUntil) ? 0 : auto;
       const idle = !dragging && target === null && !vel;
       if (idle && spin && (skip = !skip)) { raf = requestAnimationFrame(tick); return; }
@@ -280,14 +277,15 @@ if (window.top !== window.self) { try { window.top.location = window.location; }
     const loc = gl.getAttribLocation(pg, 'a'); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
     const uRes = gl.getUniformLocation(pg, 'uRes'), uT = gl.getUniformLocation(pg, 'uT');
     host.appendChild(cv); host.classList.add('gl');
-    const SCALE = 0.55; // soft light upscales invisibly; a quarter of the pixels
+    const SCALE = 0.45; // soft light upscales invisibly; about a fifth of the pixels
     function size() { const w = Math.round(cv.clientWidth * SCALE), h = Math.round(cv.clientHeight * SCALE); if (cv.width !== w || cv.height !== h) { cv.width = w; cv.height = h; gl.viewport(0, 0, w, h); } gl.uniform2f(uRes, w, h); }
     let raf = 0, on = true, paused = still, t0 = performance.now(), last = 0, lost = false;
     function draw(now) { size(); gl.uniform1f(uT, (now - t0) / 1000); gl.clearColor(0, 0, 0, 0); gl.clear(gl.COLOR_BUFFER_BIT); gl.drawArrays(gl.TRIANGLES, 0, 3); }
     function loop(now) {
-      raf = 0; if (!on || paused || lost || document.hidden) return;
+      raf = 0; if (!on || paused || lost || document.hidden || modalOpen()) return;
       // on slow devices (adaptive "lite") the plasma updates at ~30 fps
-      if (!root.classList.contains('lite') || now - last > 30) { last = now; draw(now); }
+      // plasma motion reads as smooth at ~30 fps, which halves its GPU cost (~20 fps in adaptive "lite")
+      if (now - last > (root.classList.contains('lite') ? 46 : 30)) { last = now; draw(now); }
       raf = requestAnimationFrame(loop);
     }
     const wakeCore = () => { if (!raf && on && !paused && !lost && !reduced && !document.hidden) raf = requestAnimationFrame(loop); };
@@ -295,6 +293,7 @@ if (window.top !== window.self) { try { window.top.location = window.location; }
     cv.addEventListener('webglcontextrestored', () => { location.reload(); });
     if ('IntersectionObserver' in window) new IntersectionObserver((es) => { on = es[0].isIntersecting; wakeCore(); }).observe(vitrine);
     document.addEventListener('visibilitychange', wakeCore);
+    document.addEventListener('sx:toggle', wakeCore);
     motionListeners.push((s) => { paused = s; wakeCore(); });
     addEventListener('resize', () => { if (!raf) draw(performance.now()); });
     draw(performance.now() + 2600); // a still frame first (and the only one under reduced motion)
@@ -337,7 +336,9 @@ if (window.top !== window.self) { try { window.top.location = window.location; }
 
   /* ---------- WebGL synaptic field ---------- */
   const telemetry = $('#telemetry');
-  const field = (function () {
+  /* the field's library (three.js, ~150 KB) loads after the page is up, so it never delays first paint */
+  let field = { retheme() {}, room(c) { lastRoom = c; } }, lastRoom = '';
+  const makeField = function () {
     const canvas = $('#field');
     const off = () => { canvas.remove(); if (telemetry) telemetry.textContent = 'STATIC MODE'; return { retheme() {}, room() {} }; };
     if (!window.THREE || reduced) return off();
@@ -481,6 +482,7 @@ if (window.top !== window.self) { try { window.top.location = window.location; }
       if (quality >= 2) { geo.setDrawRange(0, Math.floor(N * .55)); shards.forEach((s, i) => { s.visible = i < 3; }); }
       if (quality >= 3) { geo.setDrawRange(0, Math.floor(N * .35)); }
     }
+    for (let i = 0; i < lowEnd; i++) stepDown();
     let visible = true, lost = false, paused = still, last = performance.now(), frames = 0, fpsT = last, fps = 60;
     let frameId = 0;
     const resume = () => { if (!frameId && !paused && visible && !lost) { last = performance.now(); frameId = requestAnimationFrame(frame); } };
@@ -488,9 +490,10 @@ if (window.top !== window.self) { try { window.top.location = window.location; }
     canvas.addEventListener('webglcontextlost', (e) => { e.preventDefault(); lost = true; canvas.classList.remove('on'); if (telemetry) telemetry.textContent = 'STATIC MODE'; });
     canvas.addEventListener('webglcontextrestored', () => { lost = false; canvas.classList.add('on'); resume(); });
     document.addEventListener('visibilitychange', () => { visible = !document.hidden; resume(); });
+    document.addEventListener('sx:toggle', resume);
     function frame(now) {
       frameId = 0;
-      if (!visible || lost || paused) return;
+      if (!visible || lost || paused || modalOpen()) return;
       frameId = requestAnimationFrame(frame);
       const dt = Math.min(.05, (now - last) / 1000); last = now;
       frames++;
@@ -517,6 +520,20 @@ if (window.top !== window.self) { try { window.top.location = window.location; }
     if (paused) renderer.render(scene, camera);
     canvas.classList.add('on');
     return { retheme, room };
+  };
+  (function loadField() {
+    const canvas = $('#field');
+    if (!canvas) return;
+    if (reduced || lowEnd >= 2) { field = makeField(); return; } // static: no download at all
+    const go = () => {
+      const s = document.createElement('script');
+      s.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
+      s.integrity = 'sha384-CI3ELBVUz9XQO+97x6nwMDPosPR5XvsxW2ua7N1Xeygeh1IxtgqtCkGfQY9WWdHu'; s.crossOrigin = 'anonymous';
+      s.onload = s.onerror = () => { field = makeField(); field.room(lastRoom); };
+      document.head.appendChild(s);
+    };
+    const later = () => (window.requestIdleCallback ? requestIdleCallback(go, { timeout: 1500 }) : setTimeout(go, 300));
+    if (document.readyState === 'complete') later(); else addEventListener('load', later, { once: true });
   })();
   watchRooms();
   applyMotion();

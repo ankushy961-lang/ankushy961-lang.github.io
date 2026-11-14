@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>An offline retail app with four roles in one Android build · Ankush Yadav</title>
+<meta name="description" content="Ankush Yadav on ShopConnect, an offline-first Android retail app in React Native: customer, shop, rider and admin in one build, with no backend.">
+<meta name="author" content="Ankush Yadav">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#E8DCC4">
+<meta name="color-scheme" content="light">
+<link rel="canonical" href="https://ankushy961-lang.github.io/blog/offline-retail-app-four-roles-android.html">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Ankush Yadav">
+<meta property="og:title" content="An offline retail app with four roles in one Android build">
+<meta property="og:description" content="Ankush Yadav on ShopConnect, an offline-first Android retail app in React Native: customer, shop, rider and admin in one build, with no backend.">
+<meta property="og:url" content="https://ankushy961-lang.github.io/blog/offline-retail-app-four-roles-android.html">
+<meta property="og:image" content="https://ankushy961-lang.github.io/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_IN">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="An offline retail app with four roles in one Android build">
+<meta name="twitter:description" content="Ankush Yadav on ShopConnect, an offline-first Android retail app in React Native: customer, shop, rider and admin in one build, with no backend.">
+<meta name="twitter:image" content="https://ankushy961-lang.github.io/og.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..100,400..900;1,100,400..900&amp;family=Cormorant+Garamond:ital,wght@1,600&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css?v=20261115z">
+<link rel="stylesheet" href="blog.css?v=20261115z">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[{"@type":"BlogPosting","@id":"https://ankushy961-lang.github.io/blog/offline-retail-app-four-roles-android.html#post","headline":"An offline retail app with four roles in one Android build","description":"Ankush Yadav on ShopConnect, an offline-first Android retail app in React Native: customer, shop, rider and admin in one build, with no backend.","datePublished":"2026-11-15","dateModified":"2026-11-15","author":{"@id":"https://ankushy961-lang.github.io/#person"},"publisher":{"@id":"https://ankushy961-lang.github.io/#person"},"mainEntityOfPage":"https://ankushy961-lang.github.io/blog/offline-retail-app-four-roles-android.html","image":"https://ankushy961-lang.github.io/og.png","inLanguage":"en"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://ankushy961-lang.github.io/"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://ankushy961-lang.github.io/blog/"},{"@type":"ListItem","position":3,"name":"An offline retail app with four roles in one Android build","item":"https://ankushy961-lang.github.io/blog/offline-retail-app-four-roles-android.html"}]}]}
+</script>
+</head>
+<body>
+<div class="atmos" aria-hidden="true"><i class="orb o1"></i><i class="orb o2"></i></div>
+
+<nav class="dock glass" aria-label="Site">
+  <a class="dock-brand name" href="../">Ankush Yadav</a>
+  <div class="dock-links"><a href="./">Blog</a><a href="../#srihari">Apps</a></div>
+  <a class="dock-mail" href="../#contact">Hire me</a>
+</nav>
+
+<main class="post">
+<header class="post-head">
+  <p class="kicker">ShopConnect · retail software</p>
+  <h1>An offline retail app with four roles in one Android build</h1>
+  <p class="dateline mono"><time datetime="2026-11-15">15 November 2026</time> · 4 min read</p>
+</header>
+
+<p class="answer">ShopConnect is an offline-first Android retail app that puts four roles in one build: customer, shop, rider and admin. Ankush Yadav built it in React Native and TypeScript with no backend, so one order can move through every role on a single device without a network call.</p>
+
+<h2>Why put four roles in one app?</h2>
+<p>A small retail operation has four kinds of people: the customer who orders, the shop that packs, the rider who delivers and the person who keeps it all within the rules. Most systems give each of them a different app and a server in the middle.</p>
+<p>ShopConnect keeps them in one Android build. A role switch changes the screens, not the data, so the same order is visible from every side. That makes the flow easy to show, test and hand over, because nothing depends on a server being up.</p>
+
+<h2>How does an order move through the roles?</h2>
+<p>The customer picks a shop, adds items and places the order. The shop sees it arrive, accepts it, packs each item and hands it to a rider. The rider picks it up and marks it delivered. The admin sees every state change as it happens.</p>
+<ul>
+  <li>Customer: browse a shop, build a basket, place the order, follow its status.</li>
+  <li>Shop: accept the order, pack each item, hand it over; stock goes down when it is packed.</li>
+  <li>Rider: see the assignment, pick up, deliver.</li>
+  <li>Admin: totals across shops, customers, riders and orders, plus the compliance gates.</li>
+</ul>
+
+<h2>What does offline-first mean here?</h2>
+<p>The app makes no network calls. Shops, products, orders and their states live on the device, so the app works the same in a basement shop with no signal as it does on office Wi-Fi.</p>
+<p>It also means nothing leaves the phone by accident. There is no payment provider to misconfigure and no customer data on a server to leak.</p>
+
+<h2>How are risky features kept switched off?</h2>
+<p>Retail touches money and restricted goods, so the app has a compliance gate. Real checkout and real payment stay switched off, restricted items such as cigarettes are locked and cannot be ordered, and the admin screen shows each flag so nobody has to guess what is enabled.</p>
+<p>The ordering rules are covered by tests that run with Node's built-in test runner, so a change that breaks the flow fails before it reaches a build.</p>
+
+<aside class="callout glass">
+  <p><b>Stack and scale.</b> Expo 58, React Native and TypeScript, tested with node:test. 4 roles, 0 network calls, and one day from first commit to an installable APK.</p>
+</aside>
+
+<p class="see"><a class="btn primary" href="../#shopconnect">See it running</a> <a class="btn" href="./">All posts</a></p>
+</main>
+
+<footer class="foot"><span>© 2026 <span class="name">Ankush Yadav</span>. All rights reserved.</span><nav class="foot-links" aria-label="Footer"><a href="../">Home</a><a href="./">Blog</a><a href="../#contact">Contact</a></nav></footer>
+</body>
+</html>
