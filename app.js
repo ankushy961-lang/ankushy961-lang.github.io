@@ -222,6 +222,85 @@ if (window.top !== window.self) { try { window.top.location = window.location; }
     wake();
   })();
 
+  /* ---------- energy core: a WebGL plasma behind the turntable (CSS layers remain as the fallback) ---------- */
+  (function plasmaCore() {
+    const host = $('#vitrine > .core'); if (!host || !vitrine) return;
+    const cv = document.createElement('canvas'); cv.className = 'core-gl'; cv.setAttribute('aria-hidden', 'true');
+    const gl = cv.getContext('webgl', { alpha: true, premultipliedAlpha: true, antialias: false, depth: false, stencil: false, powerPreference: 'low-power' });
+    if (!gl) return;
+    const VS = 'attribute vec2 a; void main(){ gl_Position = vec4(a, 0.0, 1.0); }';
+    const FS = `precision mediump float;
+      uniform vec2 uRes; uniform float uT;
+      float h(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
+      float n(vec2 p){ vec2 i = floor(p), f = fract(p); vec2 u = f * f * (3.0 - 2.0 * f);
+        return mix(mix(h(i), h(i + vec2(1.0, 0.0)), u.x), mix(h(i + vec2(0.0, 1.0)), h(i + vec2(1.0, 1.0)), u.x), u.y); }
+      float fbm(vec2 p){ float v = 0.0, a = 0.5; for (int i = 0; i < 4; i++) { v += a * n(p); p = p * 2.03 + 7.1; a *= 0.5; } return v; }
+      void main(){
+        vec2 fc = gl_FragCoord.xy / uRes;
+        vec2 p = (fc - vec2(0.5, 0.36)) * vec2(uRes.x / uRes.y, 1.0);
+        float r = length(p), a = atan(p.y, p.x), t = uT;
+        vec3 deep = vec3(0.24, 0.06, 0.55), violet = vec3(0.45, 0.20, 0.90), lilac = vec3(0.80, 0.70, 1.0), cyan = vec3(0.30, 0.85, 0.98);
+        // plasma sphere: two layers of moving noise, white-hot centre, brighter limb
+        vec2 q = p * 15.0;
+        float n1 = fbm(q + vec2(t * 0.55, -t * 0.35));
+        float n2 = fbm(q * 1.6 - vec2(t * 0.25, t * 0.45) + n1 * 2.0);
+        float sphere = smoothstep(0.086, 0.074, r);
+        vec3 plasma = mix(violet, lilac, smoothstep(0.35, 0.8, n2));
+        plasma = mix(plasma, vec3(1.0), smoothstep(0.05, 0.0, r) * 0.95 + smoothstep(0.55, 0.85, n2) * 0.35);
+        plasma = mix(plasma, lilac, smoothstep(0.06, 0.084, r) * 0.6);
+        // corona: flames flowing outward with an irregular edge
+        float fl = fbm(vec2(a * 2.6 + 11.0, r * 10.0 - t * 1.4));
+        float fl2 = fbm(vec2(a * 5.0 - t * 0.2, r * 18.0 - t * 2.2));
+        float cor = smoothstep(0.27, 0.075, r + (fl - 0.5) * 0.11 + (fl2 - 0.5) * 0.04) * (1.0 - sphere);
+        // electric arcs crackling near the surface
+        float an = fbm(vec2(a * 3.0 + t * 0.9, r * 7.0 - t * 2.6));
+        float arc = smoothstep(0.022, 0.0, abs(an - 0.5)) * smoothstep(0.22, 0.10, r) * smoothstep(0.075, 0.095, r);
+        // bloom and the vertical beam
+        float glow = 0.012 / (r * r * 30.0 + 0.012);
+        float up = smoothstep(-0.04, 0.32, p.y) * (1.0 - smoothstep(0.30, 0.64, p.y));
+        float beam = exp(-abs(p.x) * (55.0 + 25.0 * fbm(vec2(p.y * 6.0 - t, 1.0)))) * up;
+        float beamCore = exp(-abs(p.x) * 300.0) * up;
+        float fk = 0.93 + 0.07 * sin(t * 11.0) * sin(t * 6.7);
+        vec3 col = vec3(0.0); float al = 0.0;
+        vec3 cc = mix(deep, violet, fl);
+        col += cc * cor * 0.95; al += cor * 0.8;
+        col += violet * glow * 0.55; al += glow * 0.42;
+        col += violet * beam * 0.55 + vec3(0.95, 0.92, 1.0) * beamCore * 0.95; al += beam * 0.42 + beamCore * 0.85;
+        col += mix(vec3(1.0), cyan, 0.45) * arc; al += arc * 0.9;
+        col = mix(col, plasma, sphere); al = mix(al, 1.0, sphere);
+        col *= fk; al = clamp(al * fk, 0.0, 1.0);
+        gl_FragColor = vec4(min(col, vec3(al)), al);
+      }`;
+    const sh = (type, src) => { const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); return gl.getShaderParameter(s, gl.COMPILE_STATUS) ? s : null; };
+    const vs = sh(gl.VERTEX_SHADER, VS), fs = sh(gl.FRAGMENT_SHADER, FS); if (!vs || !fs) return;
+    const pg = gl.createProgram(); gl.attachShader(pg, vs); gl.attachShader(pg, fs); gl.linkProgram(pg);
+    if (!gl.getProgramParameter(pg, gl.LINK_STATUS)) return;
+    gl.useProgram(pg);
+    const buf = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, buf); gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
+    const loc = gl.getAttribLocation(pg, 'a'); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+    const uRes = gl.getUniformLocation(pg, 'uRes'), uT = gl.getUniformLocation(pg, 'uT');
+    host.appendChild(cv); host.classList.add('gl');
+    const SCALE = 0.55; // soft light upscales invisibly; a quarter of the pixels
+    function size() { const w = Math.round(cv.clientWidth * SCALE), h = Math.round(cv.clientHeight * SCALE); if (cv.width !== w || cv.height !== h) { cv.width = w; cv.height = h; gl.viewport(0, 0, w, h); } gl.uniform2f(uRes, w, h); }
+    let raf = 0, on = true, paused = still, t0 = performance.now(), last = 0, lost = false;
+    function draw(now) { size(); gl.uniform1f(uT, (now - t0) / 1000); gl.clearColor(0, 0, 0, 0); gl.clear(gl.COLOR_BUFFER_BIT); gl.drawArrays(gl.TRIANGLES, 0, 3); }
+    function loop(now) {
+      raf = 0; if (!on || paused || lost || document.hidden) return;
+      // on slow devices (adaptive "lite") the plasma updates at ~30 fps
+      if (!root.classList.contains('lite') || now - last > 30) { last = now; draw(now); }
+      raf = requestAnimationFrame(loop);
+    }
+    const wakeCore = () => { if (!raf && on && !paused && !lost && !reduced && !document.hidden) raf = requestAnimationFrame(loop); };
+    cv.addEventListener('webglcontextlost', (e) => { e.preventDefault(); lost = true; host.classList.remove('gl'); });
+    cv.addEventListener('webglcontextrestored', () => { location.reload(); });
+    if ('IntersectionObserver' in window) new IntersectionObserver((es) => { on = es[0].isIntersecting; wakeCore(); }).observe(vitrine);
+    document.addEventListener('visibilitychange', wakeCore);
+    motionListeners.push((s) => { paused = s; wakeCore(); });
+    addEventListener('resize', () => { if (!raf) draw(performance.now()); });
+    draw(performance.now() + 2600); // a still frame first (and the only one under reduced motion)
+    wakeCore();
+  })();
+
   /* ---------- reveals ---------- */
   const revealEls = $$('.exhibit .stage, .exhibit .panel, .contact-card, .strip');
   if (!reduced && 'IntersectionObserver' in window) {
