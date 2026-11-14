@@ -39,6 +39,16 @@ if (window.top !== window.self) { try { window.top.location = window.location; }
   if (motionBtn) motionBtn.addEventListener('click', () => { still = !still; try { localStorage.setItem('ay-still', still ? '1' : '0'); } catch (e) {} applyMotion(); });
   root.classList.toggle('still', still);
 
+  /* ---------- mobile work menu ---------- */
+  const workBtn = $('#workBtn'), workMenu = $('#workMenu');
+  if (workBtn && workMenu) {
+    const setWork = (open) => { workBtn.setAttribute('aria-expanded', String(open)); workMenu.hidden = !open; };
+    workBtn.addEventListener('click', () => setWork(workMenu.hidden));
+    workMenu.addEventListener('click', (e) => { if (e.target.closest('a')) setWork(false); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !workMenu.hidden) { setWork(false); workBtn.focus(); } });
+    document.addEventListener('click', (e) => { if (!workMenu.hidden && !e.target.closest('.dock-work')) setWork(false); });
+  }
+
   /* ---------- theme ---------- */
   const themeBtn = $('#themeBtn');
   function currentTheme() {
@@ -162,11 +172,20 @@ if (window.top !== window.self) { try { window.top.location = window.location; }
     cards.forEach((c, i) => {
       c.addEventListener('focus', () => { focused = true; vel = 0; const want = -i * (360 / n); ry = want + 360 * Math.round((ry - want) / 360); render(); });
       c.addEventListener('blur', () => { focused = false; wake(); });
+      c.addEventListener('keydown', (e) => {
+        if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+        e.preventDefault();
+        cards[(i + (e.key === 'ArrowRight' ? 1 : n - 1)) % n].focus();
+      });
     });
     if ('IntersectionObserver' in window) new IntersectionObserver((es) => { onscreen = es[0].isIntersecting; wake(); }).observe(vitrine);
     function wake() { if (!raf && !reduced) raf = requestAnimationFrame(tick); }
     function render() {
       ring.style.setProperty('--ry', ry.toFixed(2));
+      cards.forEach((c, i) => {
+        const a = ((ry + i * (360 / n)) % 360 + 360) % 360, cos = Math.cos(a * Math.PI / 180);
+        const f = Math.max(0, cos); c.style.setProperty('--face', (f * f).toFixed(3));
+      });
       const f = ((Math.round(-ry / (360 / n)) % n) + n) % n;
       if (f !== front) { front = f; cards.forEach((c, i) => c.classList.toggle('front', i === f)); }
     }
@@ -365,13 +384,16 @@ if (window.top !== window.self) { try { window.top.location = window.location; }
       if (quality >= 3) { geo.setDrawRange(0, Math.floor(N * .35)); }
     }
     let visible = true, lost = false, paused = still, last = performance.now(), frames = 0, fpsT = last, fps = 60;
-    motionListeners.push((s) => { paused = s; last = performance.now(); });
+    let frameId = 0;
+    const resume = () => { if (!frameId && !paused && visible && !lost) { last = performance.now(); frameId = requestAnimationFrame(frame); } };
+    motionListeners.push((s) => { paused = s; resume(); });
     canvas.addEventListener('webglcontextlost', (e) => { e.preventDefault(); lost = true; canvas.classList.remove('on'); if (telemetry) telemetry.textContent = 'STATIC MODE'; });
-    canvas.addEventListener('webglcontextrestored', () => { lost = false; canvas.classList.add('on'); });
-    document.addEventListener('visibilitychange', () => { visible = !document.hidden; });
+    canvas.addEventListener('webglcontextrestored', () => { lost = false; canvas.classList.add('on'); resume(); });
+    document.addEventListener('visibilitychange', () => { visible = !document.hidden; resume(); });
     function frame(now) {
-      requestAnimationFrame(frame);
-      if (!visible || lost || paused) { last = now; return; }
+      frameId = 0;
+      if (!visible || lost || paused) return;
+      frameId = requestAnimationFrame(frame);
       const dt = Math.min(.05, (now - last) / 1000); last = now;
       frames++;
       if (now - fpsT > 1000) {
@@ -393,7 +415,8 @@ if (window.top !== window.self) { try { window.top.location = window.location; }
       shards.forEach((s) => { s.rotation.x += s.userData.r * dt; s.rotation.y += s.userData.r * .7 * dt; s.position.y = s.userData.y0 + Math.sin(uni.uTime.value * .5 + s.userData.ph) * .5 + sc * 3; });
       renderer.render(scene, camera);
     }
-    requestAnimationFrame(frame);
+    resume();
+    if (paused) renderer.render(scene, camera);
     canvas.classList.add('on');
     return { retheme, room };
   })();
@@ -568,10 +591,10 @@ if (window.top !== window.self) { try { window.top.location = window.location; }
     if (running.has(key)) return;
     running.add(key);
     const label = btn ? $('.lbl', btn).textContent : '';
-    if (btn) { btn.classList.add('running'); setLabel(btn, 'Running'); }
+    if (btn) { btn.classList.add('running'); btn.setAttribute('aria-busy', 'true'); setLabel(btn, 'Running'); }
     try { await demos[key](); } catch (e) { console.error(e); }
     running.delete(key);
-    if (btn) { btn.classList.remove('running'); btn.classList.add('done'); setLabel(btn, 'Done'); setTimeout(() => { btn.classList.remove('done'); setLabel(btn, label.replace(/^Run (a|an) /, 'Run another ').replace('Say something', 'Say it again').replace('Upload a slip', 'Upload another')); }, 1200); }
+    if (btn) { btn.classList.remove('running'); btn.removeAttribute('aria-busy'); btn.classList.add('done'); setLabel(btn, 'Done'); setTimeout(() => { btn.classList.remove('done'); setLabel(btn, label.replace(/^Run (a|an) /, 'Run another ').replace('Say something', 'Say it again').replace('Upload a slip', 'Upload another')); }, 1200); }
   }
   $$('[data-run]').forEach((b) => b.addEventListener('click', () => runDemo(b.dataset.run, b)));
   if (!reduced && 'IntersectionObserver' in window) {

@@ -44,9 +44,9 @@
  ]}
 ]}
 </script>
-<link rel="stylesheet" href="styles.css?v=20261114i">
+<link rel="stylesheet" href="styles.css?v=20261114p">
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" integrity="sha384-CI3ELBVUz9XQO+97x6nwMDPosPR5XvsxW2ua7N1Xeygeh1IxtgqtCkGfQY9WWdHu" crossorigin="anonymous"></script>
-<script defer src="app.js?v=20261114i"></script>
+<script defer src="app.js?v=20261114p"></script>
 </head>
 <body>
 <a class="skip" href="#main-content">Skip to content</a>
@@ -72,7 +72,18 @@
     <a href="#toolkit" style="--app:#D2BA86">Toolkit</a>
     <a href="blog/">Blog</a>
   </div>
-  <a class="dock-mail" href="#contact">Hire me</a>
+  <div class="dock-work">
+    <button class="dock-work-btn" id="workBtn" type="button" aria-expanded="false" aria-controls="workMenu">Work</button>
+    <ul class="dock-work-menu glass" id="workMenu" hidden>
+      <li><a href="#srihari"><b>EP.01</b>Sri Hari Docs</a></li>
+      <li><a href="#mikazuki"><b>EP.02</b>Mikazuki</a></li>
+      <li><a href="#strikedeck"><b>EP.03</b>Strikedeck</a></li>
+      <li><a href="#shopconnect"><b>EP.04</b>ShopConnect</a></li>
+      <li><a href="#toolkit"><b>EP.05</b>Toolkit</a></li>
+      <li><a href="blog/"><b>BLOG</b>Case studies</a></li>
+    </ul>
+  </div>
+  <a class="dock-mail" href="#contact">Hire<span class="long">&nbsp;me</span></a>
   <button class="dock-motion" id="motionBtn" type="button" aria-pressed="false" aria-label="Pause motion"><span></span></button>
   <button class="dock-theme" id="themeBtn" type="button" aria-label="Switch colour theme"><span class="sun"></span></button>
 </nav>
@@ -86,12 +97,11 @@
     <p class="eyebrow"><span class="pulse"></span><span class="name">Ankush Yadav</span><span class="mono">AI PRODUCT BUILDER</span></p>
     <h1><span class="line"><span>Anything,</span></span><span class="line"><em>from scratch.</em></span></h1>
     <p class="lede">I take AI products from idea to working software: Android and web apps, backends, document automation and voice assistants. Try a demo of each below.</p>
-    <p class="telemetry mono" id="telemetry" aria-hidden="true">FIELD ONLINE</p>
     <div class="cta">
       <a class="btn primary" href="#contact">Start a project</a>
       <a class="btn" href="#srihari">See the work</a>
     </div>
-    <p class="hint mono hero-hint"><span class="key k-drag">drag</span><span class="key k-swipe">swipe</span> the ring · <span class="key">tap</span> any screen</p>
+    <p class="hint mono hero-hint"><span class="k-drag">Drag</span><span class="k-swipe">Swipe</span> the ring, then tap a phone to open that product.</p>
   </div>
 
   <div class="vitrine" id="vitrine">
@@ -145,6 +155,11 @@
           <div class="sh-card" id="sh-v1"><div class="sh-vh"><b class="mono">UP 53 AB 1234</b><span id="sh-v1n">4 / 7</span></div><div class="bar"><i id="sh-v1bar" style="--w:57%"></i></div><small>Steam rice · Nautanwa → factory</small></div>
           <div class="sh-card done"><div class="sh-vh"><b class="mono">UP 56 CD 5678</b><span>7 / 7 ✓</span></div><div class="bar"><i style="--w:100%"></i></div><small>Verified</small></div>
           <div class="sh-card"><div class="sh-vh"><b class="mono">UP 32 EF 9012</b><span>2 / 7</span></div><div class="bar"><i style="--w:29%"></i></div><small>Gate pass, bilty</small></div>
+        <div class="sh-recent"><small>Recent</small>
+            <p><b>Bilty</b><span class="mono">UP 53 AB 1234</span><i>2 min</i></p>
+            <p><b>Gate pass</b><span class="mono">UP 32 EF 9012</span><i>18 min</i></p>
+            <p><b>Invoice · बिल</b><span class="mono">UP 56 CD 5678</span><i>1 h</i></p>
+          </div>
         </div>
 
         <div class="sh-view" data-view="upload">
@@ -180,6 +195,7 @@
       <li><b>Done</b><span>complete paper trail</span></li>
     </ol>
     <div class="actions"><button class="btn primary" type="button" data-run="sh"><span class="lbl">Upload a slip</span></button><button class="btn" type="button" data-xray aria-pressed="false"><span class="lbl">Show the build</span></button></div>
+    <a class="case-link" href="blog/truck-paperwork-that-files-itself.html">Read the case study <span aria-hidden="true">→</span></a>
     <ul class="chips"><li>React</li><li>Capacitor</li><li>Firebase</li><li>Hindi + English</li></ul>
     <dl class="facts"><div><dd>7</dd><dt>doc types</dt></div><div><dd>2</dd><dt>languages</dt></div><div><dd>May</dd><dt>2026, shipped</dt></div></dl>
     <p class="pilot">Run an agri-trading or transport business? <a href="#contact" data-u="ankushy961" data-d="gmail.com" data-subject="Sri Hari Docs pilot" data-body="Company:%0AWhat you trade or transport:%0ATrucks per day:%0ADocuments you handle today:%0A">Ask about a paid pilot</a></p>
@@ -226,6 +242,7 @@
       <li><b>Speak</b><span>24 kHz voice</span></li>
     </ol>
     <div class="actions"><button class="btn primary" type="button" data-run="mz"><span class="lbl">Say something</span></button><button class="btn" type="button" data-xray aria-pressed="false"><span class="lbl">Show the build</span></button></div>
+    <a class="case-link" href="blog/voice-os-for-one-person-android.html">Read the case study <span aria-hidden="true">→</span></a>
     <ul class="chips"><li>Kotlin</li><li>Compose</li><li>AGSL</li><li>Bun + Hono</li><li>sqlite-vec</li></ul>
     <dl class="facts"><div><dd>1.0.0</dd><dt>shipped</dt></div><div><dd>10</dd><dt>crew worlds</dt></div><div><dd>3</dd><dt>brains</dt></div></dl>
   </div>
@@ -273,7 +290,7 @@
               </div>
             </aside>
           </div>
-          <div class="sd-toast" id="sd-toast" hidden></div>
+          <div class="sd-toast" id="sd-toast" role="status" aria-live="polite" hidden></div>
         </div>
       </div>
       <div class="base"><i class="hinge"></i><i class="notch"></i></div>
@@ -298,6 +315,7 @@
       <li><b>Paper → live</b><span>50 trades first</span></li>
     </ol>
     <div class="actions"><button class="btn primary" type="button" data-run="sd"><span class="lbl">Run a tick</span></button><button class="btn" type="button" data-xray aria-pressed="false"><span class="lbl">Show the build</span></button></div>
+    <a class="case-link" href="blog/options-desk-paper-to-live-safety-gate.html">Read the case study <span aria-hidden="true">→</span></a>
     <ul class="chips"><li>React</li><li>Express 5</li><li>Socket.IO</li><li>PostgreSQL</li><li>Flutter</li></ul>
     <dl class="facts"><div><dd>1,871</dd><dt>source files</dt></div><div><dd>763</dd><dt>test files</dt></div><div><dd>24</dd><dt>symbols</dt></div></dl>
     <p class="disclaimer">Research and paper-trading software. Not investment advice, and not an offer of any trading or advisory service.</p>
@@ -328,6 +346,7 @@
           <div class="sc-shop"><b>Karol Bagh Mart</b><small>Central Delhi · 12 items</small><button type="button" id="sc-order">Order 2 items · ₹294</button></div>
           <div class="sc-shop"><b>Lajpat Daily</b><small>South Delhi · 9 items</small></div>
           <div class="sc-shop"><b>Dwarka Corner</b><small>West Delhi · 7 items</small></div>
+          <div class="sc-basket"><small>Basket · Karol Bagh Mart</small><p><span>Atta 5 kg</span><b>₹240</b></p><p><span>Toned milk 1 L</span><b>₹54</b></p><p class="tot"><span>Total · pay on delivery</span><b>₹294</b></p></div>
         </div>
 
         <div class="sc-view" data-view="shop">
@@ -341,6 +360,7 @@
         <div class="sc-view" data-view="delivery">
           <div class="sc-head"><b>Tasks</b><span>Vikram</span></div>
           <div class="sc-order" id="sc-task"><b>Order #1042</b><span>Karol Bagh Mart → Aarav</span><button type="button" id="sc-deliver">Delivered (sim)</button></div>
+          <div class="sc-route" aria-hidden="true"><i class="a"></i><i class="b"></i><span class="p1">Pickup · Karol Bagh Mart</span><span class="p2">Drop · Aarav</span></div>
         </div>
 
         <div class="sc-view" data-view="admin">
@@ -399,7 +419,7 @@
               <li class="lock"><b>Phase 1</b><span>Extensions</span></li>
               <li class="lock"><b>Phase 2</b><span>Business OS</span></li>
             </ol>
-            <pre class="tk-term mono" id="tk-term">$ npm run validate</pre>
+            <pre class="tk-term mono" id="tk-term" aria-live="polite">$ npm run validate</pre>
             <div class="tk-brand">
               <div class="tk-logos">
                 <svg viewBox="0 0 128 128" aria-label="Logo concept A"><rect width="128" height="128" rx="28" fill="#22452F"/><path d="M64 100 Q27.2 74.6 30 30 Q66.8 55.4 64 100 Z" fill="#FCFAF5"/><path d="M64 100 Q100.8 74.6 98 30 Q61.2 55.4 64 100 Z" fill="#D2BA86"/><rect x="46" y="106" width="36" height="4" rx="2" fill="#D2BA86"/></svg>
@@ -518,6 +538,7 @@
       <a class="btn" href="#contact" data-u="ankushy961" data-d="gmail.com" data-subject="Project enquiry" data-body="What I want built:%0AWho it is for:%0AWhen I need it:%0ABudget range (optional):%0A">Email me</a>
       <a class="btn" href="https://github.com/ankushy961-lang" target="_blank" rel="noopener noreferrer">GitHub</a>
     </div>
+    <p class="contact-meta mono">Based in India · IST, UTC+5:30 · English and Hindi · remote, async by default</p>
   </div>
 </section>
 </main>
