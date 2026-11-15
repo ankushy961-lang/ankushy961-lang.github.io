@@ -936,6 +936,39 @@ main:focus { outline: none; }
 .core.gl > i { display: none; }
 @media (max-width: 760px) { .core-gl { left: -300px; top: -540px; width: 600px; height: 840px; } }
 
+/* ---------- services and process: what clients hire, how a project runs ---------- */
+.hire { padding: clamp(64px, 9vw, 120px) 0 clamp(24px, 4vw, 48px); scroll-margin-top: 90px; }
+.hire-head { max-width: 700px; margin: 0 0 28px; }
+.hire-head h2, .hire-run h3 { font-family: var(--font-d); font-weight: 900; font-stretch: 62%; text-transform: uppercase; line-height: .88; text-wrap: balance; }
+.hire-head h2 { font-size: clamp(46px, 6vw, 84px); margin: 0 0 14px; }
+.hire-head .lede { color: var(--fg-2); font-size: clamp(16px, 1.5vw, 18px); max-width: 52ch; margin: 0; }
+.hire-grid { list-style: none; margin: 0 0 22px; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.hire-grid > li { display: flex; flex-direction: column; gap: 12px; padding: clamp(20px, 2.4vw, 28px); min-width: 0; }
+.hire-n { font-size: 11px; letter-spacing: .2em; color: var(--fg-3); }
+.hire-grid h3 { font-family: var(--font-d); font-weight: 800; font-stretch: 62%; text-transform: uppercase; font-size: clamp(27px, 2.6vw, 34px); line-height: .95; margin: 0; }
+.hire-grid p { margin: 0; color: var(--fg-2); font-size: 15px; }
+.hire-for { margin: 0; display: grid; gap: 3px; padding-top: 12px; border-top: 1px solid var(--line); }
+.hire-for dt, .hire-proof .mono, .hire-k { font-family: var(--font-m); font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--fg-3); }
+.hire-for dd { margin: 0; font-size: 14.5px; font-weight: 600; }
+.hire-grid .hire-proof { margin-top: auto; padding-top: 6px; display: flex; flex-wrap: wrap; align-items: center; gap: 6px 16px; }
+.hire-proof .case-link { margin: 0; min-height: 24px; }
+.hire-run { scroll-margin-top: 90px; }
+.hire .kicker .jp { letter-spacing: .3em; margin-right: .6em; }
+.hire-run h3 { font-size: clamp(38px, 4.6vw, 64px); margin: 0 0 22px; }
+.hire-steps { list-style: none; counter-reset: hs; margin: 0 0 28px; padding: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; }
+.hire-steps li { counter-increment: hs; display: grid; align-content: start; gap: 6px; padding: 14px 14px 16px; border-radius: var(--r-s); border: 1px solid var(--line); background: var(--glass); min-width: 0; }
+.hire-steps li::before { content: counter(hs, decimal-leading-zero); font-family: var(--font-d); font-weight: 900; font-stretch: 62%; font-size: 34px; line-height: 1; color: var(--accent); }
+.hire-steps b { font-size: 16px; font-weight: 700; }
+.hire-steps span { font-size: 14px; color: var(--fg-2); }
+.hire-k { margin: 0 0 12px; }
+.hire-ways { list-style: none; margin: 0 0 26px; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px 22px; }
+.hire-ways li { display: grid; align-content: start; gap: 4px; padding-top: 12px; border-top: 1px solid var(--line-2); }
+.hire-ways b { font-size: 15.5px; font-weight: 700; }
+.hire-ways span { font-size: 14px; color: var(--fg-2); }
+@media (max-width: 1023px) { .hire-steps { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 900px) { .hire-grid { grid-template-columns: 1fr; } }
+@media (max-width: 600px) { .hire-steps, .hire-ways { grid-template-columns: 1fr; } }
+
 /* ---------- load speed ---------- */
 /* arrows are a mask, so no symbol font is ever looked up */
 .arr { display: inline-block; width: .95em; height: .75em; vertical-align: -.02em; background: currentColor;
@@ -944,7 +977,7 @@ main:focus { outline: none; }
 /* decorative Japanese waits for its own small font instead of pulling in a multi-megabyte system CJK font */
 html:not(.jp-ok) [lang="ja"], html:not(.jp-ok) .rp-kanji { display: none; }
 /* sections below the first screen are laid out and painted only as they come near the viewport */
-.exhibit, .board, .faq { content-visibility: auto; contain-intrinsic-size: auto 1100px; }
+.exhibit, .board, .hire, .faq { content-visibility: auto; contain-intrinsic-size: auto 1100px; }
 
 /* ---------- responsive ---------- */
 @media (max-height: 520px) and (orientation: landscape) { .marks { display: none; } .hero { padding-top: 84px; } .eyebrow { margin-bottom: 10px; } h1 { margin-bottom: 12px; } }

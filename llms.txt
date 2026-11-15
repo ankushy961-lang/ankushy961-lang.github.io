@@ -14,6 +14,19 @@
 - ShopConnect (delivered to client): offline-first Android retail app with four roles: customer, shop, rider and admin. Expo 58, React Native, TypeScript.
 - Business toolkit (delivered to client; name withheld): zero-budget programme with research, two-checker fact-checking, a repository validator with 14 tests, and an owner approval gate before any build phase.
 
+## Services
+- AI assistants and automation: voice, chat and agent workflows on Claude or Gemini, with approval gates.
+- Document processing: photograph, extract fields with confidence, match to the right record, file.
+- Android and web apps: from first sketch to an installable release; offline-first where needed.
+
+## How a project runs
+1. Brief: the client says what to build, who it is for and when. Reply within a day.
+2. Scope: a written scope and a fixed quote before work starts.
+3. Build: milestones, each a build the client can open and try.
+4. Review: the client tests and asks for changes; nothing is released without approval.
+5. Handover: the release, source code and handover notes go to the client.
+Ways to work: discovery sprint, fixed-scope build, ongoing engineering.
+
 ## Contact
 - Email: ankushy961@gmail.com
 - GitHub: https://github.com/ankushy961-lang
