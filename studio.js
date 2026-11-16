@@ -185,6 +185,50 @@ if (window.top !== window.self) { try { window.top.location = window.location; }
   }
   /* ---------- end v4 sections ---------- */
 
+  /* ---------- hero field: a grid of dots lit by the pointer, with a slow wave of light when nobody is pointing ---------- */
+  const cv = $('.bp .dots'), hero = $('.hero');
+  if (cv && hero && !reduced && cv.getContext) {
+    const ctx = cv.getContext('2d'); let w = 0, h = 0, pts = [], mx = -1e4, my = -1e4, raf = 0, seen = true;
+    const size = () => {
+      const r = cv.getBoundingClientRect(), dpr = Math.min(window.devicePixelRatio || 1, 2);
+      w = r.width; h = r.height; cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr); ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      pts = []; const g = w < 700 ? 26 : 30;
+      for (let y = g / 2; y < h; y += g) for (let x = g / 2; x < w; x += g) pts.push(x, y);
+    };
+    const draw = (now) => {
+      raf = 0; ctx.clearRect(0, 0, w, h);
+      const wave = (now / 5200 % 1) * (w + h + 500) - 250, base = w < 700 ? 'rgba(14,21,18,.08)' : 'rgba(14,21,18,.13)';
+      for (let i = 0; i < pts.length; i += 2) {
+        const x = pts[i], y = pts[i + 1];
+        const k = Math.max(Math.max(0, 1 - Math.hypot(x - mx, y - my) / 170), Math.max(0, 1 - Math.abs(x + y - wave) / 130) * .5);
+        if (k < .02) { ctx.fillStyle = base; ctx.fillRect(x - 1, y - 1, 2, 2); continue; }
+        ctx.fillStyle = 'rgba(' + Math.round(74 - 43 * k) + ',' + Math.round(39 + 104 * k) + ',' + Math.round(184 + 12 * k) + ',' + (.18 + k * .72).toFixed(2) + ')';
+        ctx.beginPath(); ctx.arc(x, y, 1 + k * 2.3, 0, 6.2832); ctx.fill();
+      }
+      if (seen) raf = requestAnimationFrame(draw);
+    };
+    const go = () => { if (!raf && seen) raf = requestAnimationFrame(draw); };
+    size(); go();
+    addEventListener('resize', () => { size(); go(); });
+    hero.addEventListener('pointermove', (e) => { const r = cv.getBoundingClientRect(); mx = e.clientX - r.left; my = e.clientY - r.top; }, { passive: true });
+    hero.addEventListener('pointerleave', () => { mx = my = -1e4; });
+    if ('IntersectionObserver' in window) new IntersectionObserver((en) => { seen = en[0].isIntersecting; go(); }).observe(hero);
+  }
+
+  /* ---------- headline: the last words turn through the things we build ---------- */
+  const swap = $('.hero .swap');
+  if (swap && !reduced && swap.animate) {
+    const words = swap.dataset.words.split('|'); let n = 0;
+    setInterval(() => {
+      if (document.hidden) return;
+      const out = swap.animate([{ transform: 'none', opacity: 1 }, { transform: 'translateY(-70%)', opacity: 0 }], { duration: 380, easing: 'cubic-bezier(.5,0,.8,.4)', fill: 'forwards' });
+      out.onfinish = () => {
+        n = (n + 1) % words.length; swap.textContent = words[n]; out.cancel();
+        swap.animate([{ transform: 'translateY(70%)', opacity: 0 }, { transform: 'none', opacity: 1 }], { duration: 560, easing: 'cubic-bezier(.2,.8,.2,1)' });
+      };
+    }, 2600);
+  }
+
   /* ---------- arrival: only what starts below the fold eases in, and a timer guarantees nothing stays hidden ---------- */
   if (!reduced && 'IntersectionObserver' in window) {
     const els = $$('.sec .in > *, .contact > *').filter((el) => el.getBoundingClientRect().top > innerHeight);
