@@ -59,6 +59,17 @@ if (window.top !== window.self) { try { window.top.location = window.location; }
     if (grid) grid.addEventListener('pointermove', (e) => { ev = e; if (!queued) { queued = true; requestAnimationFrame(paint); } }, { passive: true });
   }
 
+  /* ---------- process story: the step crossing the reading line sets what the phone shows ---------- */
+  const pr = $('.pr');
+  if (pr && 'IntersectionObserver' in window) {
+    const items = $$('.pr-steps li', pr);
+    const set = (i) => { pr.dataset.step = String(i + 1); items.forEach((li, k) => li.classList.toggle('on', k === i)); };
+    pr.classList.add('js'); set(0);
+    const narrow = window.matchMedia('(max-width: 820px)').matches;
+    const line = new IntersectionObserver((ents) => ents.forEach((en) => { if (en.isIntersecting) set(items.indexOf(en.target)); }), { rootMargin: narrow ? '-64% 0px -28% 0px' : '-46% 0px -46% 0px' });
+    items.forEach((li) => line.observe(li));
+  }
+
   /* ---------- arrival: only what starts below the fold eases in, and a timer guarantees nothing stays hidden ---------- */
   if (!reduced && 'IntersectionObserver' in window) {
     const els = $$('.sec .in > *, .contact > *').filter((el) => el.getBoundingClientRect().top > innerHeight);
