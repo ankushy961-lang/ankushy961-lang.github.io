@@ -1,0 +1,138 @@
+/* =====================================================================
+   Device system: one material, light and shadow language for every phone and laptop on the site.
+   Loaded after styles.css. The showcase (showcase.js) builds the same parts.
+
+   Light comes from the top-left. Metal is polished, so it shows bands of reflection, not one flat gradient.
+   Devices cast a soft shadow on the floor; they never glow.
+   Parts:
+     phone frame   .phone  .sx-phone  .bd-phone
+     laptop lid    .laptop .lid  .sx-lid
+     laptop deck   .dv-hinge + .dv-deck > .dv-kb (.dv-kr rows of keys), .dv-pad
+     glass         .glare  .sx-glare
+   The hero ring phones (.rp) keep their own frame: a script drives their faces, shade and thickness.
+   ===================================================================== */
+:root {
+  --dv-metal-hi: #F7F8FA;      /* brightest reflection on silver */
+  --dv-metal-mid: #C4C8D0;     /* body of silver */
+  --dv-metal-lo: #7C828E;      /* shaded silver */
+  --dv-graphite-hi: #5A6170;   /* brightest reflection on graphite */
+  --dv-graphite: #23262E;      /* body of graphite */
+  --dv-graphite-lo: #0C0E13;   /* shaded graphite */
+  --dv-bezel: #030305;         /* black glass around a screen */
+  --dv-glass-line: rgba(255, 255, 255, .18);
+  --dv-glare: .085;            /* opacity of the reflection on glass */
+  --dv-radius-phone: 52px;
+  --dv-bezel-phone: 11px;
+  --dv-radius-laptop: 14px;
+  --dv-shadow-contact: 0 2px 2px rgba(10, 20, 14, .45);
+  --dv-shadow-ambient: 22px 54px 60px -30px rgba(10, 20, 14, .55);
+  --dv-ease: cubic-bezier(.2, .8, .2, 1);
+}
+
+/* ---------- phone frame: a polished band. Bright where it faces the light, with a dark reflection line beside each highlight ---------- */
+.phone, .sx-phone, .bd-phone {
+  --m1: var(--dv-graphite-hi); --m2: var(--dv-graphite); --m3: #3A3F4B; --m4: var(--dv-graphite-lo); --cut: rgba(255, 255, 255, .2);
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, .5) 0, rgba(255, 255, 255, .06) 1.6%, transparent 3.2%, transparent 96.8%, rgba(0, 0, 0, .28) 98.4%, rgba(0, 0, 0, .55) 100%),
+    linear-gradient(180deg, var(--m1) 0%, var(--m3) 1.4%, var(--m4) 3.2%, var(--m2) 7%, var(--m3) 30%, var(--m2) 52%, var(--m3) 76%, var(--m2) 93%, var(--m4) 96.8%, var(--m3) 98.6%, var(--m2) 100%);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, .28),      /* the polished outer edge */
+    inset 0 0 0 2px rgba(0, 0, 0, .28),            /* the chamfer just inside it */
+    0 0 0 1px rgba(0, 0, 0, .78),
+    var(--dv-shadow-contact), var(--dv-shadow-ambient);
+}
+.phone.light { --m1: #FFFFFF; --m2: var(--dv-metal-mid); --m3: #ECEEF2; --m4: var(--dv-metal-lo); --cut: rgba(0, 0, 0, .3); }
+/* antenna breaks: four fine lines across the band, near each corner */
+.phone::before, .sx-phone::before {
+  content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+  background:
+    linear-gradient(var(--cut), var(--cut)) left 0 top 13.5% / var(--band, var(--dv-bezel-phone)) 2px no-repeat,
+    linear-gradient(var(--cut), var(--cut)) right 0 top 13.5% / var(--band, var(--dv-bezel-phone)) 2px no-repeat,
+    linear-gradient(var(--cut), var(--cut)) left 0 bottom 13.5% / var(--band, var(--dv-bezel-phone)) 2px no-repeat,
+    linear-gradient(var(--cut), var(--cut)) right 0 bottom 13.5% / var(--band, var(--dv-bezel-phone)) 2px no-repeat;
+}
+/* the black glass border, with the fine bright line where glass meets metal */
+.phone .screen { box-shadow: 0 0 0 3px var(--dv-bezel), 0 0 0 3.6px rgba(255, 255, 255, .16); }
+.sx-phone .ax { box-shadow: 0 0 0 4px var(--dv-bezel), 0 0 0 4.8px rgba(255, 255, 255, .14); }
+/* side keys: small polished bars */
+.phone .side, .sx-key { background: linear-gradient(180deg, var(--m1), var(--m3) 12%, var(--m2) 50%, var(--m4)); box-shadow: 0 0 0 .5px rgba(0, 0, 0, .7); }
+/* glass: one crisp reflection from the top-left, as on a real screen under a window */
+.phone .glare, .sx-glare {
+  background:
+    linear-gradient(118deg, rgba(255, 255, 255, var(--dv-glare)) 0%, rgba(255, 255, 255, calc(var(--dv-glare) * .7)) 27%, transparent 27.4%),
+    linear-gradient(118deg, transparent 72%, rgba(255, 255, 255, .03) 100%);
+}
+
+/* showcase phone: real keys in place of the two flat bars */
+.sx-phone { --band: 12px; }
+.sx-phone::after { content: none; }
+.sx-hw { position: absolute; inset: 0; pointer-events: none; }
+.sx-key { position: absolute; width: 4px; border-radius: 2px; }
+.sx-key.k-act { left: -4px; top: 128px; height: 30px; }
+.sx-key.k-up { left: -4px; top: 184px; height: 60px; }
+.sx-key.k-dn { left: -4px; top: 256px; height: 60px; }
+.sx-key.k-pw { right: -4px; top: 214px; height: 96px; }
+
+/* build-board phones: the same metal on a dark board, so a tighter shadow */
+.bd-phone { box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .26), inset 0 0 0 2px rgba(0, 0, 0, .3), 0 0 0 1px rgba(0, 0, 0, .85), 12px 30px 40px -22px rgba(0, 0, 0, .9); }
+
+/* ---------- laptop: aluminium body, black glass around the screen ---------- */
+.laptop .lid, .sx-lid {
+  background: var(--dv-bezel);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, .07),
+    0 0 0 2px #C9CCD3, 0 0 0 3px #8B909A,          /* the aluminium rim of the lid */
+    var(--dv-shadow-ambient);
+}
+.laptop .lid { border-radius: var(--dv-radius-laptop) var(--dv-radius-laptop) 2px 2px; }
+.laptop .screen { box-shadow: none; }
+/* glass over the laptop screen */
+.laptop .lid::after, .sx-lid::after { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; background: linear-gradient(118deg, rgba(255, 255, 255, .06) 0%, rgba(255, 255, 255, .035) 24%, transparent 24.4%); }
+
+/* hinge: the dark barrel between lid and deck */
+.dv-hinge { display: block; height: 6px; margin: 0 9%; border-radius: 0 0 4px 4px; background: linear-gradient(180deg, #0A0B0E, #2B2E35 55%, #50545D); }
+/* deck: a real plane hinged to the bottom of the lid and tipped toward the viewer, so it shares the lid's 3D space */
+.laptop, .sx-laptop { display: flow-root; }   /* lets the deck's negative margin shrink the laptop's own box to what is visible */
+.dv-deck {
+  position: relative; display: block; aspect-ratio: 16 / 5.4; margin: 0 2% -14%;
+  transform-origin: 50% 0; transform: rotateX(62deg);
+  border-radius: 4px 4px 20px 20px;
+  background:
+    radial-gradient(circle, rgba(0, 0, 0, .34) .7px, transparent 1px) 1.6% 14% / 4px 4px no-repeat padding-box,
+    linear-gradient(180deg, #8F949E 0%, #D5D8DE 3%, #C9CCD3 40%, #B4B8C1 100%);
+  background-size: auto, auto;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .75), inset 0 0 0 1px rgba(0, 0, 0, .22), inset 0 -3px 0 rgba(255, 255, 255, .35), 14px 34px 34px -16px rgba(10, 20, 14, .6);
+}
+/* speaker grilles either side of the keyboard */
+.dv-deck::before { content: ""; position: absolute; left: 1.6%; right: 1.6%; top: 12%; height: 52%; pointer-events: none;
+  background: radial-gradient(circle, rgba(0, 0, 0, .38) .8px, transparent 1.1px) left top / 4px 4px, radial-gradient(circle, rgba(0, 0, 0, .38) .8px, transparent 1.1px) right top / 4px 4px;
+  background-repeat: repeat-y, repeat-y; background-size: 3.2% 4px, 3.2% 4px;
+  -webkit-mask: linear-gradient(90deg, #000 0 3.4%, transparent 3.4% 96.6%, #000 96.6%); mask: linear-gradient(90deg, #000 0 3.4%, transparent 3.4% 96.6%, #000 96.6%); }
+/* keyboard: a shallow well holding six rows of black keys */
+.dv-kb { position: absolute; left: 6.2%; right: 6.2%; top: 9%; height: 56%; display: grid; grid-template-rows: repeat(6, minmax(0, 1fr)); gap: 3.4%; padding: .9% .7%; border-radius: 5px; background: linear-gradient(180deg, #7E838D, #A3A7B0); box-shadow: inset 0 1px 2px rgba(0, 0, 0, .5); }
+.dv-kr { display: flex; gap: .5%; min-height: 0; }
+.dv-kr i { flex: 1 1 0; min-width: 0; border-radius: 3px; background: linear-gradient(180deg, #2A2D34, #121418); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .16), 0 1px 0 rgba(0, 0, 0, .55); }
+.dv-kr .ka { flex-grow: 1.25; } .dv-kr .kb { flex-grow: 1.5; } .dv-kr .kc { flex-grow: 1.75; } .dv-kr .kd { flex-grow: 2.25; } .dv-kr .ks { flex-grow: 5; }
+/* trackpad: a large glass pad, a shade lighter than the deck */
+.dv-pad { position: absolute; left: 33%; right: 33%; top: 70%; bottom: 6%; border-radius: 7px; background: linear-gradient(180deg, #D3D6DC, #C3C7CF); box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .2), inset 0 1px 0 rgba(255, 255, 255, .6); }
+/* the thumb scoop on the front lip */
+.dv-deck::after { content: ""; position: absolute; left: 43%; right: 43%; bottom: 0; height: 4%; border-radius: 8px 8px 0 0; background: linear-gradient(180deg, #7D828C, #9EA2AB); }
+/* in the showcase there is no 3D stage around the laptop, so the deck carries its own perspective and is shallower */
+.sx-laptop .dv-deck { aspect-ratio: 16 / 3.8; margin: 0 4% -10%; transform: perspective(2400px) rotateX(66deg); }
+.sx.flow .dv-deck, .sx.flow .dv-hinge, .sx.flow .sx-hw, .sx.flow .sx-phone::before, .sx.flow .sx-lid::after { display: none; }
+
+@media (max-width: 760px) { .dv-deck { margin: 0 5% -13%; border-radius: 3px 3px 14px 14px; } .dv-kr i { border-radius: 2px; } .dv-kb { gap: 3%; } }
+
+/* ---------- live reflection: the reflection on the glass slides as the device tilts toward the pointer ---------- */
+.phone.tilt, .laptop.tilt { --gl: var(--ry); }   /* --ry is registered as non-inheriting, so it is passed down under another name */
+.phone .glare { background: linear-gradient(118deg, rgba(255, 255, 255, var(--dv-glare)) 0%, rgba(255, 255, 255, calc(var(--dv-glare) * .7)) calc(27% - var(--gl, 0) * 1.6%), transparent calc(27.4% - var(--gl, 0) * 1.6%)), linear-gradient(118deg, transparent 72%, rgba(255, 255, 255, .03) 100%); }
+.laptop .lid::after { background: linear-gradient(118deg, rgba(255, 255, 255, .06) 0%, rgba(255, 255, 255, .035) calc(24% - var(--gl, 0) * 1.4%), transparent calc(24.4% - var(--gl, 0) * 1.4%)); }
+
+/* ---------- hero ring phones: the same polished band, in graphite. Their script still drives face, shade and thickness ---------- */
+.rp {
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, .42) 0, rgba(255, 255, 255, .05) 2.4%, transparent 4.5%, transparent 95.5%, rgba(0, 0, 0, .3) 97.6%, rgba(0, 0, 0, .55) 100%),
+    linear-gradient(180deg, var(--dv-graphite-hi) 0%, #3A3F4B 1.6%, var(--dv-graphite-lo) 3.4%, var(--dv-graphite) 7%, #3A3F4B 30%, var(--dv-graphite) 52%, #3A3F4B 76%, var(--dv-graphite) 93%, var(--dv-graphite-lo) 96.6%, #3A3F4B 98.4%, var(--dv-graphite) 100%);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .26), inset 0 0 0 2px rgba(0, 0, 0, .3), 0 0 0 1px rgba(0, 0, 0, .8), 0 26px 44px -18px rgba(0, 0, 0, .85);
+}
+.rp-glare { background: linear-gradient(118deg, rgba(255, 255, 255, .11) 0%, rgba(255, 255, 255, .07) 27%, transparent 27.4%), linear-gradient(118deg, transparent 74%, rgba(255, 255, 255, .04) 100%); }

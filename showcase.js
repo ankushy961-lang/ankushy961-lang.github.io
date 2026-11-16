@@ -729,8 +729,17 @@
     if (!built[key]) {
       const wrap = document.createElement('div'); wrap.innerHTML = P.html().trim(); const a = wrap.firstElementChild;
       const dev = document.createElement('div');
-      if (P.device === 'phone') { dev.className = 'sx-phone'; dev.appendChild(a); dev.insertAdjacentHTML('beforeend', '<i class="sx-glare" aria-hidden="true"></i>'); }
-      else { dev.className = 'sx-laptop'; const lid = document.createElement('div'); lid.className = 'sx-lid'; lid.appendChild(a); dev.appendChild(lid); dev.insertAdjacentHTML('beforeend', '<div class="sx-base" aria-hidden="true"></div>'); }
+      // device shell: everything around the screen is decorative hardware, hidden from assistive tech (styles in devices.css)
+      if (P.device === 'phone') {
+        dev.className = 'sx-phone';
+        dev.insertAdjacentHTML('beforeend', '<span class="sx-hw" aria-hidden="true"><i class="sx-key k-act"></i><i class="sx-key k-up"></i><i class="sx-key k-dn"></i><i class="sx-key k-pw"></i></span>');
+        dev.appendChild(a); dev.insertAdjacentHTML('beforeend', '<i class="sx-glare" aria-hidden="true"></i>');
+      } else {
+        dev.className = 'sx-laptop'; const lid = document.createElement('div'); lid.className = 'sx-lid'; lid.appendChild(a); dev.appendChild(lid);
+        // keyboard rows by key width: 1 = one unit, a = 1.25, b = 1.5, c = 1.75, d = 2.25, s = space bar
+        const rows = ['b1111111111111', '1111111111111b', 'b1111111111111', 'c11111111111c', 'd1111111111d', '111asa1111'].map((r) => '<span class="dv-kr">' + [...r].map((c) => (c === '1' ? '<i></i>' : '<i class="k' + c + '"></i>')).join('') + '</span>').join('');
+        dev.insertAdjacentHTML('beforeend', '<i class="dv-hinge" aria-hidden="true"></i><div class="dv-deck" aria-hidden="true"><div class="dv-kb">' + rows + '</div><i class="dv-pad"></i></div>');
+      }
       dev.addEventListener('click', (e) => { const g = e.target.closest('[data-go]'); if (g && !g.disabled) api.go(g.dataset.go); });
       built[key] = { dev, app: a, ready: false };
     }

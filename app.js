@@ -35,6 +35,33 @@ if (window.top !== window.self) { try { window.top.location = window.location; }
   const jpOk = () => root.classList.add('jp-ok');
   if (document.fonts && document.fonts.load) { Promise.all(['700', '900'].map((w) => document.fonts.load(`${w} 16px "Noto Sans JP"`, 'ゼ'))).then(jpOk, jpOk); setTimeout(jpOk, 3000); } else jpOk();
 
+  /* ---------- time bridge: the visitor's clock beside India's, worked out on the device (no network) ---------- */
+  (function timeBridge() {
+    const bridge = $('#bridge'), istEls = $$('[data-ist]'), short = $('[data-ist-short]');
+    if (!bridge && !istEls.length && !short) return;
+    const pad = (v) => String(v).padStart(2, '0');
+    const put = (k, v) => { const el = $('[data-b="' + k + '"]', bridge); if (el) el.textContent = v; };
+    function tick() {
+      const now = new Date();
+      const india = new Date(now.getTime() + 330 * 60000); // India has no daylight saving: IST is always UTC+5:30
+      const ist = pad(india.getUTCHours()) + ':' + pad(india.getUTCMinutes());
+      istEls.forEach((el) => { el.textContent = ist + ' IST \u00B7 UTC+5:30'; });
+      if (short) short.textContent = 'IST ' + ist;
+      if (!bridge) return;
+      const off = -now.getTimezoneOffset(), abs = Math.abs(off);
+      let zone = 'UTC' + (off < 0 ? '\u2212' : '+') + pad(Math.floor(abs / 60)) + ':' + pad(abs % 60);
+      try { const z = Intl.DateTimeFormat().resolvedOptions().timeZone; if (z) zone = z.replace('Calcutta', 'Kolkata').replace(/_/g, ' ') + ' \u00B7 ' + zone; } catch (e) {}
+      const diff = 330 - off, d = Math.abs(diff), hrs = Math.floor(d / 60), min = d % 60;
+      const span = (hrs ? hrs + ' h ' : '') + (min ? min + ' min ' : '');
+      put('you', pad(now.getHours()) + ':' + pad(now.getMinutes())); put('zone', zone); put('ist', ist);
+      put('gap', diff === 0 ? 'We are in the same time zone' : 'India is ' + span + (diff > 0 ? 'ahead of you' : 'behind you'));
+      bridge.hidden = false;
+    }
+    tick();
+    setTimeout(() => { tick(); setInterval(tick, 60000); }, 60000 - (Date.now() % 60000) + 80); // then once a minute, on the minute
+    document.addEventListener('visibilitychange', () => { if (!document.hidden) tick(); });
+  })();
+
   /* ---------- motion: a visible pause control for everything that moves on its own (WCAG 2.2.2) ---------- */
   const motionBtn = $('#motionBtn');
   let still = false;
@@ -217,6 +244,31 @@ if (window.top !== window.self) { try { window.top.location = window.location; }
       if (dragging || vel || spin || target !== null) raf = requestAnimationFrame(tick);
     }
     wake();
+  })();
+
+  /* ---------- hero depth: the ring and its core lean toward the pointer, so the scene reads as a real 3D space ---------- */
+  (function heroDepth() {
+    const ringEl = $('#ring'), coreEl = $('#vitrine > .core'), hero = $('.hero');
+    if (!ringEl || !hero || reduced || !finePointer) return;
+    let tx = 0, ty = 0, wx = 0, wy = 0, sx = 9, sy = 9, raf = 0, rect = null;
+    function loop() {
+      tx = lerp(tx, wx, .08); ty = lerp(ty, wy, .08);
+      if (Math.abs(tx - sx) + Math.abs(ty - sy) > .004) {
+        sx = tx; sy = ty; const a = tx.toFixed(3), b = ty.toFixed(3);
+        ringEl.style.setProperty('--tx', a); ringEl.style.setProperty('--ty', b);
+        if (coreEl) { coreEl.style.setProperty('--tx', a); coreEl.style.setProperty('--ty', b); }
+      }
+      raf = (Math.abs(wx - tx) + Math.abs(wy - ty) > .002) ? requestAnimationFrame(loop) : 0;
+    }
+    const kick = () => { if (!raf) raf = requestAnimationFrame(loop); };
+    hero.addEventListener('pointerenter', () => { rect = hero.getBoundingClientRect(); });
+    addEventListener('scroll', () => { rect = null; }, { passive: true });
+    hero.addEventListener('pointermove', (e) => {
+      if (still || e.pointerType !== 'mouse') return;
+      if (!rect) rect = hero.getBoundingClientRect();
+      wx = clamp((e.clientX - rect.left) / rect.width * 2 - 1, -1, 1); wy = clamp((e.clientY - rect.top) / rect.height * 2 - 1, -1, 1); kick();
+    }, { passive: true });
+    hero.addEventListener('pointerleave', () => { wx = 0; wy = 0; kick(); });
   })();
 
   /* ---------- energy core: a WebGL plasma behind the turntable (CSS layers remain as the fallback) ---------- */
@@ -473,7 +525,8 @@ if (window.top !== window.self) { try { window.top.location = window.location; }
     addEventListener('touchmove', (e) => { const t = e.touches[0]; if (t) target.set((t.clientX / innerWidth - .5) * 2, -(t.clientY / innerHeight - .5) * 2); }, { passive: true });
 
     /* adaptive quality: step down resolution and load whenever frames drop; never flicker back up */
-    let slowSeconds = 0;
+    let slowSeconds = 0, graceUntil = 0;
+    document.addEventListener('perf:grace', () => { graceUntil = performance.now() + 4000; slowSeconds = 0; }); // a one-off build elsewhere on the page is not a slow device
     function stepDown() {
       if (quality >= DPR_STEPS.length - 1) return;
       quality++;
@@ -499,7 +552,8 @@ if (window.top !== window.self) { try { window.top.location = window.location; }
       frames++;
       if (now - fpsT > 1000) {
         fps = Math.round(frames * 1000 / (now - fpsT)); frames = 0; fpsT = now;
-        if (fps < 45 && fps >= 8) { if (++slowSeconds >= 2) { slowSeconds = 0; stepDown(); } } else if (fps >= 45) slowSeconds = 0;
+        if (now < graceUntil) slowSeconds = 0;
+        else if (fps < 45 && fps >= 8) { if (++slowSeconds >= 2) { slowSeconds = 0; stepDown(); } } else if (fps >= 45) slowSeconds = 0;
         if (telemetry) telemetry.textContent = `NODES ${NN} · SYNAPSES ${E} · ${fps >= 30 ? fps + ' FPS' : 'LOW POWER'}${quality ? ' · Q' + (DPR_STEPS.length - quality) : ''}`;
       }
       pointer.lerp(target, .06);
@@ -512,7 +566,10 @@ if (window.top !== window.self) { try { window.top.location = window.location; }
       tintAmt = lerp(tintAmt, tintWant, .03); uTintAmt.value = tintAmt; tintCol.lerp(tintTarget, .04);
       camera.position.x = lerp(camera.position.x, pointer.x * .6, .05);
       camera.position.y = lerp(camera.position.y, pointer.y * .4 - sc * 1.2, .05);
+      camera.position.z = lerp(camera.position.z, 9 - sc * 1.8, .05);
       camera.lookAt(0, -sc * 1.2, 0);
+      scene.rotation.y = lerp(scene.rotation.y, sc * 1.15 + pointer.x * .1, .06);
+      scene.rotation.x = lerp(scene.rotation.x, sc * .24 - pointer.y * .05, .06);
       shards.forEach((s) => { s.rotation.x += s.userData.r * dt; s.rotation.y += s.userData.r * .7 * dt; s.position.y = s.userData.y0 + Math.sin(uni.uTime.value * .5 + s.userData.ph) * .5 + sc * 3; });
       renderer.render(scene, camera);
     }
@@ -529,11 +586,41 @@ if (window.top !== window.self) { try { window.top.location = window.location; }
       const s = document.createElement('script');
       s.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
       s.integrity = 'sha384-CI3ELBVUz9XQO+97x6nwMDPosPR5XvsxW2ua7N1Xeygeh1IxtgqtCkGfQY9WWdHu'; s.crossOrigin = 'anonymous';
-      s.onload = s.onerror = () => { field = makeField(); field.room(lastRoom); };
+      s.onload = s.onerror = () => { field = makeField(); field.room(lastRoom); document.dispatchEvent(new Event('three:ready')); };
       document.head.appendChild(s);
     };
     const later = () => (window.requestIdleCallback ? requestIdleCallback(go, { timeout: 1500 }) : setTimeout(go, 300));
     if (document.readyState === 'complete') later(); else addEventListener('load', later, { once: true });
+  })();
+  /* ---------- off-screen sections skip rendering, but only once every section has been laid out and remembers its height ---------- */
+  (function skipOffscreen() {
+    if (!window.CSS || !CSS.supports || !CSS.supports('content-visibility', 'auto')) return;
+    let timer = 0, width = innerWidth;
+    const on = () => root.classList.add('cv');
+    const arm = () => { clearTimeout(timer); root.classList.remove('cv'); timer = setTimeout(() => (window.requestIdleCallback ? requestIdleCallback(on, { timeout: 2000 }) : on()), 1400); };
+    if (document.readyState === 'complete') arm(); else addEventListener('load', arm, { once: true });
+    // a new width changes every section's height: render them all again, then resume skipping
+    addEventListener('resize', () => { if (innerWidth !== width) { width = innerWidth; arm(); } });
+  })();
+
+  /* ---------- time-zone globe: its script loads only when its section is near and three.js is in ---------- */
+  (function loadGlobe() {
+    const sec = $('#world');
+    if (!sec || !('IntersectionObserver' in window)) return;
+    let near = false, done = false;
+    const go = () => {
+      if (done || !near || !window.THREE) return;
+      done = true;
+      const v = (($('script[src*="app.js"]') || {}).src || '').split('?')[1] || '';
+      const s = document.createElement('script'); s.src = 'globe.js' + (v ? '?' + v : ''); document.head.appendChild(s);
+    };
+    new IntersectionObserver((es, io) => { if (es[0].isIntersecting) { near = true; io.disconnect(); go(); } }, { rootMargin: '900px 0px' }).observe(sec);
+    // once three.js is in, build the globe in an idle moment so its set-up never lands in the middle of a scroll
+    document.addEventListener('three:ready', () => {
+      go();
+      const warm = () => { near = true; go(); };
+      setTimeout(() => (window.requestIdleCallback ? requestIdleCallback(warm, { timeout: 4000 }) : warm()), 1500);
+    });
   })();
   watchRooms();
   applyMotion();
