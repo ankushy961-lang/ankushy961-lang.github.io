@@ -800,3 +800,7 @@ dialog.sx .sx-ep { display: none; }
 .pr.js .pr-steps li:not(.on) { opacity: 1; }
 .pr.js .pr-steps li:not(.on) h3 { color: var(--mute); }
 .pr-steps h3 { transition: color .4s; }
+
+/* ================= v10 (18 Nov 2026): speed. The resting dot grid is one painted background; the canvas only adds light ================= */
+.bp { background-image: radial-gradient(rgba(14, 21, 18, .15) 1px, transparent 1.4px); background-size: 30px 30px; }
+@media (max-width: 699px) { .bp { background-image: radial-gradient(rgba(14, 21, 18, .1) 1px, transparent 1.4px); background-size: 26px 26px; } }

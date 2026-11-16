@@ -5,6 +5,7 @@ if (window.top !== window.self) { try { window.top.location = window.location; }
   const $ = (s, r) => (r || document).querySelector(s);
   const $$ = (s, r) => Array.from((r || document).querySelectorAll(s));
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const fonts = document.getElementById('fonts'); if (fonts) fonts.media = 'all';   // the font stylesheet is linked as print so it never blocks the first paint
 
   /* ---------- contact address, assembled here so the page source never carries it whole ---------- */
   $$('[data-u][data-d]').forEach((el) => {
@@ -188,27 +189,32 @@ if (window.top !== window.self) { try { window.top.location = window.location; }
   /* ---------- hero field: a grid of dots lit by the pointer, with a slow wave of light when nobody is pointing ---------- */
   const cv = $('.bp .dots'), hero = $('.hero');
   if (cv && hero && !reduced && cv.getContext) {
-    const ctx = cv.getContext('2d'); let w = 0, h = 0, pts = [], mx = -1e4, my = -1e4, raf = 0, seen = true;
+    const ctx = cv.getContext('2d'); let w = 0, h = 0, pts = [], mx = -1e4, my = -1e4, raf = 0, seen = true, last = 0;
     const size = () => {
-      const r = cv.getBoundingClientRect(), dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const r = cv.getBoundingClientRect(), dpr = Math.min(window.devicePixelRatio || 1, 1.5);
       w = r.width; h = r.height; cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr); ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       pts = []; const g = w < 700 ? 26 : 30;
       for (let y = g / 2; y < h; y += g) for (let x = g / 2; x < w; x += g) pts.push(x, y);
     };
+    /* the resting dots are a CSS background painted once; each frame only the dots near the pointer or the wave are drawn */
     const draw = (now) => {
-      raf = 0; ctx.clearRect(0, 0, w, h);
-      const wave = (now / 5200 % 1) * (w + h + 500) - 250, base = w < 700 ? 'rgba(14,21,18,.08)' : 'rgba(14,21,18,.13)';
+      raf = 0; if (seen) raf = requestAnimationFrame(draw);
+      if (now - last < 32) return; last = now;
+      ctx.clearRect(0, 0, w, h);
+      const wave = (now / 5200 % 1) * (w + h + 500) - 250;
       for (let i = 0; i < pts.length; i += 2) {
-        const x = pts[i], y = pts[i + 1];
-        const k = Math.max(Math.max(0, 1 - Math.hypot(x - mx, y - my) / 170), Math.max(0, 1 - Math.abs(x + y - wave) / 130) * .5);
-        if (k < .02) { ctx.fillStyle = base; ctx.fillRect(x - 1, y - 1, 2, 2); continue; }
+        const x = pts[i], y = pts[i + 1], dw = Math.abs(x + y - wave), dx = x - mx, dy = y - my;
+        if (dw > 130 && (dx > 170 || dx < -170 || dy > 170 || dy < -170)) continue;
+        const k = Math.max(Math.max(0, 1 - Math.hypot(dx, dy) / 170), Math.max(0, 1 - dw / 130) * .5);
+        if (k < .02) continue;
         ctx.fillStyle = 'rgba(' + Math.round(74 - 43 * k) + ',' + Math.round(39 + 104 * k) + ',' + Math.round(184 + 12 * k) + ',' + (.18 + k * .72).toFixed(2) + ')';
         ctx.beginPath(); ctx.arc(x, y, 1 + k * 2.3, 0, 6.2832); ctx.fill();
       }
-      if (seen) raf = requestAnimationFrame(draw);
     };
-    const go = () => { if (!raf && seen) raf = requestAnimationFrame(draw); };
-    size(); go();
+    const go = () => { if (!raf && seen && w) raf = requestAnimationFrame(draw); };
+    const idle = window.requestIdleCallback ? (f) => requestIdleCallback(f, { timeout: 2000 }) : (f) => setTimeout(f, 400);
+    const begin = () => idle(() => { size(); go(); });
+    if (document.readyState === 'complete') begin(); else addEventListener('load', begin, { once: true });
     addEventListener('resize', () => { size(); go(); });
     hero.addEventListener('pointermove', (e) => { const r = cv.getBoundingClientRect(); mx = e.clientX - r.left; my = e.clientY - r.top; }, { passive: true });
     hero.addEventListener('pointerleave', () => { mx = my = -1e4; });
