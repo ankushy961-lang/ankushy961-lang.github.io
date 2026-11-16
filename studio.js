@@ -52,6 +52,13 @@ if (window.top !== window.self) { try { window.top.location = window.location; }
   addEventListener('hashchange', fromHash);
   if (document.readyState === 'complete') fromHash(); else addEventListener('load', fromHash, { once: true });
 
+  /* ---------- showroom light: on a mouse, each project tile is lit from where the pointer is ---------- */
+  if (!reduced && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    const grid = $('.show .work'); let ev = null, queued = false;
+    const paint = () => { queued = false; if (!ev) return; $$('.tile', grid).forEach((t) => { const r = t.getBoundingClientRect(); t.style.setProperty('--mx', (ev.clientX - r.left) + 'px'); t.style.setProperty('--my', (ev.clientY - r.top) + 'px'); }); };
+    if (grid) grid.addEventListener('pointermove', (e) => { ev = e; if (!queued) { queued = true; requestAnimationFrame(paint); } }, { passive: true });
+  }
+
   /* ---------- arrival: only what starts below the fold eases in, and a timer guarantees nothing stays hidden ---------- */
   if (!reduced && 'IntersectionObserver' in window) {
     const els = $$('.sec .in > *, .contact > *').filter((el) => el.getBoundingClientRect().top > innerHeight);
