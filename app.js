@@ -592,6 +592,25 @@ if (window.top !== window.self) { try { window.top.location = window.location; }
     const later = () => (window.requestIdleCallback ? requestIdleCallback(go, { timeout: 1500 }) : setTimeout(go, 300));
     if (document.readyState === 'complete') later(); else addEventListener('load', later, { once: true });
   })();
+  /* ---------- in-page links: web fonts and late layout above the target move it after the browser's first jump,
+     so put it back where it belongs until the page settles or the visitor starts to scroll ---------- */
+  (function holdAnchor() {
+    if (!location.hash || location.hash.length < 2) return;
+    let target = null; try { target = document.querySelector(location.hash); } catch (e) { return; }
+    if (!target) return;
+    let stop = false; const off = () => { stop = true; };
+    ['wheel', 'touchstart', 'keydown', 'pointerdown'].forEach((e) => addEventListener(e, off, { once: true, passive: true }));
+    const seat = () => {
+      if (stop) return;
+      const top = target.getBoundingClientRect().top, want = parseFloat(getComputedStyle(target).scrollMarginTop) || 0;
+      if (Math.abs(top - want) < 24) return;
+      const was = root.style.scrollBehavior; root.style.scrollBehavior = 'auto'; scrollTo(0, scrollY + top - want); root.style.scrollBehavior = was;
+    };
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(seat);
+    const after = () => { seat(); setTimeout(seat, 600); setTimeout(seat, 1800); setTimeout(off, 2600); };
+    if (document.readyState === 'complete') after(); else addEventListener('load', after, { once: true });
+  })();
+
   /* ---------- off-screen sections skip rendering, but only once every section has been laid out and remembers its height ---------- */
   (function skipOffscreen() {
     if (!window.CSS || !CSS.supports || !CSS.supports('content-visibility', 'auto')) return;
