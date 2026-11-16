@@ -30,6 +30,7 @@ Ways to work: discovery sprint, fixed-scope build, ongoing engineering.
 ## Contact
 - Email: ankushy961@gmail.com
 - GitHub: https://github.com/ankushy961-lang
+- LinkedIn: https://www.linkedin.com/in/ankushbuilds
 - Site: https://ankushy961-lang.github.io/
 - Blog: https://ankushy961-lang.github.io/blog/
 
