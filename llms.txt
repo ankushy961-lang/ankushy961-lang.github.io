@@ -1,6 +1,6 @@
 # Ankush Yadav
 
-> AI product builder in India. Takes products from idea to working software: Android, web, backend and AI. Five products delivered to clients, each with an explorable mockup on this site (mockups run on sample data only).
+> AI and software development studio in India, run by Ankush Yadav. Turns ideas into digital products: websites, web applications, mobile applications, SaaS products, e-commerce, AI agents, AI automation, custom software, business platforms and API integrations, from idea to launch and handover. Five products delivered to clients, each with an explorable mockup on this site (mockups run on sample data only).
 
 ## What he builds
 - Android apps: Kotlin, Jetpack Compose, AGSL shaders, accessibility and foreground services, Capacitor, React Native / Expo.

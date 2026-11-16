@@ -70,6 +70,114 @@ if (window.top !== window.self) { try { window.top.location = window.location; }
     items.forEach((li) => line.observe(li));
   }
 
+  /* ---------- v4 sections ---------- */
+  { // ai
+    /* ---------- AI section: the agent diagram rests while it is off screen, and can be paused by hand ---------- */
+    {
+      const aiFlow = $('.ai-flow'), aiPause = $('.ai-pause');
+      if (aiFlow && !reduced) {
+        if ('IntersectionObserver' in window) {
+          new IntersectionObserver((es) => { es.forEach((e) => aiFlow.classList.toggle('ai-idle', !e.isIntersecting)); }, { rootMargin: '120px 0px' }).observe(aiFlow);
+        }
+        if (aiPause) {
+          aiPause.hidden = false;
+          aiPause.addEventListener('click', () => {
+            const off = aiFlow.classList.toggle('ai-stop');
+            aiPause.classList.toggle('ai-off', off);
+            aiPause.textContent = off ? 'Play animation' : 'Pause animation';
+          });
+        }
+      }
+    }
+  }
+  { // enquiry
+    /* ---------- project enquiry: composes a plain-text email and hands it to the visitor's own email app.
+         Nothing is sent from this page and nothing is stored. The address is assembled from two attributes. ---------- */
+      const enqForm = $('#enq-form');
+      if (enqForm) {
+        const to = enqForm.dataset.u + '@' + enqForm.dataset.d;
+        const fields = $$('.enq-input', enqForm);
+        const status = $('#enq-status'), result = $('#enq-result'), out = $('#enq-out');
+        const copy = $('#enq-copy'), copyText = $('#enq-copy-t'), copyNote = $('#enq-copy-note');
+        const val = (name) => enqForm.elements[name].value.trim();
+        let copyTimer = 0;
+
+        /* native constraints first, then the two checks they miss (spaces only, and a short text after trimming) */
+        const problem = (el) => {
+          const v = el.value.trim();
+          if (el.required && !v) return el.dataset.missing || el.validationMessage;
+          if (el.validity.typeMismatch) return el.dataset.invalid || el.validationMessage;
+          if (el.minLength > 0 && v.length < el.minLength) return el.dataset.short || el.validationMessage;
+          return el.validity.valid ? '' : el.validationMessage;
+        };
+        const mark = (el) => {
+          const msg = problem(el), err = $('#' + el.id + '-err');
+          if (msg) el.setAttribute('aria-invalid', 'true'); else el.removeAttribute('aria-invalid');
+          if (err) { err.textContent = msg; err.hidden = !msg; }
+          return !msg;
+        };
+        const say = (text, bad) => { status.textContent = text; status.classList.toggle('enq-bad', !!bad); };
+
+        enqForm.noValidate = true; /* errors are shown inline, next to each field, instead of in browser bubbles */
+        fields.forEach((el) => {
+          el.addEventListener('blur', () => { if (el.value.trim() || el.hasAttribute('aria-invalid')) mark(el); });
+          el.addEventListener('input', () => { if (el.hasAttribute('aria-invalid')) mark(el); });
+        });
+
+        const compose = () => [
+          'Project enquiry',
+          '',
+          'Name: ' + val('name'),
+          'Email: ' + val('email'),
+          'Project category: ' + (val('category') || 'Not specified'),
+          'Budget: ' + (val('budget') || 'Not specified'),
+          'Timeline: ' + (val('timeline') || 'Not specified'),
+          'Reference links: ' + (val('links') || 'None'),
+          '',
+          'What I want to build:',
+          val('brief').replace(/\r\n?/g, '\n')
+        ].join('\n');
+
+        enqForm.addEventListener('submit', (e) => {
+          e.preventDefault();
+          const bad = fields.filter((el) => !mark(el));
+          if (bad.length) {
+            say(bad.length === 1 ? 'One field needs attention. See the message next to it.' : bad.length + ' fields need attention. See the message next to each one.', true);
+            bad[0].focus();
+            return;
+          }
+          const text = compose();
+          const subject = 'Project enquiry from ' + val('name') + (val('category') ? ' (' + val('category') + ')' : '');
+          const head = 'mailto:' + to + '?subject=' + encodeURIComponent(subject) + '&body=';
+          let href = head + encodeURIComponent(text.replace(/\n/g, '\r\n'));
+          /* some email apps refuse a very long link, so a long enquiry travels by Copy and paste instead */
+          const tooLong = href.length > 1900;
+          if (tooLong) href = head + encodeURIComponent('Project enquiry\r\n\r\nName: ' + val('name') + '\r\nEmail: ' + val('email') + '\r\n\r\n(Paste the copied enquiry here.)');
+
+          out.value = text;
+          result.hidden = false;
+          clearTimeout(copyTimer); copy.classList.remove('enq-done'); copyText.textContent = 'Copy enquiry'; copyNote.textContent = '';
+          say(tooLong
+            ? 'Your email app should open, addressed to ' + to + '. The enquiry is too long to fill in for you, so press Copy enquiry and paste it into the email.'
+            : 'Your email app should open with the enquiry filled in. Press send there to reach us. If it does not open, press Copy enquiry and email the text to ' + to + '.');
+          result.scrollIntoView({ block: 'nearest', behavior: reduced ? 'auto' : 'smooth' });
+          location.href = href;
+        });
+
+        copy.addEventListener('click', async () => {
+          let ok = false;
+          try { await navigator.clipboard.writeText(out.value); ok = true; }
+          catch (err) { out.focus(); out.select(); out.setSelectionRange(0, out.value.length); }
+          clearTimeout(copyTimer);
+          copy.classList.toggle('enq-done', ok);
+          copyText.textContent = ok ? 'Copied' : 'Copy enquiry';
+          copyNote.textContent = ok ? 'The enquiry is on your clipboard. Paste it into an email to ' + to + '.' : 'Copying is blocked in this browser. The text is selected, so you can copy it by hand.';
+          if (ok) copyTimer = setTimeout(() => { copy.classList.remove('enq-done'); copyText.textContent = 'Copy enquiry'; }, 2400);
+        });
+      }
+  }
+  /* ---------- end v4 sections ---------- */
+
   /* ---------- arrival: only what starts below the fold eases in, and a timer guarantees nothing stays hidden ---------- */
   if (!reduced && 'IntersectionObserver' in window) {
     const els = $$('.sec .in > *, .contact > *').filter((el) => el.getBoundingClientRect().top > innerHeight);
