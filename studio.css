@@ -209,8 +209,8 @@ dialog.sx .sx-ep { display: none; }
 .btn:not(.ghost):active { transform: scale(.98); }
 
 /* ---------- hero: soft moving light behind the words, the words rise in, the promise in gradient ink ---------- */
-.hero { position: relative; isolation: isolate; }
-.hero::before { content: ""; position: absolute; inset: -24% -12% -6%; z-index: -1; pointer-events: none;
+.hero { position: relative; isolation: isolate; overflow: hidden; }
+.hero::before { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
   background: radial-gradient(36% 44% at 26% 40%, rgba(124, 77, 255, .22), transparent 70%), radial-gradient(32% 42% at 74% 30%, rgba(52, 211, 153, .18), transparent 70%), radial-gradient(38% 40% at 56% 84%, rgba(255, 164, 112, .16), transparent 70%);
   animation: drift 16s ease-in-out infinite alternate; }
 @keyframes drift { from { transform: translate3d(-2%, 1%, 0) scale(1); } to { transform: translate3d(3%, -2%, 0) scale(1.1); } }
