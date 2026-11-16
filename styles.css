@@ -1180,3 +1180,58 @@ html:not(.jp-ok) [lang="ja"], html:not(.jp-ok) .rp-kanji { display: none; }
 .world-key .k-in::before { background: #34D399; }
 .world-key .k-night::before { box-shadow: 0 0 0 1px rgba(255, 255, 255, .55); }
 @media (max-width: 760px) { .world { border-radius: 24px; padding: 26px 16px 28px; } }
+
+/* =====================================================================
+   v1.4 glass: every surface is one thicker, clearer sheet of glass, lit from the top-left like the devices.
+   Still no backdrop blur on panels (it would re-blur the moving field every frame): the glass is built from
+   a see-through tint, light caught in two corners, a bright lip, an inner glow for thickness, fine frost and a coloured shadow.
+   ===================================================================== */
+:root {
+  --gl-a: 66%; --gl-b: 48%;                     /* how much of the surface colour the sheet keeps, near and far corner */
+  --gl-bloom: .62;                              /* light caught in the top-left corner */
+  --gl-lip: rgba(255, 255, 255, .96); --gl-edge: rgba(255, 255, 255, .74);
+  --gl-glow: rgba(255, 255, 255, .36); --gl-shade: rgba(19, 38, 27, .10);
+  --gl-spot: rgba(255, 255, 255, .62);          /* the light that follows the pointer */
+  --gl-drop: 0 30px 60px -30px rgba(31, 61, 43, .42), 0 12px 26px -16px rgba(109, 63, 224, .24);
+  --gl-frost: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.07'/%3E%3C/svg%3E");
+}
+.glass {
+  background:
+    var(--gl-frost),
+    radial-gradient(120% 90% at 0% 0%, rgba(255, 255, 255, var(--gl-bloom)), transparent 52%),
+    radial-gradient(90% 70% at 100% 100%, rgba(255, 255, 255, calc(var(--gl-bloom) * .42)), transparent 55%),
+    linear-gradient(135deg, color-mix(in srgb, var(--bg-2) var(--gl-a), transparent), color-mix(in srgb, var(--bg-2) var(--gl-b), transparent));
+  border-color: var(--gl-edge);
+  box-shadow: inset 0 1px 0 var(--gl-lip), inset 1px 0 0 color-mix(in srgb, var(--gl-lip) 58%, transparent), inset 0 -1px 0 var(--gl-shade), inset 0 0 30px var(--gl-glow), var(--gl-drop);
+}
+.glass::before { background: radial-gradient(380px circle at var(--mx, 50%) var(--my, 0%), var(--gl-spot), transparent 62%); }
+.glass::after { opacity: .55; }
+/* dark sheets: smoked glass. Less light caught, a dimmer lip, a deeper shadow */
+.panel.alt, .contact-card, .world, .site-foot, .board-canvas {
+  --gl-a: 92%; --gl-b: 80%; --gl-bloom: .16; --gl-lip: rgba(255, 255, 255, .36); --gl-edge: rgba(255, 255, 255, .2);
+  --gl-glow: rgba(255, 255, 255, .06); --gl-shade: rgba(0, 0, 0, .4); --gl-spot: rgba(255, 255, 255, .16);
+  --gl-drop: 0 34px 64px -30px rgba(10, 20, 14, .7), 0 12px 26px -16px rgba(109, 63, 224, .3);
+}
+
+/* glass tiles inside the sheets */
+.strip li { background: linear-gradient(180deg, rgba(255, 255, 255, .62), rgba(255, 255, 255, .16)); box-shadow: inset 0 1px 0 #fff, inset 0 -1px 0 rgba(19, 38, 27, .08), 0 8px 16px -12px rgba(31, 61, 43, .5); }
+.steps li { background: linear-gradient(180deg, var(--glass-2), var(--glass)); box-shadow: inset 0 1px 0 color-mix(in srgb, var(--gl-lip) 70%, transparent), 0 8px 14px -12px rgba(19, 38, 27, .5); }
+.offers li { background: radial-gradient(120% 100% at 0% 0%, rgba(255, 255, 255, .24), transparent 60%), rgba(255, 255, 255, .08); border-color: rgba(255, 255, 255, .3); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .4), 0 14px 24px -18px rgba(0, 0, 0, .6); }
+.world .bridge { background: radial-gradient(120% 90% at 0% 0%, rgba(255, 255, 255, .13), transparent 55%), rgba(255, 255, 255, .05); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .24), inset 0 0 26px rgba(120, 160, 255, .08), 0 22px 40px -24px rgba(0, 0, 0, .8); }
+.legend { background: linear-gradient(135deg, rgba(255, 255, 255, .42), rgba(255, 255, 255, .1)); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .8); }
+
+/* buttons: a glass pill, and a gel finish on the main action */
+.btn { background: linear-gradient(180deg, color-mix(in srgb, var(--bg-2) 94%, transparent), color-mix(in srgb, var(--bg-2) 56%, transparent)); box-shadow: inset 0 1px 0 var(--gl-lip), inset 0 -1px 0 var(--gl-shade), 0 8px 18px -12px rgba(31, 61, 43, .55); }
+.btn.primary { background-image: linear-gradient(180deg, rgba(255, 255, 255, .30), rgba(255, 255, 255, 0) 46%, rgba(0, 0, 0, .12)); }
+
+/* the build board and the footer: smoked glass with a lit top edge */
+.board-canvas { box-shadow: inset 0 1px 0 var(--gl-lip), inset 0 0 44px rgba(255, 255, 255, .04), var(--gl-drop); }
+.site-foot {
+  border-radius: clamp(24px, 3vw, 40px) clamp(24px, 3vw, 40px) 0 0;
+  background:
+    radial-gradient(60% 120% at 6% 0%, rgba(139, 92, 246, .24), transparent 60%),
+    radial-gradient(50% 100% at 100% 0%, rgba(95, 203, 138, .16), transparent 60%),
+    linear-gradient(180deg, #183222, #0D1B13);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .28), inset 0 0 60px rgba(255, 255, 255, .03);
+}
+@media (prefers-reduced-transparency: reduce) { :root { --gl-a: 96%; --gl-b: 92%; } }
