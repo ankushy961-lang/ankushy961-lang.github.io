@@ -24,6 +24,13 @@ if (window.top !== window.self) { try { window.top.location = window.location; }
   const nav = $('#nav');
   if (nav) { const on = () => nav.classList.toggle('stuck', scrollY > 8); addEventListener('scroll', on, { passive: true }); on(); }
 
+  /* ---------- phone menu: close after a choice, and on Escape ---------- */
+  const menu = $('.menu');
+  if (menu) {
+    menu.addEventListener('click', (e) => { if (e.target.closest('nav a')) menu.removeAttribute('open'); });
+    addEventListener('keydown', (e) => { if (e.key === 'Escape' && menu.open) { menu.removeAttribute('open'); $('summary', menu).focus(); } });
+  }
+
   /* ---------- projects: nothing about a project loads until someone opens it ---------- */
   const v = (($('script[src*="studio.js"]') || {}).src || '').split('?')[1] || '';
   const q = v ? '?' + v : '';
