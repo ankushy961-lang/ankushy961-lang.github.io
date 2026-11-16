@@ -1,1 +1,18 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="15" fill="#1F3D2B"/><g fill="none" stroke="#E8DCC4" stroke-width="5.5" stroke-linejoin="miter" stroke-linecap="butt"><path d="M12 46 21 17h2l9 29M15.5 36h13"/><path d="M34 17l8 14 8-14M42 31v15"/></g><rect x="12" y="51" width="40" height="3" rx="1.5" fill="#8B5CF6"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Ankush Yadav">
+  <defs>
+    <clipPath id="cut"><rect x="0" y="140" width="512" height="204"/></clipPath>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#14261F"/><stop offset=".45" stop-color="#0A0F1C"/><stop offset="1" stop-color="#04050B"/></linearGradient>
+    <radialGradient id="bloom" cx=".14" cy=".06" r=".9"><stop offset="0" stop-color="#8B5CF6" stop-opacity=".5"/><stop offset=".6" stop-color="#8B5CF6" stop-opacity="0"/></radialGradient>
+    <linearGradient id="ink" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#E8DCC4"/><stop offset=".5" stop-color="#FFFFFF"/><stop offset="1" stop-color="#C9B8FF"/></linearGradient>
+    <linearGradient id="frame" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#C9B8FF"/><stop offset="1" stop-color="#8B5CF6"/></linearGradient>
+    <linearGradient id="body" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#161B33"/><stop offset="1" stop-color="#090B16"/></linearGradient>
+    <clipPath id="round"><rect width="512" height="512" rx="112"/></clipPath>
+  </defs>
+  <g clip-path="url(#round)">
+    <rect width="512" height="512" fill="url(#bg)"/>
+    <rect width="512" height="512" fill="url(#bloom)"/>
+    <g transform="translate(256 254) scale(1.08) translate(-267 -242)"><g clip-path="url(#cut)" fill="none" stroke-linejoin="miter" stroke-linecap="butt"><path d="M112 370 L190 164 L268 370 M239 130 L332 256 L425 130 M332 256 L332 370" stroke="url(#ink)" stroke-width="38"/></g></g>
+    <circle cx="96" cy="96" r="30" fill="#34D399"/>
+  </g>
+  <rect x="10" y="10" width="492" height="492" rx="104" fill="none" stroke="url(#frame)" stroke-width="20"/>
+</svg>
