@@ -792,3 +792,11 @@ dialog.sx .sx-ep { display: none; }
 /* ================= v8 (17 Nov 2026): a field of dots that answers the pointer, and a headline that names what we build ================= */
 .bp .dots { position: absolute; inset: 0; width: 100%; height: 100%; }
 .hero h1 .swap { will-change: transform; }
+
+/* ================= v9 (18 Nov 2026): fixes from the measured checks ================= */
+/* short link names ("X", "AI") get a tap area at least 28px wide */
+.nav-links a, .socials a, .foot nav a { min-width: 28px; justify-content: center; }
+/* steps that are not the current one recede by colour, not by fading, so their text keeps its contrast */
+.pr.js .pr-steps li:not(.on) { opacity: 1; }
+.pr.js .pr-steps li:not(.on) h3 { color: var(--mute); }
+.pr-steps h3 { transition: color .4s; }
