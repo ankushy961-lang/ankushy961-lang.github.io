@@ -38,6 +38,9 @@ Ways to work: discovery sprint, fixed-scope build, ongoing engineering.
 - Site: https://ankushy961-lang.github.io/
 - Blog: https://ankushy961-lang.github.io/blog/
 
+## How the studio works (process, AI, questions, project form)
+- https://ankushy961-lang.github.io/studio.html
+
 ## Services and industries in depth
 - Android app development: https://ankushy961-lang.github.io/solutions/android-app-development.html
 - AI agents and automation: https://ankushy961-lang.github.io/solutions/ai-agents-and-automation.html

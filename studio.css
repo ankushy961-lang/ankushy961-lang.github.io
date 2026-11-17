@@ -858,11 +858,6 @@ dialog.sx .sx-ep { display: none; }
 .wb .wb-card .wb-body h3 { font-size: clamp(16px, 1.6vw, 21px); line-height: 1.15; letter-spacing: -.02em; }
 @media (min-width: 600px) and (max-width: 999px) { .wb .wb-grid > .wb-card { aspect-ratio: 16 / 10; } }
 @media (min-width: 1000px) { .wb .wb-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 16px; } }
-/* industries: a wall of names */
-.ind-wall { display: flex; flex-wrap: wrap; align-items: baseline; gap: .12em .5em; margin: clamp(28px, 4vw, 44px) 0 0; padding: 0; list-style: none; font-weight: 600; font-size: clamp(36px, 7.4vw, 104px); line-height: 1.04; letter-spacing: -.045em; }
-.ind-wall li { padding-bottom: .08em; color: var(--fg); }
-.ind-wall li:nth-child(3n+2) { background: var(--ink-b); -webkit-background-clip: text; background-clip: text; color: transparent; }
-.ind-wall li:nth-child(3n) { color: var(--fg-3); }
 /* process and about: the words carry the page */
 .pr-steps h3 { font-size: clamp(34px, 5vw, 64px); }
 .about-lede { font-weight: 600; font-size: clamp(28px, 4.2vw, 56px); line-height: 1.08; letter-spacing: -.035em; }
@@ -882,3 +877,63 @@ dialog.sx .sx-ep { display: none; }
 .wb .wb-card .wb-art svg { max-width: 100%; }
 @media (min-width: 860px) { #why .why-t { font-size: clamp(22px, 2.5vw, 32px); } }
 @media (max-width: 820px) { .pr-steps li, .pr-steps li:last-child { min-height: 0; padding: 20px 0 22px; } }
+/* v16: industries as ten equal icon tiles; a short footer */
+.ind-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin: clamp(28px, 4vw, 44px) 0 0; padding: 0; list-style: none; }
+.ind-grid a { display: flex; align-items: center; gap: 12px; min-height: 68px; padding: 12px 14px; border: 1px solid var(--line); border-radius: 18px; background: var(--bg-2); font-weight: 600; font-size: 16px; line-height: 1.2; letter-spacing: -.01em; color: var(--fg); transition: border-color .2s, transform .2s var(--ease); }
+.ind-grid a:hover { border-color: var(--brand); transform: translateY(-2px); }
+.ind-ic { flex: none; width: 40px; height: 40px; padding: 9px; border-radius: 12px; background: color-mix(in srgb, var(--brand) 10%, var(--bg)); color: var(--brand); fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+@media (min-width: 760px) {
+  .ind-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 14px; }
+  .ind-grid a { flex-direction: column; align-items: flex-start; gap: 18px; min-height: 0; padding: 20px; font-size: 18px; }
+  .ind-ic { width: 48px; height: 48px; padding: 11px; }
+}
+.foot .in { display: grid; grid-template-columns: minmax(0, 1fr); justify-items: start; gap: 14px; }
+.foot .foot-links { display: grid; grid-template-columns: repeat(3, auto); gap: 0 30px; }
+.foot .foot-soc { gap: 8px; }
+.foot .foot-soc a { justify-content: center; width: 44px; height: 44px; border: 1px solid var(--line-2); border-radius: 50%; font: 600 12px/1 var(--font-m); color: var(--fg); }
+.foot .foot-soc a:hover { border-color: var(--brand); color: var(--brand); }
+@media (min-width: 860px) {
+  .foot .in { grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 12px 32px; }
+  .foot .foot-links { display: flex; justify-self: center; gap: 0 26px; }
+  .foot .legal { grid-column: 1 / -1; }
+}
+/* v17: a short home page. The hero drawing draws itself and changes with the headline; every service tile opens its own page.
+   studio.html holds industries, AI, process, why us, about, the project form and the questions. */
+.hero { padding-top: clamp(40px, 8vh, 96px); }
+.hero .hero-art { display: grid; place-items: center; width: 100%; min-height: 0; height: clamp(120px, 22vh, 210px); padding: 0; overflow: visible; border-radius: 0; background: none; --t: var(--bg); }
+.hero .hero-art svg { width: auto; max-width: min(86vw, 560px); height: 100%; }
+.hero-art svg * { stroke-dasharray: 1; stroke-dashoffset: 1; animation: haDraw .9s var(--ease) forwards; }
+@keyframes haDraw { to { stroke-dashoffset: 0; } }
+@media (prefers-reduced-motion: reduce) { .hero-art svg * { animation: none; stroke-dashoffset: 0; } }
+.wb .wb-card h3 a { color: inherit; }
+.wb .wb-card h3 a::after { content: ""; position: absolute; inset: 0; border-radius: inherit; }
+.wb .wb-grid > .wb-card { transition: transform .25s var(--ease), box-shadow .25s var(--ease); }
+.wb .wb-grid > .wb-card:hover, .wb .wb-grid > .wb-card:focus-within { transform: translateY(-3px); box-shadow: 0 18px 30px -22px rgba(14, 21, 18, .45); }
+.wb .wb-card h3 a:focus-visible { outline: none; }
+.wb .wb-card:has(a:focus-visible) { outline: 2px solid var(--brand); outline-offset: 3px; }
+.pg-head { padding: clamp(40px, 8vw, 96px) var(--gut) clamp(28px, 4vw, 48px); }
+.pg-head h1 { margin: 14px 0 0; padding-bottom: .1em; font-weight: 600; font-size: clamp(46px, 9.4vw, 116px); line-height: 1; letter-spacing: -.048em; background: var(--ink-a); -webkit-background-clip: text; background-clip: text; color: transparent; }
+/* process phone: a neutral app being put together, with two cursors at work */
+.l-app { inset: 3%; width: auto; height: auto; display: flex; flex-direction: column; gap: 3.2%; padding: 17% 9% 0; border-radius: 12.5% / 6.2%; background: #F7F5FF; overflow: hidden; }
+.l-app i, .l-app span { display: block; flex: none; border-radius: 10px; }
+.l-app i { background: #E3DEF6; }
+.l-app .a-bar { width: 46%; height: 4.2%; border-radius: 999px; background: #1B1740; }
+.l-app .a-cards { display: flex; gap: 5%; height: 13%; }
+.l-app .a-cards i { flex: 1; }
+.l-app .a-cards i:first-child { background: var(--brand); }
+.l-app .a-chart { display: flex; align-items: flex-end; gap: 6%; height: 22%; padding: 5% 6% 0; border: 1px solid #E3DEF6; background: #fff; }
+.l-app .a-chart b { flex: 1; height: 40%; border-radius: 4px 4px 0 0; background: #C9BDF3; }
+.l-app .a-chart b:nth-child(2) { height: 65%; } .l-app .a-chart b:nth-child(3) { height: 50%; } .l-app .a-chart b:nth-child(4) { height: 88%; background: var(--brand); } .l-app .a-chart b:nth-child(5) { height: 70%; }
+.l-app .a-row { height: 6.5%; }
+.l-app .a-row.s { width: 62%; }
+.l-app .a-btn { height: 8%; border-radius: 999px; background: #0E1512; }
+.cur { position: absolute; inset: 0; z-index: 3; opacity: 0; pointer-events: none; transition: opacity .5s; }
+.cur::before { content: ""; position: absolute; left: 0; top: 0; width: 17px; height: 21px; background: var(--cc); clip-path: polygon(0 0, 0 78%, 26% 60%, 44% 100%, 60% 92%, 42% 54%, 76% 54%); }
+.cur b { position: absolute; left: 13px; top: 18px; padding: 3px 8px; border-radius: 999px; background: var(--cc); color: #fff; font: 600 11px/1.2 var(--font-m); letter-spacing: .04em; white-space: nowrap; }
+.cur.c1 { --cc: #5B2FD0; animation: curA 9s ease-in-out infinite; }
+.cur.c2 { --cc: #1F6FB8; animation: curB 11s ease-in-out infinite; }
+.pr:is([data-step="3"], [data-step="4"], [data-step="5"]) .cur { opacity: 1; }
+@keyframes curA { 0%, 100% { transform: translate(18%, 24%); } 22% { transform: translate(62%, 30%); } 48% { transform: translate(40%, 52%); } 74% { transform: translate(70%, 70%); } }
+@keyframes curB { 0%, 100% { transform: translate(66%, 82%); } 28% { transform: translate(22%, 62%); } 55% { transform: translate(58%, 40%); } 80% { transform: translate(14%, 44%); } }
+@media (prefers-reduced-motion: reduce) { .cur.c1 { animation: none; transform: translate(60%, 30%); } .cur.c2 { animation: none; transform: translate(20%, 62%); } }
+.hero .hero-art { margin-bottom: 12px; }

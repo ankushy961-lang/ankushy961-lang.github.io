@@ -239,13 +239,24 @@ if (window.top !== window.self) { try { window.top.location = window.location; }
 
   /* ---------- headline: the last words turn through the things we build ---------- */
   const swap = $('.hero .swap');
+  /* the drawing above the headline is the service drawing for the current word: a copy of that tile's drawing, drawn stroke by stroke */
+  const art = $('.hero-art');
+  const arts = swap && art ? (swap.dataset.art || '').split('|').map((name) => $$('.wb-card').find((c) => ($('h3', c) || {}).textContent.trim() === name)) : [];
+  const showArt = (i) => {
+    const card = arts[i], src = card && $('.wb-art svg', card); if (!src) return;
+    const svg = src.cloneNode(true); svg.removeAttribute('width'); svg.removeAttribute('height');
+    $$('path, rect, circle, line, ellipse, polyline', svg).forEach((el, k) => { el.setAttribute('pathLength', '1'); el.style.animationDelay = Math.min(k * 26, 650) + 'ms'; });
+    art.style.setProperty('--c', card.style.getPropertyValue('--c'));
+    art.replaceChildren(svg);
+  };
+  showArt(0);
   if (swap && !reduced && swap.animate) {
     const words = swap.dataset.words.split('|'); let n = 0;
     setInterval(() => {
       if (document.hidden) return;
       const out = swap.animate([{ transform: 'none', opacity: 1 }, { transform: 'translateY(-70%)', opacity: 0 }], { duration: 380, easing: 'cubic-bezier(.5,0,.8,.4)', fill: 'forwards' });
       out.onfinish = () => {
-        n = (n + 1) % words.length; swap.textContent = words[n]; out.cancel();
+        n = (n + 1) % words.length; swap.textContent = words[n]; out.cancel(); showArt(n);
         swap.animate([{ transform: 'translateY(70%)', opacity: 0 }, { transform: 'none', opacity: 1 }], { duration: 560, easing: 'cubic-bezier(.2,.8,.2,1)' });
       };
     }, 2600);
