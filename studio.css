@@ -828,3 +828,24 @@ dialog.sx .sx-ep { display: none; }
 }
 @keyframes vtOut { to { opacity: 0; } }
 @keyframes vtIn { from { opacity: 0; transform: translateY(10px); } }
+/* v14: minimal pass. Fewer words on the home page; detail lives on the service and industry pages. */
+.ind-min-lede { max-width: 44ch; margin-top: 18px; font-size: 17px; line-height: 1.5; color: var(--fg-2); }
+.ind-min { display: grid; grid-template-columns: minmax(0, 1fr); margin: clamp(28px, 4vw, 44px) 0 0; padding: 0; list-style: none; border-top: 1px solid var(--line-2); }
+.ind-min li { border-bottom: 1px solid var(--line); }
+.ind-min li > * { display: flex; align-items: center; gap: 14px; min-height: 64px; padding: 14px 0; font-size: clamp(19px, 1.9vw, 24px); font-weight: 500; line-height: 1.2; letter-spacing: -.02em; color: var(--fg); }
+.ind-min li > div { color: var(--fg-2); }
+.ind-min span { flex: none; width: 30px; font: 500 12px/1 "IBM Plex Mono", monospace; letter-spacing: .1em; color: var(--fg-3); }
+.ind-min small { margin-left: auto; padding-left: 12px; font-size: 14.5px; font-weight: 500; letter-spacing: 0; color: var(--brand); white-space: nowrap; transition: transform .2s var(--ease); }
+.ind-min a:hover { color: var(--brand); }
+.ind-min a:hover small { transform: translateX(4px); }
+@media (min-width: 760px) { .ind-min { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: clamp(32px, 5vw, 80px); } }
+.ai .ai-list > li { align-items: center; padding-top: 16px; padding-bottom: 16px; }
+.ai-more { margin-top: 14px; }
+@media (max-width: 759px) {
+  .bp svg { visibility: hidden; }
+  .wb .wb-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 20px; }
+  .wb .wb-grid > .wb-card { padding: 18px 0 16px; }
+  .wb .wb-card .wb-body { padding-top: 10px; }
+  .wb .wb-card .wb-body h3 { font-size: 16px; }
+  .wb .wb-card .wb-body p { display: none; }
+}
