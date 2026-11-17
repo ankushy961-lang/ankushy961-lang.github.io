@@ -162,14 +162,30 @@ if (window.top !== window.self) { try { window.top.location = window.location; }
           const tooLong = href.length > 1900;
           if (tooLong) href = head + encodeURIComponent('Project enquiry\r\n\r\nName: ' + val('name') + '\r\nEmail: ' + val('email') + '\r\n\r\n(Paste the copied enquiry here.)');
 
-          out.value = text;
-          result.hidden = false;
-          clearTimeout(copyTimer); copy.classList.remove('enq-done'); copyText.textContent = 'Copy enquiry'; copyNote.textContent = '';
-          say(tooLong
-            ? 'Your email app should open, addressed to ' + to + '. The enquiry is too long to fill in for you, so press Copy enquiry and paste it into the email.'
-            : 'Your email app should open with the enquiry filled in. Press send there to reach us. If it does not open, press Copy enquiry and email the text to ' + to + '.');
-          result.scrollIntoView({ block: 'nearest', behavior: reduced ? 'auto' : 'smooth' });
-          location.href = href;
+          const byEmail = (lead) => {
+            out.value = text;
+            result.hidden = false;
+            clearTimeout(copyTimer); copy.classList.remove('enq-done'); copyText.textContent = 'Copy enquiry'; copyNote.textContent = '';
+            say((lead || '') + (tooLong
+              ? 'Your email app should open, addressed to ' + to + '. The enquiry is too long to fill in for you, so press Copy enquiry and paste it into the email.'
+              : 'Your email app should open with the enquiry filled in. Press send there to reach us. If it does not open, press Copy enquiry and email the text to ' + to + '.'));
+            result.scrollIntoView({ block: 'nearest', behavior: reduced ? 'auto' : 'smooth' });
+            location.href = href;
+          };
+          /* direct send: used only when the form carries a form-service key (data-key). The key is a public form id, not a secret.
+             Turning it on also needs the service's address in the page's connect-src policy and the privacy page updated first.
+             Any failure falls back to the visitor's own email app, so an enquiry is never lost. */
+          const key = enqForm.dataset.key;
+          if (!key) { byEmail(); return; }
+          const btn = enqForm.querySelector('[type="submit"]'), who = val('name'), reply = val('email');
+          btn.disabled = true; say('Sending your enquiry…');
+          fetch('https://api.web3forms.com/submit', {
+            method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+            body: JSON.stringify({ access_key: key, subject, from_name: who, name: who, email: reply, message: text }),
+          }).then((r) => r.json().then((j) => { if (!r.ok || !j.success) throw new Error('refused'); }))
+            .then(() => { enqForm.reset(); result.hidden = true; say('Sent. Thank you, ' + who + '. We reply within a day, to ' + reply + '.'); })
+            .catch(() => byEmail('We could not send it from this page, so we are using your email app instead. '))
+            .then(() => { btn.disabled = false; });
         });
 
         copy.addEventListener('click', async () => {
