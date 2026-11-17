@@ -814,9 +814,11 @@ dialog.sx .sx-ep { display: none; }
 .about-facts b { display: block; font-weight: 600; color: var(--fg); }
 .about-facts a { color: var(--brand); text-decoration: underline; text-underline-offset: 3px; }
 @media (max-width: 800px) { .about-g { grid-template-columns: 1fr; } }
-/* v12: links to the service and industry pages */
-.guides { display: flex; flex-wrap: wrap; align-items: center; gap: 0 22px; margin: 14px 0 0; font-size: 16px; color: var(--fg-2); }
-.guides .link { font-size: 16px; }
+/* v12: links to the service and industry pages, as a row of chips under a small label */
+.guides { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin: 26px 0 0; }
+.guides span { flex: 0 0 100%; margin-bottom: 2px; font: 500 12px/1 "IBM Plex Mono", monospace; letter-spacing: .14em; text-transform: uppercase; color: var(--fg-3); }
+.guides .link { min-height: 44px; padding: 0 16px; border: 1px solid var(--line-2); border-radius: 999px; font-size: 15px; font-weight: 500; color: var(--fg); text-decoration: none; transition: border-color .15s, color .15s; }
+.guides .link:hover { border-color: var(--brand); color: var(--brand); }
 /* v13: cross-page transitions. Browsers without support simply navigate; reduced motion gets none. */
 @media (prefers-reduced-motion: no-preference) {
   @view-transition { navigation: auto; }
