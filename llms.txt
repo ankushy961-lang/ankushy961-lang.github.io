@@ -38,6 +38,13 @@ Ways to work: discovery sprint, fixed-scope build, ongoing engineering.
 - Site: https://ankushy961-lang.github.io/
 - Blog: https://ankushy961-lang.github.io/blog/
 
+## Case studies (real screens from each demo)
+- Sri Hari Docs: https://ankushy961-lang.github.io/case-studies/sri-hari-docs.html
+- Mikazuki: https://ankushy961-lang.github.io/case-studies/mikazuki.html
+- Strikedeck: https://ankushy961-lang.github.io/case-studies/strikedeck.html
+- ShopConnect: https://ankushy961-lang.github.io/case-studies/shopconnect.html
+- Research toolkit: https://ankushy961-lang.github.io/case-studies/research-toolkit.html
+
 ## Writing
 - An offline retail app with four roles in one Android build: https://ankushy961-lang.github.io/blog/offline-retail-app-four-roles-android.html
 - A ₹0 business research toolkit that fact-checks before it builds: https://ankushy961-lang.github.io/blog/business-research-toolkit-fact-check-owner-gate.html
