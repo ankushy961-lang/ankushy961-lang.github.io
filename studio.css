@@ -967,3 +967,4 @@ dialog.sx .sx-ep { display: none; }
 .foot .sg { width: 44px; height: 44px; padding: 11px; border-radius: 14px; }
 .foot .legal { text-align: center; }
 @media (min-width: 860px) { .foot .in { grid-template-columns: minmax(0, 1fr); } .foot .foot-links { grid-template-columns: repeat(8, 44px); } }
+.foot { padding-bottom: 36px; }
