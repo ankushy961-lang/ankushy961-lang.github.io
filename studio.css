@@ -814,3 +814,6 @@ dialog.sx .sx-ep { display: none; }
 .about-facts b { display: block; font-weight: 600; color: var(--fg); }
 .about-facts a { color: var(--brand); text-decoration: underline; text-underline-offset: 3px; }
 @media (max-width: 800px) { .about-g { grid-template-columns: 1fr; } }
+/* v12: links to the service and industry pages */
+.guides { display: flex; flex-wrap: wrap; align-items: center; gap: 0 22px; margin: 14px 0 0; font-size: 16px; color: var(--fg-2); }
+.guides .link { font-size: 16px; }

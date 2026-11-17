@@ -61,3 +61,8 @@
   .cs-stage.ph .cs-fig { scroll-snap-align: center; }
   .cs-stage.lap .cs-figs { grid-template-columns: 1fr; }
 }
+
+/* Service and industry pages (glass/solutions/*.html). Built by studio/tools/build_solutions.py. */
+.cs-row h3 { margin: 24px 0 6px; font-weight: 600; font-size: clamp(17px, 1.5vw, 19px); line-height: 1.35; letter-spacing: -.01em; color: var(--fg); }
+.cs-row h3:first-child { margin-top: 0; }
+.cs-fig a { display: inline-flex; align-items: center; min-height: 44px; font-size: 15px; color: #C9B8FF; text-decoration: underline; text-underline-offset: 3px; }

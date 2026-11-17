@@ -38,6 +38,16 @@ Ways to work: discovery sprint, fixed-scope build, ongoing engineering.
 - Site: https://ankushy961-lang.github.io/
 - Blog: https://ankushy961-lang.github.io/blog/
 
+## Services and industries in depth
+- Android app development: https://ankushy961-lang.github.io/solutions/android-app-development.html
+- AI agents and automation: https://ankushy961-lang.github.io/solutions/ai-agents-and-automation.html
+- Web apps and dashboards: https://ankushy961-lang.github.io/solutions/web-apps-and-dashboards.html
+- Document reading and data extraction: https://ankushy961-lang.github.io/solutions/document-data-extraction.html
+- MVP development for startups: https://ankushy961-lang.github.io/solutions/mvp-for-startups.html
+- Retail and e-commerce apps: https://ankushy961-lang.github.io/solutions/retail-and-ecommerce-apps.html
+- Finance dashboards and trading tools: https://ankushy961-lang.github.io/solutions/finance-and-trading-tools.html
+- Software for logistics and transport: https://ankushy961-lang.github.io/solutions/logistics-software.html
+
 ## Case studies (real screens from each demo)
 - Sri Hari Docs: https://ankushy961-lang.github.io/case-studies/sri-hari-docs.html
 - Mikazuki: https://ankushy961-lang.github.io/case-studies/mikazuki.html
