@@ -817,3 +817,12 @@ dialog.sx .sx-ep { display: none; }
 /* v12: links to the service and industry pages */
 .guides { display: flex; flex-wrap: wrap; align-items: center; gap: 0 22px; margin: 14px 0 0; font-size: 16px; color: var(--fg-2); }
 .guides .link { font-size: 16px; }
+/* v13: cross-page transitions. Browsers without support simply navigate; reduced motion gets none. */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition { navigation: auto; }
+  ::view-transition-old(root) { animation: vtOut 140ms ease-in both; }
+  ::view-transition-new(root) { animation: vtIn 300ms cubic-bezier(.2, .8, .2, 1) both; }
+  .nav { view-transition-name: site-nav; }
+}
+@keyframes vtOut { to { opacity: 0; } }
+@keyframes vtIn { from { opacity: 0; transform: translateY(10px); } }

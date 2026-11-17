@@ -702,18 +702,29 @@
       <aside class="sx-side"><p class="sx-lede"></p><h3 class="sx-h">Screens</h3><ol class="sx-list"></ol>
         <div class="sx-now"><h3 class="sx-h sx-nowh"></h3><p class="sx-nowp"></p></div>
         <div class="sx-steps"><button class="sx-step" type="button" data-x="ps">← Previous</button><button class="sx-step primary" type="button" data-x="ns">Next screen →</button></div>
+        <p class="sx-keys">Keys: ← → change screen · Esc closes</p>
         <p class="sx-fine"></p></aside></div><p class="sx-live" aria-live="polite"></p>`;
     document.body.appendChild(dlg);
     fitEl = $('.sx-fit', dlg);
     dlg.addEventListener('click', (e) => {
       const x = e.target.closest('[data-x]'); if (!x) return;
       const v = x.dataset.x;
-      if (v === 'close') dlg.close();
+      if (v === 'close') close();
       else if (v === 'ps') go(idx - 1); else if (v === 'ns') go(idx + 1);
       else if (v === 'pp' || v === 'np') { const k = ORDER[(ORDER.indexOf(P.key) + (v === 'np' ? 1 : ORDER.length - 1)) % ORDER.length]; load(k); }
     });
     $('.sx-list', dlg).addEventListener('click', (e) => { const b = e.target.closest('[data-i]'); if (b) go(+b.dataset.i); });
-    dlg.addEventListener('close', () => { const r = document.documentElement; r.style.overflow = ''; document.dispatchEvent(new CustomEvent('sx:toggle', { detail: false })); });
+    // Esc closes with the same short exit as the button; the arrow keys step through the screens
+    dlg.addEventListener('cancel', (e) => { e.preventDefault(); close(); });
+    dlg.addEventListener('keydown', (e) => {
+      if ((e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') || e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
+      if (e.target.closest('input, textarea, select, [contenteditable], [role="slider"]')) return;
+      const n = idx + (e.key === 'ArrowRight' ? 1 : -1); if (n < 0 || n >= P.screens.length) return;
+      e.preventDefault(); go(n);
+    });
+    // the browser's Back button closes the viewer instead of leaving the page
+    addEventListener('popstate', () => { if (dlg.open) { pushed = false; close(); } });
+    dlg.addEventListener('close', () => { const r = document.documentElement; r.style.overflow = ''; if (pushed) { pushed = false; history.back(); } document.dispatchEvent(new CustomEvent('sx:toggle', { detail: false })); });
     addEventListener('resize', fit);
   }
   const api = {
@@ -771,8 +782,15 @@
     const w = dev.offsetWidth, h = dev.offsetHeight; const s = Math.min((st.width - 32) / w, (st.height - 40) / h, 1.05);
     fitEl.style.transform = `translate(-50%, -50%) scale(${Math.max(.3, s).toFixed(3)})`;
   }
+  let pushed = false, closing = 0;
+  function close() {
+    if (!dlg.open || closing) return;
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) { dlg.close(); return; }
+    dlg.classList.add('out'); closing = setTimeout(() => { closing = 0; dlg.classList.remove('out'); dlg.close(); }, 170);
+  }
   function open(key) {
     if (!dlg) shell();
+    if (!dlg.open) { try { history.pushState({ sx: 1 }, ''); pushed = true; } catch (e) { pushed = false; } }
     load(key); const r = document.documentElement; r.style.overflow = 'hidden'; document.dispatchEvent(new CustomEvent('sx:toggle', { detail: true }));
     dlg.showModal(); fit(); requestAnimationFrame(fit);
     const first = $('.sx-list button', dlg); if (first) first.focus({ preventScroll: true });
