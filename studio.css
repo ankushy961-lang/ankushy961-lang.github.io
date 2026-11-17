@@ -887,16 +887,6 @@ dialog.sx .sx-ep { display: none; }
   .ind-grid a { flex-direction: column; align-items: flex-start; gap: 18px; min-height: 0; padding: 20px; font-size: 18px; }
   .ind-ic { width: 48px; height: 48px; padding: 11px; }
 }
-.foot .in { display: grid; grid-template-columns: minmax(0, 1fr); justify-items: start; gap: 14px; }
-.foot .foot-links { display: grid; grid-template-columns: repeat(3, auto); gap: 0 30px; }
-.foot .foot-soc { gap: 8px; }
-.foot .foot-soc a { justify-content: center; width: 44px; height: 44px; border: 1px solid var(--line-2); border-radius: 50%; font: 600 12px/1 var(--font-m); color: var(--fg); }
-.foot .foot-soc a:hover { border-color: var(--brand); color: var(--brand); }
-@media (min-width: 860px) {
-  .foot .in { grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 12px 32px; }
-  .foot .foot-links { display: flex; justify-self: center; gap: 0 26px; }
-  .foot .legal { grid-column: 1 / -1; }
-}
 /* v17: a short home page. The hero drawing draws itself and changes with the headline; every service tile opens its own page.
    studio.html holds industries, AI, process, why us, about, the project form and the questions. */
 .hero { padding-top: clamp(40px, 8vh, 96px); }
@@ -937,3 +927,17 @@ dialog.sx .sx-ep { display: none; }
 @keyframes curB { 0%, 100% { transform: translate(66%, 82%); } 28% { transform: translate(22%, 62%); } 55% { transform: translate(58%, 40%); } 80% { transform: translate(14%, 44%); } }
 @media (prefers-reduced-motion: reduce) { .cur.c1 { animation: none; transform: translate(60%, 30%); } .cur.c2 { animation: none; transform: translate(20%, 62%); } }
 .hero .hero-art { margin-bottom: 12px; }
+/* v18: the page ends on one colour panel and a short, centred footer */
+.cta-band { margin: clamp(28px, 5vw, 64px) clamp(8px, 1.2vw, 16px) 0; padding-top: clamp(72px, 11vw, 128px); padding-bottom: clamp(72px, 11vw, 128px); border: 0; border-radius: clamp(28px, 4vw, 48px); background: #3A22A0 linear-gradient(140deg, #1E1650 0%, #4A2BC2 55%, #2B57C4 100%); color: #F6F3EC; }
+.cta-band h2 { max-width: none; font-size: clamp(42px, 7.4vw, 92px); color: #F6F3EC; }
+.cta-band h2 .grad { background: none; -webkit-background-clip: border-box; background-clip: border-box; color: #C9D2FF; -webkit-text-fill-color: #C9D2FF; }
+.cta-band .btn { background: #F6F3EC; color: #0E1512; }
+.cta-band .btn:hover { background: #fff; }
+.cta-band .link { color: #E3E8FF; }
+.foot { padding-top: 34px; border-top: 0; text-align: center; }
+.foot .in { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+.foot .foot-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 0 26px; }
+.foot .foot-soc { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+.foot .foot-soc a { justify-content: center; width: 44px; height: 44px; border: 1px solid var(--line-2); border-radius: 50%; font: 600 12px/1 var(--font-m); color: var(--fg); }
+.foot .foot-soc a:hover { border-color: var(--brand); color: var(--brand); }
+.foot .legal { flex-basis: auto; }
