@@ -959,3 +959,11 @@ dialog.sx .sx-ep { display: none; }
 @keyframes sgFloat { from { transform: translateY(-6px) rotate(-6deg); } to { transform: translateY(8px) rotate(8deg); } }
 @media (prefers-reduced-motion: reduce) { .cta-signs svg { animation: none; } }
 .foot nav a { justify-content: flex-start; }
+/* v20: footer in signs only. Each sign carries its name as a label for screen readers and as a tooltip. */
+.foot .in { justify-items: center; gap: 16px; }
+.foot .foot-links { grid-template-columns: repeat(4, 44px); gap: 10px; }
+.foot .foot-soc { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+.foot nav a { justify-content: center; width: 44px; min-width: 44px; min-height: 44px; }
+.foot .sg { width: 44px; height: 44px; padding: 11px; border-radius: 14px; }
+.foot .legal { text-align: center; }
+@media (min-width: 860px) { .foot .in { grid-template-columns: minmax(0, 1fr); } .foot .foot-links { grid-template-columns: repeat(8, 44px); } }
