@@ -891,7 +891,7 @@ dialog.sx .sx-ep { display: none; }
    studio.html holds industries, AI, process, why us, about, the project form and the questions. */
 .hero { padding-top: clamp(40px, 8vh, 96px); }
 .hero .hero-art { display: grid; place-items: center; width: 100%; min-height: 0; height: clamp(120px, 22vh, 210px); padding: 0; overflow: visible; border-radius: 0; background: none; --t: var(--bg); }
-.hero .hero-art svg { width: auto; max-width: min(86vw, 560px); height: 100%; }
+.hero .hero-art svg { width: 100%; max-width: 560px; height: clamp(120px, 22vh, 210px); }
 .hero-art svg * { stroke-dasharray: 1; stroke-dashoffset: 1; animation: haDraw .9s var(--ease) forwards; }
 @keyframes haDraw { to { stroke-dashoffset: 0; } }
 @media (prefers-reduced-motion: reduce) { .hero-art svg * { animation: none; stroke-dashoffset: 0; } }
