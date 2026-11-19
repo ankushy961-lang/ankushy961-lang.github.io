@@ -33,7 +33,7 @@ Ways to work: discovery sprint, fixed-scope build, ongoing engineering.
 - LinkedIn: https://www.linkedin.com/in/ankushbuilds
 - X: https://x.com/ankushyadavdev
 - YouTube: https://www.youtube.com/@ankushyadavdev
-- Instagram: https://www.instagram.com/ankushyadavdev/
+- Instagram: https://www.instagram.com/ankush.ydv.dev/
 - DEV (articles): https://dev.to/ankushyadavdev
 - Site: https://ankushy961-lang.github.io/
 - Blog: https://ankushy961-lang.github.io/blog/
